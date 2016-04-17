@@ -15,7 +15,7 @@ public class JsonUtil {
 	 * 
 	 * @return
 	 */
-    public String getJsonStringStatus(ResponseStatus responseStatus) {
+    public static String getJsonStringStatus(ResponseStatus responseStatus) {
         return "{\"status\":{\"code\":" + responseStatus.getCode() + ",\"message\":\"" + responseStatus.getMessage() + "\"}}";
     }
 	

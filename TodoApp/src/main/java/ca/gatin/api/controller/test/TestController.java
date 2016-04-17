@@ -1,14 +1,15 @@
-package ca.gatin.api.controller;
+package ca.gatin.api.controller.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.gatin.api.controller.BaseController;
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 
 /**
- * Testing API Controller
+ * Testing public API Controller
  * 
  * @author RGatin
  * @since 17-Apr-2016
