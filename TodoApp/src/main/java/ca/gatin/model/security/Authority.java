@@ -1,6 +1,7 @@
 package ca.gatin.model.security;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,10 +15,22 @@ import javax.validation.constraints.Size;
 @Entity
 public class Authority {
 
-    @Id
+	@Id
+	@NotNull
+    @GeneratedValue
+    private Long id;
+	
     @NotNull
     @Size(min = 0, max = 50)
     private String name;
+    
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
     public String getName() {
         return name;
@@ -34,19 +47,20 @@ public class Authority {
 
         Authority authority = (Authority) o;
 
-        if (!name.equals(authority.name)) return false;
+        if (!id.equals(authority.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return id.hashCode();
     }
 
     @Override
     public String toString() {
         return "Authority{" +
+        		"id='" + id + '\'' +
                 "name='" + name + '\'' +
 				'}';
 	}

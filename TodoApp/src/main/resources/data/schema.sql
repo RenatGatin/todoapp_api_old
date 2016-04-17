@@ -1,28 +1,33 @@
+DROP TABLE IF EXISTS user_authority;
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS authority;
+DROP TABLE IF EXISTS oauth_access_token;
+DROP TABLE IF EXISTS oauth_refresh_token;
+
+
 CREATE TABLE user (
-  username VARCHAR(50) NOT NULL PRIMARY KEY,
-  email VARCHAR(50),
-  password VARCHAR(500),
+  id int(11) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  password VARCHAR(500) NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   activationkey VARCHAR(50) DEFAULT NULL,
   resetpasswordkey VARCHAR(50) DEFAULT NULL
 );
 
-DROP TABLE IF EXISTS authority;
 CREATE TABLE authority (
-  name VARCHAR(50) NOT NULL PRIMARY KEY
+  id int(11) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
 );
 
-DROP TABLE IF EXISTS user_authority;
 CREATE TABLE user_authority (
-    username VARCHAR(50) NOT NULL,
-    authority VARCHAR(50) NOT NULL,
-    FOREIGN KEY (username) REFERENCES user (username),
-    FOREIGN KEY (authority) REFERENCES authority (name),
-    UNIQUE INDEX user_authority_idx_1 (username, authority)
+  user_id int(11) NOT NULL,
+  authority_id int(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (authority_id) REFERENCES authority (id),
+  UNIQUE INDEX user_authority_idx_1 (user_id, authority_id)
 );
 
-DROP TABLE IF EXISTS oauth_access_token;
 CREATE TABLE oauth_access_token (
   token_id VARCHAR(256) DEFAULT NULL,
   token BLOB,
@@ -33,7 +38,6 @@ CREATE TABLE oauth_access_token (
   refresh_token VARCHAR(256) DEFAULT NULL
 );
 
-DROP TABLE IF EXISTS oauth_refresh_token;
 CREATE TABLE oauth_refresh_token (
   token_id VARCHAR(256) DEFAULT NULL,
   token BLOB,

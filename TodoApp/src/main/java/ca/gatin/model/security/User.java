@@ -15,15 +15,21 @@ import java.util.Set;
 @Entity
 public class User {
 
-    @Id
-    @Column(updatable = false, nullable = false)
+	@Id
+    @GeneratedValue
+    @Column(nullable = false)
+    private Long id;
+    
+    @Column(nullable = false)
     @Size(min = 0, max = 50)
     private String username;
 
+    @Column(nullable = false)
     @Size(min = 0, max = 500)
     private String password;
 
     @Email
+    @Column(nullable = false)
     @Size(min = 0, max = 50)
     private String email;
 
@@ -40,10 +46,18 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "user_authority",
-            joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "authority"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Authority> authorities;
 
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+    
     public String getUsername() {
         return username;
     }
@@ -107,19 +121,20 @@ public class User {
 
         User user = (User) o;
 
-        if (!username.equals(user.username)) return false;
+        if (!id.equals(user.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+        return id.hashCode();
     }
 
     @Override
     public String toString() {
         return "User{" +
+        		"id='" + id + '\'' +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

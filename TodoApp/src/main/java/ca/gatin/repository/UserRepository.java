@@ -13,7 +13,7 @@ import ca.gatin.model.security.User;
  * @since Apr 17, 2016
  *
  */
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(:username)")
 	User findByUsernameCaseInsensitive(@Param("username") String username);

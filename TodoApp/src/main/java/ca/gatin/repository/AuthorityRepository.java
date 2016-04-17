@@ -11,5 +11,5 @@ import ca.gatin.model.security.Authority;
  * @since Apr 17, 2016
  *
  */
-public interface AuthorityRepository extends JpaRepository<Authority, String> {
+public interface AuthorityRepository extends JpaRepository<Authority, Long> {
 }
