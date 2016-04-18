@@ -1,5 +1,8 @@
 package ca.gatin.model.security;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,6 +27,12 @@ public class Authority {
     @Size(min = 0, max = 50)
     private String name;
     
+    @Column(name = "date_created")
+    private Date dateCreated;
+    
+    @Column(name = "date_last_modified")
+    private Date dateLastModified;
+    
     public Long getId() {
 		return id;
 	}
@@ -40,7 +49,23 @@ public class Authority {
         this.name = name;
     }
 
-    @Override
+    public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateLastModified() {
+		return dateLastModified;
+	}
+
+	public void setDateLastModified(Date dateLastModified) {
+		this.dateLastModified = dateLastModified;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -58,11 +83,9 @@ public class Authority {
     }
 
     @Override
-    public String toString() {
-        return "Authority{" +
-        		"id='" + id + '\'' +
-                "name='" + name + '\'' +
-				'}';
+	public String toString() {
+		return "Authority [id=" + id + ", name=" + name + ", dateCreated="
+				+ dateCreated + ", dateLastModified=" + dateLastModified + "]";
 	}
 
 }

@@ -1,3 +1,5 @@
+-- IMPORTANT: Requires MySQL version > 5.6.5
+
 DROP TABLE IF EXISTS user_authority;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS authority;
@@ -12,17 +14,24 @@ CREATE TABLE user (
   password VARCHAR(500) NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   activationkey VARCHAR(50) DEFAULT NULL,
-  resetpasswordkey VARCHAR(50) DEFAULT NULL
+  resetpasswordkey VARCHAR(50) DEFAULT NULL,
+  enabled BOOLEAN DEFAULT FALSE,
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_last_modified DATETIME ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE authority (
   id int(11) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-  name VARCHAR(50) NOT NULL
+  name VARCHAR(50) NOT NULL,
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_last_modified DATETIME ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE user_authority (
   user_id int(11) NOT NULL,
   authority_id int(11) NOT NULL,
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_last_modified DATETIME ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES user (id),
   FOREIGN KEY (authority_id) REFERENCES authority (id),
   UNIQUE INDEX user_authority_idx_1 (user_id, authority_id)
@@ -35,11 +44,15 @@ CREATE TABLE oauth_access_token (
   user_name VARCHAR(256) DEFAULT NULL,
   client_id VARCHAR(256) DEFAULT NULL,
   authentication BLOB,
-  refresh_token VARCHAR(256) DEFAULT NULL
+  refresh_token VARCHAR(256) DEFAULT NULL,
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_last_modified DATETIME ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE oauth_refresh_token (
   token_id VARCHAR(256) DEFAULT NULL,
   token BLOB,
-  authentication BLOB
+  authentication BLOB,
+  date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date_last_modified DATETIME ON UPDATE CURRENT_TIMESTAMP
 );

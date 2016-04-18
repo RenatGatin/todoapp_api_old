@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -42,6 +44,14 @@ public class User {
     @Size(min = 0, max = 100)
     @Column(name = "resetpasswordkey")
     private String resetPasswordKey;
+    
+    private boolean enabled;
+    
+    @Column(name = "date_created")
+    private Date dateCreated;
+    
+    @Column(name = "date_last_modified")
+    private Date dateLastModified;
 
     @ManyToMany
     @JoinTable(
@@ -113,6 +123,30 @@ public class User {
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
+    
+    public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateLastModified() {
+		return dateLastModified;
+	}
+
+	public void setDateLastModified(Date dateLastModified) {
+		this.dateLastModified = dateLastModified;
+	}
 
     @Override
     public boolean equals(Object o) {
@@ -132,16 +166,12 @@ public class User {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-        		"id='" + id + '\'' +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", activated='" + activated + '\'' +
-                ", activationKey='" + activationKey + '\'' +
-                ", resetPasswordKey='" + resetPasswordKey + '\'' +
-                ", authorities=" + authorities +
-				'}';
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password="
+				+ password + ", email=" + email + ", activated=" + activated
+				+ ", activationKey=" + activationKey + ", resetPasswordKey="
+				+ resetPasswordKey + ", enabled=" + enabled + ", dateCreated="
+				+ dateCreated + ", dateLastModified=" + dateLastModified
+				+ ", authorities=" + authorities + "]";
 	}
 }
