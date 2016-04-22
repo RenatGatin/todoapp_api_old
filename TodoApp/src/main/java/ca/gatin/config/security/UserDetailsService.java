@@ -1,5 +1,9 @@
 package ca.gatin.config.security;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.gatin.dao.service.UserPersistenceService;
 import ca.gatin.model.security.Authority;
 import ca.gatin.model.security.User;
-import ca.gatin.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
 
 @Component("userDetailsService")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -24,34 +24,32 @@ public class UserDetailsService implements org.springframework.security.core.use
 	private final Logger logger = LoggerFactory.getLogger(UserDetailsService.class);
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserPersistenceService userPersistenceService;
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(final String login) {
 
-		String lowercaseLogin = login.toLowerCase();
-
 		User userFromDatabase;
-		if (lowercaseLogin.contains("@")) {
-			logger.info("Authenticating by email: {}", lowercaseLogin);
-			userFromDatabase = userRepository.findByEmail(lowercaseLogin);
+		if (login.contains("@")) {
+			logger.info("Authenticating by email: {}", login);
+			userFromDatabase = userPersistenceService.getUserByEmail(login);
 		} else {
-			logger.info("Authenticating by username: {}", lowercaseLogin);
-			userFromDatabase = userRepository.findByUsernameCaseInsensitive(lowercaseLogin);
+			logger.info("Authenticating by username: {}", login);
+			userFromDatabase = userPersistenceService.getUserByUsername(login);
 		}
 
 		if (userFromDatabase == null) {
-			String msg = "User '" + lowercaseLogin + "' was not found in the database";
+			String msg = "User '" + login + "' was not found in the database";
 			logger.error(msg);
 			throw new UsernameNotFoundException(msg);
 			
 		} else if (!userFromDatabase.isActivated()) {
-			String msg = "User '" + lowercaseLogin + "' is not activated";
+			String msg = "User '" + login + "' is not activated";
 			logger.error(msg);
 			throw new UserNotActivatedException(msg);
 		} else if (!userFromDatabase.isEnabled()) {
-			String msg = "User '" + lowercaseLogin + "' is not enabled";
+			String msg = "User '" + login + "' is not enabled";
 			logger.error(msg);
 			throw new UserNotActivatedException(msg);
 		}

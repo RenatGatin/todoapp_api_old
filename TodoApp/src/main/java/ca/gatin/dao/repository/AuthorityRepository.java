@@ -1,4 +1,4 @@
-package ca.gatin.repository;
+package ca.gatin.dao.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

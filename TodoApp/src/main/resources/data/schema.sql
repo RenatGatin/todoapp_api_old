@@ -1,4 +1,4 @@
--- IMPORTANT: Requires MySQL version > 5.6.5
+-- IMPORTANT: Requires MySQL version minimum: 5.6.5
 
 DROP TABLE IF EXISTS user_authority;
 DROP TABLE IF EXISTS user;
@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS oauth_refresh_token;
 
 CREATE TABLE user (
   id int(11) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-  username VARCHAR(50) NOT NULL,
-  email VARCHAR(50) NOT NULL,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
   password VARCHAR(500) NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   activationkey VARCHAR(50) DEFAULT NULL,
@@ -18,6 +18,8 @@ CREATE TABLE user (
   enabled BOOLEAN DEFAULT FALSE,
   date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
   date_last_modified DATETIME ON UPDATE CURRENT_TIMESTAMP
+--  UNIQUE KEY `username` (`username`),
+--  UNIQUE KEY `email` (`email`)
 );
 
 CREATE TABLE authority (
