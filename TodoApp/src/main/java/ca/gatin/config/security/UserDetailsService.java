@@ -49,7 +49,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 			logger.error(msg);
 			throw new UserNotActivatedException(msg);
 		} else if (!userFromDatabase.isEnabled()) {
-			String msg = "User '" + login + "' is not enabled";
+			String msg = "User '" + login + "' is disabled";
 			logger.error(msg);
 			throw new UserNotActivatedException(msg);
 		}

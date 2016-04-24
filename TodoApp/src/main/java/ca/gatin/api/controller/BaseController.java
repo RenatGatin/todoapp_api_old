@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
  * @author RGatin
  * @since 02-Apr-2016
  */
-public class BaseController {
+public abstract class BaseController {
 
 	/**
 	 * The Logger for this class hierarchy
 	 */
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	
 }
