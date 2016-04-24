@@ -51,12 +51,12 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 	
 	@Override
 	public boolean existsByUsername(String username) {
-		return userRepository.existsByUsername(username) > 0;
+		return userRepository.countByUsername(username) > 0;
 	}
 	
 	@Override
 	public boolean existsByEmail(String email) {
-		return userRepository.existsByEmail(email) > 0;
+		return userRepository.countByEmail(email) > 0;
 	}
 
 	@Override

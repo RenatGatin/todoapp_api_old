@@ -26,10 +26,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	User findByEmailCaseInsensitive(@Param("email") String email);
 
 	@Query(value = "SELECT COUNT(*) FROM user WHERE LOWER(username) = LOWER(:username)", nativeQuery = true)
-	int existsByUsername(@Param("username") String username);
+	int countByUsername(@Param("username") String username);
 
 	@Query(value = "SELECT COUNT(*) FROM user WHERE LOWER(email) = LOWER(:email)", nativeQuery = true)
-	int existsByEmail(@Param("email") String email);
+	int countByEmail(@Param("email") String email);
 
 	List<User> findByActivated(boolean activated);
 
