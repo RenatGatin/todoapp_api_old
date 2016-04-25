@@ -10,6 +10,5 @@ package ca.gatin.model.security;
 public enum Authorities {
     ROLE_USER,
     ROLE_ADMIN,
-    ROLE_SUPERADMIN,
-    ROLE_ANONYMOUS
+    ROLE_SUPERADMIN
 }
