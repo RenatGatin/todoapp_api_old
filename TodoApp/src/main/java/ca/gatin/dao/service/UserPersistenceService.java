@@ -19,7 +19,7 @@ public interface UserPersistenceService {
 	 * @param id
 	 * @return User
 	 */
-	User getUserById(Long id);
+	User getById(Long id);
 	
 	/**
 	 * Gets User by username (case insensitive)
@@ -27,7 +27,7 @@ public interface UserPersistenceService {
 	 * @param username
 	 * @return User
 	 */
-	User getUserByUsername(String username);
+	User getByUsername(String username);
 	
 	/**
 	 * Gets User by email (case insensitive)
@@ -35,7 +35,7 @@ public interface UserPersistenceService {
 	 * @param email
 	 * @return User
 	 */
-	User getUserByEmail(String email);
+	User getByEmail(String email);
 
 	/**
 	 * Persists User
@@ -43,7 +43,7 @@ public interface UserPersistenceService {
 	 * @param User
 	 * @return saved User
 	 */
-	User saveUser(User User);
+	User save(User User);
 	
 	/**
 	 * Checks if exists by id
@@ -103,7 +103,7 @@ public interface UserPersistenceService {
 	 * @param id
 	 * @return boolean
 	 */
-	boolean deleteUser(Long id);
+	boolean delete(Long id);
 	
 	/**
 	 * Activates User 
@@ -136,4 +136,12 @@ public interface UserPersistenceService {
 	 * @return boolean
 	 */
 	boolean disable(Long id);
+	
+	/**
+	 * Get list of user by Role
+	 * 
+	 * @param roleName
+	 * @return List<User>
+	 */
+	List<User> getByRole(String roleName);
 }

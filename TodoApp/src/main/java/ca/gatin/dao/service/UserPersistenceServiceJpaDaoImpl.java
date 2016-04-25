@@ -21,25 +21,25 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 	}
 
 	@Override
-	public User getUserById(Long id) {
+	public User getById(Long id) {
 		User user = userRepository.findOne(id);
 		return user;
 	}
 	
 	@Override
-	public User getUserByUsername(String username) {
+	public User getByUsername(String username) {
 		User user = userRepository.findByUsernameCaseInsensitive(username);
 		return user;
 	}
 	
 	@Override
-	public User getUserByEmail(String email) {
+	public User getByEmail(String email) {
 		User user = userRepository.findByEmailCaseInsensitive(email);
 		return user;
 	}
 
 	@Override
-	public User saveUser(User User) {
+	public User save(User User) {
 		User savedUser = userRepository.save(User);
 		return savedUser;
 	}
@@ -60,7 +60,7 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 	}
 
 	@Override
-	public boolean deleteUser(Long id) {
+	public boolean delete(Long id) {
 		boolean deleted = true;
 		try {
 			userRepository.delete(id);
@@ -112,6 +112,11 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 	@Override
 	public boolean disable(Long id) {
 		return userRepository.enable(false, id) > 0;
+	}
+
+	@Override
+	public List<User> getByRole(String roleName) {
+		return userRepository.findByRole(roleName);
 	}
 
 }

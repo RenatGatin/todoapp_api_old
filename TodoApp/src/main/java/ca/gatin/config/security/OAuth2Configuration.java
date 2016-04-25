@@ -113,10 +113,11 @@ public class OAuth2Configuration {
 					.secret(relaxedPropertyResolver.getProperty(PROP_SECRET_RENAT))
 					.accessTokenValiditySeconds(relaxedPropertyResolver.getProperty(PROP_TOKEN_VALIDITY_SECONDS_RENAT, Integer.class, 1800))
 		            .scopes("read", "write")
-		            .authorities(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_ADMIN.name())
+		            .authorities(Authorities.ROLE_USER.name(), Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 		            .authorizedGrantTypes("password", "refresh_token")
 			
 					.and()
+					
 	                .withClient(relaxedPropertyResolver.getProperty(PROP_CLIENTID_WEB))
 	                .secret(relaxedPropertyResolver.getProperty(PROP_SECRET_WEB))
 	                .accessTokenValiditySeconds(relaxedPropertyResolver.getProperty(PROP_TOKEN_VALIDITY_SECONDS_WEB, Integer.class, 1800))

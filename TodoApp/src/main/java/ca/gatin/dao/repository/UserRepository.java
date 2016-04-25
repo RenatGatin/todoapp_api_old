@@ -43,4 +43,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "UPDATE user SET enabled = :enable WHERE id = :id", nativeQuery = true)
 	int enable(@Param("enable") boolean activate, @Param("id") Long id);
 
+	@Query(value = "SELECT u.* FROM user u, authority a, user_authority ua "
+			+ "WHERE u.id = ua.user_id AND a.id = ua.authority_id AND a.name = :roleName "
+			+ "ORDER BY u.date_created DESC", nativeQuery = true)
+	List<User> findByRole(@Param("roleName") String roleName);
+
 }

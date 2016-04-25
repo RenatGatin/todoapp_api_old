@@ -33,10 +33,10 @@ public class UserDetailsService implements org.springframework.security.core.use
 		User userFromDatabase;
 		if (login.contains("@")) {
 			logger.info("Authenticating by email: {}", login);
-			userFromDatabase = userPersistenceService.getUserByEmail(login);
+			userFromDatabase = userPersistenceService.getByEmail(login);
 		} else {
 			logger.info("Authenticating by username: {}", login);
-			userFromDatabase = userPersistenceService.getUserByUsername(login);
+			userFromDatabase = userPersistenceService.getByUsername(login);
 		}
 
 		if (userFromDatabase == null) {

@@ -1,14 +1,15 @@
 package ca.gatin.model.security;
 
 /**
- * Common List of Roles
+ * List of Roles.
+ * Order and names has to match 'authority' table
  *
  * @author RGatin
  * @since Apr 17, 2016
  */
 public enum Authorities {
-    ROLE_ANONYMOUS,
     ROLE_USER,
     ROLE_ADMIN,
-    ROLE_SUPERADMIN
+    ROLE_SUPERADMIN,
+    ROLE_ANONYMOUS
 }

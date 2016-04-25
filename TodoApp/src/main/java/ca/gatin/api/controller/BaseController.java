@@ -11,9 +11,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseController {
 
-	/**
-	 * The Logger for this class hierarchy
-	 */
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 }
