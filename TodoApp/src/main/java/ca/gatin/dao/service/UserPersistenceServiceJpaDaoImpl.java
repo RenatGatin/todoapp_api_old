@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.gatin.dao.repository.UserRepository;
+import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.User;
 
 @Service
@@ -115,8 +116,8 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 	}
 
 	@Override
-	public List<User> getByRole(String roleName) {
-		return userRepository.findByRole(roleName);
+	public List<User> getByRole(Authorities role) {
+		return userRepository.findByRole(role.name());
 	}
 
 }

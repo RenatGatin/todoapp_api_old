@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.UserService;
+import ca.gatin.model.security.Authorities;
 
 /**
  * Admin secured API Controller
@@ -34,7 +35,7 @@ public class SuperAdminController extends BaseController {
 	public ServiceResponse<?> getAdminList() {
 		logger.info("> getAdminList");
 		
-		return userService.getAdminList();
+		return userService.getListOf(Authorities.ROLE_ADMIN);
 	}
 	
 }

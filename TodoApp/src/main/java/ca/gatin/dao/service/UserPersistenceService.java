@@ -2,6 +2,7 @@ package ca.gatin.dao.service;
 
 import java.util.List;
 
+import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.User;
 
 public interface UserPersistenceService {
@@ -140,8 +141,8 @@ public interface UserPersistenceService {
 	/**
 	 * Get list of user by Role
 	 * 
-	 * @param roleName
+	 * @param role
 	 * @return List<User>
 	 */
-	List<User> getByRole(String roleName);
+	List<User> getByRole(Authorities role);
 }

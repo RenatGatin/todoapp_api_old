@@ -29,7 +29,7 @@ public enum ResponseStatus {
 	AUTHORIZATION_HEADER_INVALID											(1503, "Authorization header is invalid"),
 	ACCESS_TOKEN_NOT_FOUND													(1504, "Provided access token not found"),
 	
-	ACCOUNT_NOT_FOUND														(2001, "Account Not Found"),
+	ACCOUNT_NOT_FOUND														(2001, "Account(s) Not Found"),
 	ACCOUNT_INVALID															(2002, "Invalid Account"),
 	ACCOUNT_LOCKED															(2003, "Locked Account"),
 	INVALID_DATA															(2004, "Invalid Data"),
