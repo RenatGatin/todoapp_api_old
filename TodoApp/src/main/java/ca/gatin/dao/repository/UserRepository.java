@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import ca.gatin.model.security.User;
 
@@ -47,5 +48,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			+ "WHERE u.id = ua.user_id AND a.id = ua.authority_id AND a.name = :roleName "
 			+ "ORDER BY u.date_created DESC", nativeQuery = true)
 	List<User> findByRole(@Param("roleName") String roleName);
+	
+	@Modifying
+	@Transactional 
+	@Query(value = "UPDATE user SET password = :password WHERE id = :id", nativeQuery = true)
+	int changePassword(@Param("id") Long id, @Param("password") String password);
 
 }

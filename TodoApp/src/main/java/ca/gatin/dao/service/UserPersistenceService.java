@@ -60,7 +60,7 @@ public interface UserPersistenceService {
 	 * @param id
 	 * @return boolean
 	 */
-	public boolean existsByUsername(String username);
+	boolean existsByUsername(String username);
 	
 	/**
 	 * Checks if exists by email
@@ -68,7 +68,7 @@ public interface UserPersistenceService {
 	 * @param id
 	 * @return boolean
 	 */
-	public boolean existsByEmail(String email);
+	boolean existsByEmail(String email);
 
 	/**
 	 * Gets all activated Users
@@ -145,4 +145,13 @@ public interface UserPersistenceService {
 	 * @return List<User>
 	 */
 	List<User> getByRole(Authorities role);
+
+	/**
+	 * Change password by id
+	 * 
+	 * @param id
+	 * @param newPassword1
+	 * @return
+	 */
+	boolean changePassword(Long id, String newPasswordEncoded);
 }

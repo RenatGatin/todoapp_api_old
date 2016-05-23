@@ -1,5 +1,7 @@
 package ca.gatin.api.service;
 
+import java.security.Principal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -7,11 +9,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.dao.service.UserPersistenceService;
+import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.Authority;
 import ca.gatin.model.security.User;
@@ -89,15 +96,108 @@ public class UserService {
 	 */
 	public ServiceResponse<?> createUser(User newUser) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
-		
-		if (!hasAllRequiredFields(newUser, serviceResponse))
-			return serviceResponse;
-		
-		if (hasRole(Authorities.ROLE_USER, newUser) && newUser.getAuthorities().size() == 1) {
-			serviceResponse = doCreate(newUser);	
+		try {
+			if (!hasAllRequiredFields(newUser, serviceResponse))
+				return serviceResponse;
 			
-		} else {
-			serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+			if (hasRole(Authorities.ROLE_USER, newUser) && newUser.getAuthorities().size() == 1) {
+				serviceResponse = doCreate(newUser);	
+				
+			} else {
+				serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
+	/**
+	 * Deletes currently logged in user.
+	 * Only allowed to User delete itself.
+	 * 
+	 * @param principal
+	 * @param principal 
+	 * @param roleUser 
+	 * @return
+	 */
+	public ServiceResponse<?> deleteYourself(Authentication authentication, Principal principal, Authorities role) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			if (authorities.size() == 1 && authorities.toArray()[0].toString().equalsIgnoreCase(role.name())) {
+			
+				String username = principal.getName();
+				User user = userPersistenceService.getByUsername(username);
+				
+				if (user != null) {
+					boolean deleted = userPersistenceService.delete(user.getId());
+					if (deleted)
+						serviceResponse.setStatus(ResponseStatus.SUCCESS);
+						//TODO: trigger logout after this
+					else
+						serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
+					
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+				}
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> changePassword(ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			String currentPassword = changePasswordRequestBean.getCurrentPassword();
+			String newPassword1 = changePasswordRequestBean.getNewPassword1();
+			String newPassword2 = changePasswordRequestBean.getNewPassword2();
+			
+			if (currentPassword == null || newPassword1 == null || newPassword2 == null) {
+				serviceResponse.setStatus(ResponseStatus.MISSING_REQUIRED_FIELD);
+				
+			} else if (!newPassword1.equals(newPassword2)) {
+				serviceResponse.setStatus(ResponseStatus.NEW_PASSWORD_FIELDS_DOES_NOT_MATCH);
+				
+			} else if (newPassword1.equals(currentPassword)) {
+				serviceResponse.setStatus(ResponseStatus.NEW_PASSWORD_HAS_TO_BE_DIFFERENT);
+				
+			} else {
+				String username = principal.getName();
+				User user = userPersistenceService.getByUsername(username);
+				
+				if (user != null) {
+					
+					String encodedPassword = user.getPassword();
+					PasswordEncoder passwordEncoder = new StandardPasswordEncoder();
+					
+					if (!passwordEncoder.matches(currentPassword, encodedPassword)) {
+						serviceResponse.setStatus(ResponseStatus.OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE);
+						
+					} else {
+						String newPasswordEncoded = passwordEncoder.encode(newPassword1);
+						boolean changed = userPersistenceService.changePassword(user.getId(), newPasswordEncoded);
+						if (changed)
+							serviceResponse.setStatus(ResponseStatus.SUCCESS);
+						else
+							serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE);
+					}
+					
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+				}
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
 		}
 		return serviceResponse;
 	}
@@ -105,17 +205,22 @@ public class UserService {
 	private ServiceResponse<?> doCreate(User newUser) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		if (userPersistenceService.existsByUsername(newUser.getUsername()) || userPersistenceService.existsByEmail(newUser.getEmail())) {
-			serviceResponse.setStatus(ResponseStatus.ACCOUNT_UNIQUE_FIELD_DUPLICATION);
-			
-		} else {
-			newUser.setDateCreated(new Date());
-			
-			if (userPersistenceService.save(newUser) != null) {
-				serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		try {
+			if (userPersistenceService.existsByUsername(newUser.getUsername()) || userPersistenceService.existsByEmail(newUser.getEmail())) {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_UNIQUE_FIELD_DUPLICATION);
+				
 			} else {
-				serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_CREATION_FAILURE);
+				newUser.setDateCreated(new Date());
+				
+				if (userPersistenceService.save(newUser) != null) {
+					serviceResponse.setStatus(ResponseStatus.SUCCESS);
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_CREATION_FAILURE);
+				}
 			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
 		}
 		return serviceResponse;
 	}
@@ -187,4 +292,5 @@ public class UserService {
 		}
 		return userList;
 	}
+
 }

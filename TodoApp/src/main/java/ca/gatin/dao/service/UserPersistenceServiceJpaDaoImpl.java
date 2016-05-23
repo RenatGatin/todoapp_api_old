@@ -120,4 +120,9 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 		return userRepository.findByRole(role.name());
 	}
 
+	@Override
+	public boolean changePassword(Long id, String newPasswordEncoded) {
+		return userRepository.changePassword(id, newPasswordEncoded) > 0;
+	}
+
 }

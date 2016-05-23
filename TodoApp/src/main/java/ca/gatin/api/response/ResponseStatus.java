@@ -29,6 +29,7 @@ public enum ResponseStatus {
 	AUTHORIZATION_HEADER_INVALID											(1503, "Authorization header is invalid"),
 	ACCESS_TOKEN_NOT_FOUND													(1504, "Provided access token not found"),
 	NOT_ENOUGH_PRIVILEGIES													(1505, "Not enough privilegies for this operation"),
+	ACTION_NOT_PERMITTED													(1506, "This action not permitted"),
 	
 	ACCOUNT_NOT_FOUND														(2001, "Account(s) Not Found"),
 	ACCOUNT_INVALID															(2002, "Invalid Account"),
@@ -43,6 +44,9 @@ public enum ResponseStatus {
 	ACCOUNT_DB_DELETION_FAILURE												(2012, "Account DB deletion failure"),
 	INVALID_ROLE															(2013, "Invalid role(s)"),
 	AUTHORITIES_DB_FETCHING_FAILURE											(2014, "Authorities DB fetching failure"),
+	NEW_PASSWORD_FIELDS_DOES_NOT_MATCH										(2015, "New password fields does not match"),
+	NEW_PASSWORD_HAS_TO_BE_DIFFERENT										(2016, "New password has to be different than current"),
+	OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE								(2017, "Old password field does not match current value"),
 	
 	TODOITEM_CREATE_ID_FAILURE												(2501, "Can't TodoItem with specified ID value"),
 	TODOITEM_NOT_FOUND														(2502, "TodoItem(s) Not Found"),
