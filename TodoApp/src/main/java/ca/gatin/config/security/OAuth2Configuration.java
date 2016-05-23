@@ -65,6 +65,7 @@ public class OAuth2Configuration {
 					.and()
 					.authorizeRequests()
 					.antMatchers("/test/").permitAll()
+					.antMatchers("/open/**").permitAll()
 					.antMatchers("/secure/**").authenticated()
 					.antMatchers("/admin/**").hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 					.antMatchers("/superadmin/**").hasAuthority(Authorities.ROLE_SUPERADMIN.name());

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * The error code is started from 1000:
  * 1001-1500 system reserved
  * 1501-2000 general
- * 2001-2500 account related
+ * 2001-2500 user / account related
  * 2501-3000 TodoItems related codes
  * 
  * @author RGatin
@@ -28,6 +28,7 @@ public enum ResponseStatus {
 	RECORD_CREATE_ID_FAILURE												(1502, "Can not create record with specified ID value"),
 	AUTHORIZATION_HEADER_INVALID											(1503, "Authorization header is invalid"),
 	ACCESS_TOKEN_NOT_FOUND													(1504, "Provided access token not found"),
+	NOT_ENOUGH_PRIVILEGIES													(1505, "Not enough privilegies for this operation"),
 	
 	ACCOUNT_NOT_FOUND														(2001, "Account(s) Not Found"),
 	ACCOUNT_INVALID															(2002, "Invalid Account"),
@@ -40,6 +41,8 @@ public enum ResponseStatus {
 	ACCOUNT_IS_ALREADY_ACTIVE												(2010, "Account is already active"),
 	ACCOUNT_IS_ALREADY_INACTIVE												(2011, "Account is already inactive"),
 	ACCOUNT_DB_DELETION_FAILURE												(2012, "Account DB deletion failure"),
+	INVALID_ROLE															(2013, "Invalid role(s)"),
+	AUTHORITIES_DB_FETCHING_FAILURE											(2014, "Authorities DB fetching failure"),
 	
 	TODOITEM_CREATE_ID_FAILURE												(2501, "Can't TodoItem with specified ID value"),
 	TODOITEM_NOT_FOUND														(2502, "TodoItem(s) Not Found"),

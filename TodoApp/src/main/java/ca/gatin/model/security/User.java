@@ -148,7 +148,7 @@ public class User {
 		this.dateLastModified = dateLastModified;
 	}
 
-    @Override
+/*    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -158,12 +158,15 @@ public class User {
         if (!id.equals(user.id)) return false;
 
         return true;
-    }
+    }*/
 
-    @Override
+/*    @Override
     public int hashCode() {
+    	if (id == null)
+    		return null;
+    	
         return id.hashCode();
-    }
+    }*/
 
     @Override
 	public String toString() {

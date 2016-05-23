@@ -13,7 +13,7 @@ import ca.gatin.model.security.User;
 public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService {
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public List<User> getAll() {
@@ -40,8 +40,8 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 	}
 
 	@Override
-	public User save(User User) {
-		User savedUser = userRepository.save(User);
+	public User save(User user) {
+		User savedUser = userRepository.save(user);
 		return savedUser;
 	}
 

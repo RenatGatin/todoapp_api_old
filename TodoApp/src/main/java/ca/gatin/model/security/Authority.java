@@ -20,7 +20,6 @@ public class Authority {
 
 	@Id
 	@NotNull
-    @GeneratedValue
     private Long id;
 	
     @NotNull
