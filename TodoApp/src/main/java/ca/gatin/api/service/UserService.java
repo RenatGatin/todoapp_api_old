@@ -122,7 +122,7 @@ public class UserService {
 	 * @param roleUser 
 	 * @return
 	 */
-	public ServiceResponse<?> deleteYourself(Authentication authentication, Principal principal) {
+	public ServiceResponse<?> selfDelete(Authentication authentication, Principal principal) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
@@ -137,6 +137,49 @@ public class UserService {
 				else
 					serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
 				
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
+	/**
+	 * Method suppose to be used only by ADMIN
+	 * or SUPERADMIN.
+	 * Rule:
+	 * - does not allow to delete SUPERADMIN account;
+	 * - ADMIN can't delete another ADMIN;
+	 */
+	public ServiceResponse<?> deleteByUsername(String username, boolean isRequestFromSuperadmin) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			User user = userPersistenceService.getByUsername(username);
+			
+			if (user != null) {
+				
+				// prohibited to delete SUPERADMIN
+				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+				
+					// ADMIN can be deleted only by SUPERADMIN
+					if (hasRole(Authorities.ROLE_ADMIN, user) && !isRequestFromSuperadmin) {
+						serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+						
+					} else {
+						boolean deleted = userPersistenceService.delete(user.getId());
+						if (deleted)
+							serviceResponse.setStatus(ResponseStatus.SUCCESS);
+							//TODO: trigger logout after this
+						else
+							serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
+					}
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+				}
 			} else {
 				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
 			}
