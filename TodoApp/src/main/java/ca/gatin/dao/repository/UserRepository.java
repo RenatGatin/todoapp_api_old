@@ -37,12 +37,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByEnabled(boolean enabled);
 
 	@Modifying
+	@Transactional
 	@Query(value = "UPDATE user SET activated = :activate WHERE id = :id", nativeQuery = true)
 	int activate(@Param("activate") boolean activate, @Param("id") Long id);
 
 	@Modifying
+	@Transactional
 	@Query(value = "UPDATE user SET enabled = :enable WHERE id = :id", nativeQuery = true)
-	int enable(@Param("enable") boolean activate, @Param("id") Long id);
+	int enable(@Param("enable") boolean enable, @Param("id") Long id);
 
 	@Query(value = "SELECT u.* FROM user u, authority a, user_authority ua "
 			+ "WHERE u.id = ua.user_id AND a.id = ua.authority_id AND a.name = :roleName "

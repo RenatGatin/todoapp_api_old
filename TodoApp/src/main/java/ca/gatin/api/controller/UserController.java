@@ -39,10 +39,10 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-	public ServiceResponse<?> selfDelete(Authentication authentication, Principal principal) {
+	public ServiceResponse<?> selfDelete(Principal principal) {
 		logger.info("> /user/delete");
 		
-		return userService.selfDelete(authentication, principal);
+		return userService.selfDelete(principal);
 	}
 	
 }

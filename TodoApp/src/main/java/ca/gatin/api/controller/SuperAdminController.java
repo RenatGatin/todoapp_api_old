@@ -72,4 +72,18 @@ public class SuperAdminController extends BaseController {
 		return userService.deleteByUsername(username, true);
 	}
 	
+	@RequestMapping(value = "/disableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> disableByUsername(@PathVariable String username) {
+		logger.info("> /superadmin/disableByUsername");
+		
+		return userService.enableOrDisableByUsername(false, username, true);
+	}
+	
+	@RequestMapping(value = "/enableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> enableByUsername(@PathVariable String username) {
+		logger.info("> /superadmin/enableByUsername");
+		
+		return userService.enableOrDisableByUsername(true, username, true);
+	}
+	
 }

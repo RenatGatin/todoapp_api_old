@@ -122,7 +122,7 @@ public class UserService {
 	 * @param roleUser 
 	 * @return
 	 */
-	public ServiceResponse<?> selfDelete(Authentication authentication, Principal principal) {
+	public ServiceResponse<?> selfDelete(Principal principal) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
@@ -177,6 +177,86 @@ public class UserService {
 						else
 							serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
 					}
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+				}
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
+	/**
+	 * Method suppose to be used only by ADMIN
+	 * or SUPERADMIN.
+	 * 
+	 * Can either enable or disable other account
+	 * 
+	 * @param true - enable, false - disable 
+	 * @param username
+	 * @param isRequestFromSuperadmin
+	 * @return
+	 */
+	public ServiceResponse<?> enableOrDisableByUsername(boolean enable, String username, boolean isRequestFromSuperadmin) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			User user = userPersistenceService.getByUsername(username);
+			
+			if (user != null) {
+				
+				// prohibited to disable SUPERADMIN
+				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+				
+					// ADMIN can be disable only by SUPERADMIN
+					if (hasRole(Authorities.ROLE_ADMIN, user) && !isRequestFromSuperadmin) {
+						serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+						
+					} else {
+						Long id = user.getId();
+						boolean operationSucceeded = (enable) ? userPersistenceService.enable(id) : userPersistenceService.disable(id);
+						ResponseStatus response = (operationSucceeded) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE;
+						serviceResponse.setStatus(response);
+					}
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+				}
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
+	/**
+	 * Anybody can disable themselves 
+	 * except SUPERADMIN
+	 * 
+	 * @param principal
+	 * @return
+	 */
+	public ServiceResponse<?> selfDisable(Principal principal) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			String username = principal.getName();
+			User user = userPersistenceService.getByUsername(username);
+			
+			if (user != null) {
+				
+				// prohibited to disable SUPERADMIN
+				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+					boolean disabled = userPersistenceService.disable(user.getId());
+					ResponseStatus response = (disabled) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE;
+					serviceResponse.setStatus(response);
+					
 				} else {
 					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
 				}

@@ -47,4 +47,18 @@ public class AdminController extends BaseController {
 		return userService.deleteByUsername(username, false);
 	}
 	
+	@RequestMapping(value = "/disableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> disableByUsername(@PathVariable String username) {
+		logger.info("> /admin/disableByUsername");
+		
+		return userService.enableOrDisableByUsername(false, username, false);
+	}
+	
+	@RequestMapping(value = "/enableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> enableByUsername(@PathVariable String username) {
+		logger.info("> /admin/enableByUsername");
+		
+		return userService.enableOrDisableByUsername(true, username, false);
+	}
+	
 }
