@@ -122,29 +122,23 @@ public class UserService {
 	 * @param roleUser 
 	 * @return
 	 */
-	public ServiceResponse<?> deleteYourself(Authentication authentication, Principal principal, Authorities role) {
+	public ServiceResponse<?> deleteYourself(Authentication authentication, Principal principal) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
-			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-			if (authorities.size() == 1 && authorities.toArray()[0].toString().equalsIgnoreCase(role.name())) {
+			String username = principal.getName();
+			User user = userPersistenceService.getByUsername(username);
 			
-				String username = principal.getName();
-				User user = userPersistenceService.getByUsername(username);
+			if (user != null) {
+				boolean deleted = userPersistenceService.delete(user.getId());
+				if (deleted)
+					serviceResponse.setStatus(ResponseStatus.SUCCESS);
+					//TODO: trigger logout after this
+				else
+					serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
 				
-				if (user != null) {
-					boolean deleted = userPersistenceService.delete(user.getId());
-					if (deleted)
-						serviceResponse.setStatus(ResponseStatus.SUCCESS);
-						//TODO: trigger logout after this
-					else
-						serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
-					
-				} else {
-					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
-				}
 			} else {
-				serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
 			}
 		} catch (Exception e) {
 			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);

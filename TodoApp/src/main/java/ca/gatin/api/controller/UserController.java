@@ -18,14 +18,14 @@ import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.User;
 
 /**
- * Admin secured API Controller
+ * User secured API Controller
  *
  * @author RGatin
  * @since Apr 23, 2016
  */
 @RestController
-@RequestMapping(value= "/secure")
-public class SecureController extends BaseController {
+@RequestMapping(value= "/user")
+public class UserController extends BaseController {
 	
 	@Autowired
 	UserService userService;
@@ -38,18 +38,11 @@ public class SecureController extends BaseController {
 		return serviceResponse;
 	}
 	
-	@RequestMapping(value = "/account/delete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> accountDelete(Authentication authentication, Principal principal) {
-		logger.info("> /account/delete");
+		logger.info("> /user/delete");
 		
-		return userService.deleteYourself(authentication, principal, Authorities.ROLE_USER);
-	}
-	
-	@RequestMapping(value = "/account/changePassword", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> accountchangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
-		logger.info("> /account/changePassword");
-		
-		return userService.changePassword(changePasswordRequestBean, principal);
+		return userService.deleteYourself(authentication, principal);
 	}
 	
 }

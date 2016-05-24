@@ -7,10 +7,11 @@ INSERT INTO authority (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO authority (id, name) VALUES (2, 'ROLE_ADMIN');
 INSERT INTO authority (id, name) VALUES (3, 'ROLE_SUPERADMIN');
 
-INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (2, 1);
 INSERT INTO user_authority (user_id, authority_id) VALUES (3, 1);
-INSERT INTO user_authority (user_id, authority_id) VALUES (4, 1);
-INSERT INTO user_authority (user_id, authority_id) VALUES (4, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (4, 3);
+-- Separate USER, ADMIN and SUPERADMIN scopes
+-- INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);
+-- INSERT INTO user_authority (user_id, authority_id) VALUES (4, 1);
+-- INSERT INTO user_authority (user_id, authority_id) VALUES (4, 2);

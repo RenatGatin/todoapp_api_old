@@ -66,8 +66,9 @@ public class OAuth2Configuration {
 					.authorizeRequests()
 					.antMatchers("/test/").permitAll()
 					.antMatchers("/open/**").permitAll()
-					.antMatchers("/secure/**").authenticated()
-					.antMatchers("/admin/**").hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
+					.antMatchers("/common/**").authenticated()
+					.antMatchers("/user/**").hasAuthority(Authorities.ROLE_USER.name()) //.antMatchers("/secure/**").authenticated()
+					.antMatchers("/admin/**").hasAuthority(Authorities.ROLE_ADMIN.name()) // .antMatchers("/admin/**").hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 					.antMatchers("/superadmin/**").hasAuthority(Authorities.ROLE_SUPERADMIN.name());
 		}
 	}
