@@ -17,6 +17,7 @@ import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.AuthorityService;
 import ca.gatin.api.service.UserService;
+import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.User;
 
@@ -81,9 +82,16 @@ public class SuperAdminController extends BaseController {
 	
 	@RequestMapping(value = "/enableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> enableByUsername(@PathVariable String username) {
-		logger.info("> /superadmin/enableByUsername");
+		logger.info("> /superadmin/enableByUsername : " + username);
 		
 		return userService.enableOrDisableByUsername(true, username, true);
+	}
+	
+	@RequestMapping(value = "/changePassword/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, @PathVariable String username) {
+		logger.info("> /superadmin/changePassword : " + username);
+		
+		return userService.changePassword(changePasswordRequestBean, username, true);
 	}
 	
 }

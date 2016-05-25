@@ -3,6 +3,7 @@ package ca.gatin.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.UserService;
+import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
 
 /**
@@ -59,6 +61,13 @@ public class AdminController extends BaseController {
 		logger.info("> /admin/enableByUsername");
 		
 		return userService.enableOrDisableByUsername(true, username, false);
+	}
+	
+	@RequestMapping(value = "/changeUserPassword/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, @PathVariable String username) {
+		logger.info("> /admin/changeUserPassword : " + username);
+		
+		return userService.changePassword(changePasswordRequestBean, username, false);
 	}
 	
 }

@@ -26,11 +26,11 @@ public class CommonController extends BaseController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value = "/changePassword", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> accountchangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
-		logger.info("> /common/changePassword");
+	@RequestMapping(value = "/selfChangePassword", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
+		logger.info("> /common/selfChangePassword");
 		
-		return userService.changePassword(changePasswordRequestBean, principal);
+		return userService.selfChangePassword(changePasswordRequestBean, principal);
 	}
 	
 	@RequestMapping(value = "/selfDisable", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)

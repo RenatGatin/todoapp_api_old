@@ -33,7 +33,7 @@ import ca.gatin.model.security.User;
 @Component
 public class UserService {
 	
-	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private UserPersistenceService userPersistenceService;
@@ -257,7 +257,14 @@ public class UserService {
 		return serviceResponse;
 	}
 	
-	public ServiceResponse<?> changePassword(ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
+	/**
+	 * Self change password
+	 * 
+	 * @param changePasswordRequestBean
+	 * @param principal
+	 * @return
+	 */
+	public ServiceResponse<?> selfChangePassword(ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
@@ -281,17 +288,10 @@ public class UserService {
 				if (user != null) {
 					
 					String encodedPassword = user.getPassword();
-					if (!passwordEncoder.matches(currentPassword, encodedPassword)) {
+					if (!passwordEncoder.matches(currentPassword, encodedPassword))
 						serviceResponse.setStatus(ResponseStatus.OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE);
-						
-					} else {
-						String newPasswordEncoded = passwordEncoder.encode(newPassword1);
-						boolean changed = userPersistenceService.changePassword(user.getId(), newPasswordEncoded);
-						if (changed)
-							serviceResponse.setStatus(ResponseStatus.SUCCESS);
-						else
-							serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE);
-					}
+					else
+						serviceResponse = doChangePassword(newPassword1, user);
 					
 				} else {
 					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
@@ -301,6 +301,67 @@ public class UserService {
 			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
 			e.printStackTrace();
 		}
+		return serviceResponse;
+	}
+	
+	/**
+	 * Method allows to change password for other account
+	 * SUPERADMIN can change ADMIN and USER;
+	 * ADMIN can change USER only;
+	 * 
+	 * @param changePasswordRequestBean
+	 * @param username
+	 * @param isSuperAdminLogin
+	 * @return
+	 */
+	public ServiceResponse<?> changePassword(ChangePasswordRequestBean changePasswordRequestBean, String username, boolean isSuperAdminLogin) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			String newPassword1 = changePasswordRequestBean.getNewPassword1();
+			String newPassword2 = changePasswordRequestBean.getNewPassword2();
+			
+			if (newPassword1 == null || newPassword2 == null) {
+				serviceResponse.setStatus(ResponseStatus.MISSING_REQUIRED_FIELD);
+				
+			} else if (!newPassword1.equals(newPassword2)) {
+				serviceResponse.setStatus(ResponseStatus.NEW_PASSWORD_FIELDS_DOES_NOT_MATCH);
+				
+			} else {
+				User user = userPersistenceService.getByUsername(username);
+				if (user != null) {
+					
+					if (hasRole(Authorities.ROLE_SUPERADMIN, user) ||
+						(hasRole(Authorities.ROLE_ADMIN, user) && !isSuperAdminLogin)) {
+						serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+						
+					} else {
+						String currentEncodedPassword = user.getPassword();
+						if (passwordEncoder.matches(newPassword1, currentEncodedPassword))
+							serviceResponse.setStatus(ResponseStatus.NEW_PASSWORD_HAS_TO_BE_DIFFERENT);
+						else
+							serviceResponse = doChangePassword(newPassword1, user);
+					}
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+				}
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+
+	private ServiceResponse<?> doChangePassword(String newPassword, User user) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		String newPasswordEncoded = passwordEncoder.encode(newPassword);
+		boolean changed = userPersistenceService.changePassword(user.getId(), newPasswordEncoded);
+		
+		ResponseStatus response = (changed) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE;
+		serviceResponse.setStatus(response);
+		
 		return serviceResponse;
 	}
 
