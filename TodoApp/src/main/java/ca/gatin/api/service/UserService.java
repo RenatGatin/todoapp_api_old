@@ -38,6 +38,9 @@ public class UserService {
 	@Autowired
 	private UserPersistenceService userPersistenceService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * Get list of given type of user
 	 * 
@@ -61,50 +64,34 @@ public class UserService {
 	}
 	
 	/**
-	 * This method can be user either by SUPERADMIN or ADMIN
-	 * 
-	 * Allows to create any Account except of type SUPERADMIN
-	 * 
-	 * @param newUser
-	 * @param authentication
-	 * @return
-	 */
-	public ServiceResponse<?> createAnybody(User newUser) {
-		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
-		
-		if (!hasAllRequiredFields(newUser, serviceResponse)) 
-			return serviceResponse;
-		
-		if (hasRole(Authorities.ROLE_SUPERADMIN, newUser))
-			serviceResponse = new ServiceResponse<>(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
-		else
-			serviceResponse = doCreate(newUser);
-		
-		return serviceResponse;
-	}
-	
-	/**
 	 * This method can be used by anybody even
-	 * unauthenticated user
+	 * unauthenticated user if trying to create USER
+	 * 
+	 * But ADMIN account can created only by SUPERADMIN
 	 * 
 	 * Before creating user checks:
 	 * 1) if has all required fields;
-	 * 2) has only 1 role: USER
+	 * 2) has only 1 role: USER or ADMIN
 	 * 
 	 * @param newUser
+	 * @param isAdminCreation 
 	 * @return
 	 */
-	public ServiceResponse<?> createUser(User newUser) {
+	public ServiceResponse<?> create(User newUser, boolean isAdminCreation) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		try {
 			if (!hasAllRequiredFields(newUser, serviceResponse))
 				return serviceResponse;
 			
-			if (hasRole(Authorities.ROLE_USER, newUser) && newUser.getAuthorities().size() == 1) {
-				serviceResponse = doCreate(newUser);	
+			if (newUser.getAuthorities().size() > 1 || 
+				(isAdminCreation && !hasRole(Authorities.ROLE_ADMIN, newUser)) ||
+				(!isAdminCreation && !hasRole(Authorities.ROLE_USER, newUser))) {
+				serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
 				
 			} else {
-				serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+				String encodedPassword = passwordEncoder.encode(newUser.getPassword());
+				newUser.setPassword(encodedPassword);
+				serviceResponse = doCreate(newUser);	
 			}
 		} catch (Exception e) {
 			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
@@ -294,8 +281,6 @@ public class UserService {
 				if (user != null) {
 					
 					String encodedPassword = user.getPassword();
-					PasswordEncoder passwordEncoder = new StandardPasswordEncoder();
-					
 					if (!passwordEncoder.matches(currentPassword, encodedPassword)) {
 						serviceResponse.setStatus(ResponseStatus.OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE);
 						

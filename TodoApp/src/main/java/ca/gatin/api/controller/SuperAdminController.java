@@ -58,11 +58,11 @@ public class SuperAdminController extends BaseController {
 		return authorityService.getByAuthentication(true);
 	}
 	
-	@RequestMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> create(@RequestBody User newUser) {
-		logger.info("> /superadmin/create: " + newUser.toString());
+	@RequestMapping(value = "/createAdmin", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> createAdmin(@RequestBody User newAdmin) {
+		logger.info("> /superadmin/createAdmin: " + newAdmin.toString());
 		
-		return userService.createAnybody(newUser);
+		return userService.create(newAdmin, true);
 	}
 	
 	@RequestMapping(value = "/deleteByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)

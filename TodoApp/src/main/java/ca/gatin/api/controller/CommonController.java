@@ -17,7 +17,7 @@ import ca.gatin.model.request.ChangePasswordRequestBean;
  * Common secured API Controller
  *
  * @author RGatin
- * @since Apr 23, 2016
+ * @since May 24, 2016
  */
 @RestController
 @RequestMapping(value= "/common")

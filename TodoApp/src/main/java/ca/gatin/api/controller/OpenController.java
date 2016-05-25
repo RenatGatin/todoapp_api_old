@@ -32,22 +32,22 @@ public class OpenController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.debug("> Admin ping");
+		logger.debug("> /open/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
 	
 		return serviceResponse;
 	}
 	
-	@RequestMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> create(@RequestBody User newUser) {
-		logger.info("> create: " + newUser.toString());
+	@RequestMapping(value = "/createUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> createUser(@RequestBody User newUser) {
+		logger.info("> /open/createUser: " + newUser.toString());
 		
-		return userService.createUser(newUser);
+		return userService.create(newUser, false);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAuthorities(Authentication authentication) {
-		logger.debug("> getAuthorities by: " + authentication);
+		logger.debug("> /open/getAuthorities by: " + authentication);
 	
 		return authorityService.getByAuthentication(false);
 	}
