@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.UserService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
+import ca.gatin.model.security.Authorities;
 
 /**
  * Common secured API Controller
@@ -38,6 +39,13 @@ public class CommonController extends BaseController {
 		logger.info("> /common/selfDisable");
 		
 		return userService.selfDisable(principal);
+	}
+	
+	@RequestMapping(value = "/getSelfProfile", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getSelfProfile(Principal principal) {
+		logger.debug("> /common/getSelfProfile");
+		
+		return userService.getSelfProfile(principal);
 	}
 	
 }

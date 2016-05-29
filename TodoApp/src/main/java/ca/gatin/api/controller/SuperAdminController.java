@@ -45,11 +45,18 @@ public class SuperAdminController extends BaseController {
 		return serviceResponse;
 	}
 	
-	@RequestMapping(value = "/getAdminList", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ServiceResponse<?> getAdminList() {
-		logger.info("> /superadmin/getAdminList");
+	@RequestMapping(value = "/getAdminProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getAdminProfileList() {
+		logger.info("> /superadmin/getAdminProfileList");
 		
-		return userService.getListOf(Authorities.ROLE_ADMIN);
+		return userService.getListOf(Authorities.ROLE_ADMIN, true);
+	}
+	
+	@RequestMapping(value = "/getUserProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getUserProfileList() {
+		logger.debug("> /superadmin/getUserProfileList");
+		
+		return userService.getListOf(Authorities.ROLE_USER, true);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,6 +99,13 @@ public class SuperAdminController extends BaseController {
 		logger.info("> /superadmin/changePassword : " + username);
 		
 		return userService.changePassword(changePasswordRequestBean, username, true);
+	}
+	
+	@RequestMapping(value = "/getProfileByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getProfileByUsername(@PathVariable String username) {
+		logger.debug("> /superadmin/getProfileByUsername : " + username);
+		
+		return userService.getAdminOrUserProfileByUsername(username, true);
 	}
 	
 }

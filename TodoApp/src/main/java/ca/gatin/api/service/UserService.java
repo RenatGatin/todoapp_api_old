@@ -47,18 +47,28 @@ public class UserService {
 	 * @param role
 	 * @return
 	 */
-	public ServiceResponse<List<User>> getListOf(Authorities role) {
+	public ServiceResponse<List<User>> getListOf(Authorities role, boolean isRequestFromSuperadmin) {
 		ServiceResponse<List<User>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		List<User> adminList = userPersistenceService.getByRole(role);
-		if (adminList == null || adminList.size() == 0){
-			logger.debug("No users with role: " + role.name() + " found");
-			serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+		if (!role.equals(Authorities.ROLE_SUPERADMIN)) {
 			
+			if (role.equals(Authorities.ROLE_ADMIN) && !isRequestFromSuperadmin) {
+				serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+				
+			} else {
+				List<User> adminList = userPersistenceService.getByRole(role);
+				if (adminList == null || adminList.size() == 0){
+					logger.debug("No users with role: " + role.name() + " found");
+					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+					
+				} else {
+					logger.debug(adminList.size() + " users with role: " + role.name() + " found");
+					serviceResponse.setEntity(secure(adminList));
+					serviceResponse.setStatus(ResponseStatus.SUCCESS);
+				}
+			}
 		} else {
-			logger.debug(adminList.size() + " users with role: " + role.name() + " found");
-			serviceResponse.setEntity(secure(adminList));
-			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
 		}
 		return serviceResponse;
 	}
@@ -102,11 +112,9 @@ public class UserService {
 	
 	/**
 	 * Deletes currently logged in user.
-	 * Only allowed to User delete itself.
+	 * Only allowed to User and Admin delete itself.
 	 * 
-	 * @param principal
 	 * @param principal 
-	 * @param roleUser 
 	 * @return
 	 */
 	public ServiceResponse<?> selfDelete(Principal principal) {
@@ -117,13 +125,15 @@ public class UserService {
 			User user = userPersistenceService.getByUsername(username);
 			
 			if (user != null) {
-				boolean deleted = userPersistenceService.delete(user.getId());
-				if (deleted)
-					serviceResponse.setStatus(ResponseStatus.SUCCESS);
-					//TODO: trigger logout after this
-				else
-					serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
 				
+				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+					boolean deleted = userPersistenceService.delete(user.getId());
+					ResponseStatus response = (deleted) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_DELETION_FAILURE;
+					serviceResponse.setStatus(response);
+					
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+				}
 			} else {
 				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
 			}
@@ -160,7 +170,6 @@ public class UserService {
 						boolean deleted = userPersistenceService.delete(user.getId());
 						if (deleted)
 							serviceResponse.setStatus(ResponseStatus.SUCCESS);
-							//TODO: trigger logout after this
 						else
 							serviceResponse.setStatus(ResponseStatus.ACCOUNT_DB_DELETION_FAILURE);
 					}
@@ -353,6 +362,74 @@ public class UserService {
 		return serviceResponse;
 	}
 
+	/**
+	 * Get Profile of itself
+	 * 
+	 * @param principal
+	 * @return
+	 */
+	public ServiceResponse<?> getSelfProfile(Principal principal) {
+		ServiceResponse<User> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			String username = principal.getName();
+			User user = userPersistenceService.getByUsername(username);
+			
+			if (user != null) {
+				cleanUser(user);
+				serviceResponse.setEntity(user);
+				serviceResponse.setStatus(ResponseStatus.SUCCESS);
+				
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
+	/**
+	 * Get Admin of User Profile
+	 * 
+	 * @param username
+	 * @param isRequestFromSuperadmin
+	 * @return
+	 */
+	public ServiceResponse<?> getAdminOrUserProfileByUsername(String username, boolean isRequestFromSuperadmin) {
+		ServiceResponse<User> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			User user = userPersistenceService.getByUsername(username);
+			
+			if (user != null) {
+				
+				// prohibited to provide SUPERADMIN profile
+				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+				
+					// ADMIN can be retrieved only by SUPERADMIN
+					if (hasRole(Authorities.ROLE_ADMIN, user) && !isRequestFromSuperadmin) {
+						serviceResponse.setStatus(ResponseStatus.NOT_ENOUGH_PRIVILEGIES);
+						
+					} else {
+						cleanUser(user);
+						serviceResponse.setEntity(user);
+						serviceResponse.setStatus(ResponseStatus.SUCCESS);
+					}
+				} else {
+					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+				}
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
 	private ServiceResponse<?> doChangePassword(String newPassword, User user) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
@@ -428,13 +505,13 @@ public class UserService {
 	 * Check if given User has role
 	 * @param role 
 	 * 
-	 * @param newUser
+	 * @param user
 	 * @param serviceResponse
 	 * @return
 	 */
-	private boolean hasRole(Authorities role, User newUser) {
+	private boolean hasRole(Authorities role, User user) {
 
-		for (Authority authority : newUser.getAuthorities()) {
+		for (Authority authority : user.getAuthorities()) {
 			if (authority.getName().equalsIgnoreCase(role.name()))
 				return true; 
 		}
@@ -448,12 +525,17 @@ public class UserService {
 	 * @return
 	 */
 	private List<User> secure(List<User> userList) {
-		for(User user : userList) {
-			user.setPassword(null);
-			user.setActivationKey(null);
-			user.setResetPasswordKey(null);
-		}
+		
+		for(User user : userList)
+			cleanUser(user);
+		
 		return userList;
+	}
+
+	private void cleanUser(User user) {
+		user.setPassword(null);
+		user.setActivationKey(null);
+		user.setResetPasswordKey(null);
 	}
 
 }

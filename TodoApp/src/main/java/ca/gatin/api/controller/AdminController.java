@@ -1,5 +1,7 @@
 package ca.gatin.api.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +37,11 @@ public class AdminController extends BaseController {
 		return serviceResponse;
 	}
 	
-	@RequestMapping(value = "/getUserList", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ServiceResponse<?> getAdminList() {
-		logger.debug("> /admin/getUserList");
+	@RequestMapping(value = "/getUserProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getUserProfileList() {
+		logger.debug("> /admin/getUserProfileList");
 		
-		return userService.getListOf(Authorities.ROLE_USER);
+		return userService.getListOf(Authorities.ROLE_USER, false);
 	}
 	
 	@RequestMapping(value = "/deleteByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
@@ -68,6 +70,20 @@ public class AdminController extends BaseController {
 		logger.info("> /admin/changeUserPassword : " + username);
 		
 		return userService.changePassword(changePasswordRequestBean, username, false);
+	}
+	
+	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+	public ServiceResponse<?> selfDelete(Principal principal) {
+		logger.info("> /admin/delete");
+		
+		return userService.selfDelete(principal);
+	}
+	
+	@RequestMapping(value = "/getUserProfileByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getUserProfileByUsername(@PathVariable String username) {
+		logger.debug("> /admin/getUserProfileByUsername : " + username);
+		
+		return userService.getAdminOrUserProfileByUsername(username, false);
 	}
 	
 }
