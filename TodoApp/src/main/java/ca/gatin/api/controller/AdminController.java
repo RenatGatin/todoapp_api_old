@@ -23,7 +23,7 @@ import ca.gatin.model.security.Authorities;
  * @since Apr 23, 2016
  */
 @RestController
-@RequestMapping(value= "/admin")
+@RequestMapping(value= "/api/admin")
 public class AdminController extends BaseController {
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class AdminController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.debug("> /admin/ping");
+		logger.debug("> /api/admin/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
 	
 		return serviceResponse;
@@ -39,49 +39,49 @@ public class AdminController extends BaseController {
 	
 	@RequestMapping(value = "/getUserProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getUserProfileList() {
-		logger.debug("> /admin/getUserProfileList");
+		logger.debug("> /api/admin/getUserProfileList");
 		
 		return userService.getListOf(Authorities.ROLE_USER, false);
 	}
 	
 	@RequestMapping(value = "/deleteByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> deleteByUsername(@PathVariable String username) {
-		logger.info("> /admin/deleteByUsername");
+		logger.info("> /api/admin/deleteByUsername");
 		
 		return userService.deleteByUsername(username, false);
 	}
 	
 	@RequestMapping(value = "/disableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> disableByUsername(@PathVariable String username) {
-		logger.info("> /admin/disableByUsername");
+		logger.info("> /api/admin/disableByUsername");
 		
 		return userService.enableOrDisableByUsername(false, username, false);
 	}
 	
 	@RequestMapping(value = "/enableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> enableByUsername(@PathVariable String username) {
-		logger.info("> /admin/enableByUsername");
+		logger.info("> /api/admin/enableByUsername");
 		
 		return userService.enableOrDisableByUsername(true, username, false);
 	}
 	
 	@RequestMapping(value = "/changeUserPassword/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, @PathVariable String username) {
-		logger.info("> /admin/changeUserPassword : " + username);
+		logger.info("> /api/admin/changeUserPassword : " + username);
 		
 		return userService.changePassword(changePasswordRequestBean, username, false);
 	}
 	
 	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> selfDelete(Principal principal) {
-		logger.info("> /admin/delete");
+		logger.info("> /api/admin/delete");
 		
 		return userService.selfDelete(principal);
 	}
 	
 	@RequestMapping(value = "/getUserProfileByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getUserProfileByUsername(@PathVariable String username) {
-		logger.debug("> /admin/getUserProfileByUsername : " + username);
+		logger.debug("> /api/admin/getUserProfileByUsername : " + username);
 		
 		return userService.getAdminOrUserProfileByUsername(username, false);
 	}

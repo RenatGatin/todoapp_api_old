@@ -21,7 +21,7 @@ import ca.gatin.model.security.Authorities;
  * @since May 24, 2016
  */
 @RestController
-@RequestMapping(value= "/common")
+@RequestMapping(value= "/api/common")
 public class CommonController extends BaseController {
 	
 	@Autowired
@@ -29,21 +29,21 @@ public class CommonController extends BaseController {
 	
 	@RequestMapping(value = "/selfChangePassword", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
-		logger.info("> /common/selfChangePassword");
+		logger.info("> /api/common/selfChangePassword");
 		
 		return userService.selfChangePassword(changePasswordRequestBean, principal);
 	}
 	
 	@RequestMapping(value = "/selfDisable", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfDisable(Principal principal) {
-		logger.info("> /common/selfDisable");
+		logger.info("> /api/common/selfDisable");
 		
 		return userService.selfDisable(principal);
 	}
 	
 	@RequestMapping(value = "/getSelfProfile", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getSelfProfile(Principal principal) {
-		logger.debug("> /common/getSelfProfile");
+		logger.debug("> /api/common/getSelfProfile");
 		
 		return userService.getSelfProfile(principal);
 	}

@@ -20,7 +20,7 @@ import ca.gatin.api.response.ServiceResponse;
  *
  */
 @RestController
-@RequestMapping(value= "/secure")
+@RequestMapping(value= "/api/secure")
 public class TestSecureController extends BaseController {
 	
 	@RequestMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)

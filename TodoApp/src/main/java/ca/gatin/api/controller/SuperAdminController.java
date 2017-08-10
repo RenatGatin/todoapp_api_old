@@ -1,9 +1,5 @@
 package ca.gatin.api.controller;
 
-import java.security.Principal;
-
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -28,7 +24,7 @@ import ca.gatin.model.security.User;
  * @since Apr 23, 2016
  */
 @RestController
-@RequestMapping(value= "/superadmin")
+@RequestMapping(value= "/api/superadmin")
 public class SuperAdminController extends BaseController {
 	
 	@Autowired
@@ -39,7 +35,7 @@ public class SuperAdminController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.info("> /superadmin/ping");
+		logger.info("> /api/superadmin/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
 	
 		return serviceResponse;
@@ -47,63 +43,63 @@ public class SuperAdminController extends BaseController {
 	
 	@RequestMapping(value = "/getAdminProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAdminProfileList() {
-		logger.info("> /superadmin/getAdminProfileList");
+		logger.info("> /api/superadmin/getAdminProfileList");
 		
 		return userService.getListOf(Authorities.ROLE_ADMIN, true);
 	}
 	
 	@RequestMapping(value = "/getUserProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getUserProfileList() {
-		logger.debug("> /superadmin/getUserProfileList");
+		logger.debug("> /api/superadmin/getUserProfileList");
 		
 		return userService.getListOf(Authorities.ROLE_USER, true);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAuthorities(Authentication authentication) {
-		logger.debug("> /superadmin/getAuthorities by: " + authentication);
+		logger.debug("> /api/superadmin/getAuthorities by: " + authentication);
 	
 		return authorityService.getByAuthentication(true);
 	}
 	
 	@RequestMapping(value = "/createAdmin", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> createAdmin(@RequestBody User newAdmin) {
-		logger.info("> /superadmin/createAdmin: " + newAdmin.toString());
+		logger.info("> /api/superadmin/createAdmin: " + newAdmin.toString());
 		
 		return userService.create(newAdmin, true);
 	}
 	
 	@RequestMapping(value = "/deleteByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> deleteByUsername(@PathVariable String username) {
-		logger.info("> /superadmin/deleteByUsername");
+		logger.info("> /api/superadmin/deleteByUsername");
 		
 		return userService.deleteByUsername(username, true);
 	}
 	
 	@RequestMapping(value = "/disableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> disableByUsername(@PathVariable String username) {
-		logger.info("> /superadmin/disableByUsername");
+		logger.info("> /api/superadmin/disableByUsername");
 		
 		return userService.enableOrDisableByUsername(false, username, true);
 	}
 	
 	@RequestMapping(value = "/enableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> enableByUsername(@PathVariable String username) {
-		logger.info("> /superadmin/enableByUsername : " + username);
+		logger.info("> /api/superadmin/enableByUsername : " + username);
 		
 		return userService.enableOrDisableByUsername(true, username, true);
 	}
 	
 	@RequestMapping(value = "/changePassword/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, @PathVariable String username) {
-		logger.info("> /superadmin/changePassword : " + username);
+		logger.info("> /api/superadmin/changePassword : " + username);
 		
 		return userService.changePassword(changePasswordRequestBean, username, true);
 	}
 	
 	@RequestMapping(value = "/getProfileByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getProfileByUsername(@PathVariable String username) {
-		logger.debug("> /superadmin/getProfileByUsername : " + username);
+		logger.debug("> /api/superadmin/getProfileByUsername : " + username);
 		
 		return userService.getAdminOrUserProfileByUsername(username, true);
 	}

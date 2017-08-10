@@ -24,7 +24,7 @@ import ca.gatin.model.security.User;
  * @since Apr 23, 2016
  */
 @RestController
-@RequestMapping(value= "/user")
+@RequestMapping(value= "/api/user")
 public class UserController extends BaseController {
 	
 	@Autowired
@@ -32,7 +32,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.debug("> Admin ping");
+		logger.debug("> /api/user/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
 	
 		return serviceResponse;
@@ -40,7 +40,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> selfDelete(Principal principal) {
-		logger.info("> /user/delete");
+		logger.info("> /api/user/selfDelete");
 		
 		return userService.selfDelete(principal);
 	}

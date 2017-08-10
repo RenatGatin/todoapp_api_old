@@ -21,7 +21,7 @@ import ca.gatin.model.security.User;
  * @since May 22, 2016
  */
 @RestController
-@RequestMapping(value= "/open")
+@RequestMapping(value= "/api/open")
 public class OpenController extends BaseController {
 	
 	@Autowired
@@ -32,7 +32,7 @@ public class OpenController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.debug("> /open/ping");
+		logger.debug("> /api/open/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
 	
 		return serviceResponse;
@@ -40,14 +40,14 @@ public class OpenController extends BaseController {
 	
 	@RequestMapping(value = "/createUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> createUser(@RequestBody User newUser) {
-		logger.info("> /open/createUser: " + newUser.toString());
+		logger.info("> /api/open/createUser: " + newUser.toString());
 		
 		return userService.create(newUser, false);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAuthorities(Authentication authentication) {
-		logger.debug("> /open/getAuthorities by: " + authentication);
+		logger.debug("> /api/open/getAuthorities by: " + authentication);
 	
 		return authorityService.getByAuthentication(false);
 	}

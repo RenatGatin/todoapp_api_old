@@ -10,13 +10,13 @@ import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 
 /**
- * Tesing admin secured API Controller
+ * Testing admin secured API Controller
  *
  * @author RGatin
  * @since Apr 17, 2016
  */
 @RestController
-@RequestMapping(value= "/admin")
+@RequestMapping(value= "/api/admin")
 public class TestAdminController extends BaseController {
 	
 	@RequestMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
