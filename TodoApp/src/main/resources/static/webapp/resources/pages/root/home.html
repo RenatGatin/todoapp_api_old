@@ -1,0 +1,26 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<h1>Admin login</h1>
+
+			<label for="adminLogin">Login:</label>
+			<input type="text" id="adminLogin" ng-Model="data.username"></input>
+			<br>
+			<label for="adminPass">Password:</label>
+			<input type="password" id="adminPass" ng-Model="data.password"></input>
+			<br>
+			<input type="submit" ng-click="doAdminLogin()"></input>
+		</div>
+		<br>
+		<div class="col-xs-12">
+			<button ng-click="securedPage()">Secured Page</button>
+		</div>
+		<br>
+		<div class="col-xs-12">
+			<button ng-click="securedApi()">Secured API</button>
+			<br>
+			<span>{{securedApiResponse}}</span>
+		</div>
+		<br>
+	</div>
+</div>

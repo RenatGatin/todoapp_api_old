@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 
+ <link rel="icon" href="./resources/images/g.ico">
+-->
+      
+<link rel="stylesheet" type="text/css" href="./resources/libs/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="./resources/styles/style.css">
+
+<script type="text/javascript" src="./resources/libs/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./resources/libs/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./resources/libs/bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="./resources/libs/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="./resources/libs/bower_components/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="./resources/libs/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="./resources/libs/manual/ocLazyLoad.js"></script>
+
+
+<script type="text/javascript" src="./resources/libs/bower_components/angular-cookies/angular-cookies.min.js"></script>
+
+<script type="text/javascript" src="./controllers/root/App.js"></script>
+<script type="text/javascript" src="./controllers/root/UiRouting.js"></script>
+<script type="text/javascript" src="./controllers/root/HomeController.js"></script>
+
+<script type="text/javascript" src="./util/HttpService.js"></script>
+<script type="text/javascript" src="./util/AppConstants.js"></script>
+<script type="text/javascript" src="./util/Services.js"></script>
+</head>
+<body ng-app="todoapp" class="overflow-auto">
+	<div class="spinner" ng-show="isLoading">
+		<img src="./resources/images/loading_grey.gif" class="ajax-loader" />
+	</div>
+	<div>
+		 <ui-view></ui-view>
+	</div>
+</body>
+</html>

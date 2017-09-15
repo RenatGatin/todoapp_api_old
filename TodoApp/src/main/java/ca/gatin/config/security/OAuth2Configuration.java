@@ -64,7 +64,21 @@ public class OAuth2Configuration {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.authorizeRequests()
-						.antMatchers("/", "/index.html", "/app/**", "/css/**", "/font/**", "/img/**", "/js/**", "/lib/**", "/pages/**").permitAll()
+						.antMatchers("/favicon.ico").permitAll()
+						.antMatchers( 
+								"/webapp/index.html",
+								"/webapp/util/*",
+								"/webapp/controllers/root/*",
+								"/webapp/resources/fonts/*",
+								"/webapp/resources/images/*",
+								"/webapp/resources/libs/**",
+								"/webapp/resources/pages/root/*",
+								"/webapp/resources/scripts/*",
+								"/webapp/resources/styles/*"
+								).permitAll()
+								
+						.antMatchers("/webapp/controllers/secure/*").authenticated()
+						
 						.antMatchers("/api/open/**").permitAll()
 						.antMatchers("/api/common/**").authenticated()
 						.antMatchers("/api/user/**").hasAuthority(Authorities.ROLE_USER.name()) //.antMatchers("/secure/**").authenticated()
