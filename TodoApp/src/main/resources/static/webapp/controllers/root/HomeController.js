@@ -1,7 +1,8 @@
 (function(angular) {
-	var HomeController = function($scope, $rootScope, $timeout, AppConstants, SharingService, httpService, $httpParamSerializer, $http, $state ) {
+	var HomeController = function($scope, $rootScope, $timeout, AppConstants, SharingService, httpService, $httpParamSerializer, $http, $state, $stateParams) {
 
 		$scope.data = {username:'', password:''};
+		$scope.errorMessage = $stateParams.message
 		
 		$scope.doAdminLogin = function() {
 			httpService.login($scope.data, function(response){
@@ -24,6 +25,6 @@
 		}
 
 	};
-	HomeController.$inject = [ '$scope', '$rootScope', '$timeout', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', '$state'];
+	HomeController.$inject = [ '$scope', '$rootScope', '$timeout', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', '$state', '$stateParams'];
 	angular.module('todoapp.controllers').controller('HomeController', HomeController);
 }(angular));
