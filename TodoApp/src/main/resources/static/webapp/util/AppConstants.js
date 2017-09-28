@@ -10,7 +10,8 @@
 		URL_OAUTH_TOKEN									: '/oauth/token',
 		URL_EMPLOYEE_PROFILE	 						: '/mobibranch/profile',
 		
-		OAUTH2_GRANT_TYPE								: 'password',
+		OAUTH2_GRANT_TYPE_PASSWORD						: 'password',
+		OAUTH2_GRANT_TYPE_REFRESH						: 'refresh_token',
 		OAUTH2_AUTHORIZATION							: 'Basic d2ViOnBhc3M=',
 		
 		LIB_DEPENDENCY_TYPE_TEXT_JS						: 'text/javascript',

@@ -13,7 +13,14 @@
 			url 		: '/home',
 			templateUrl : './resources/pages/root/home.html',
 			controller  : 'HomeController', 
-			message   	: null
+			params		: {message : null}
+		})
+		
+		.state('unauthorized', {
+			url 		: '/unauthorized',
+			templateUrl : './resources/pages/root/unauthorized.html',
+			controller  : 'UnauthorizedController', 
+			params		: {message : null}
 		})
 		
 		.state('secured', {
@@ -21,14 +28,11 @@
 			templateUrl : './resources/pages/secure/secured.html',
 			controller : 'SecuredController', //will be loaded lazily from 'resolve'
 			resolve : {
-				loadMyCtrl: ['$ocLazyLoad', '$cookies', '$state', function($ocLazyLoad, $cookies, $state) {
+				loadMyCtrl: ['$ocLazyLoad', '$cookies', function($ocLazyLoad, $cookies) {
 					var access_token = $cookies.get('access_token');
 					if (access_token) {
 						return $ocLazyLoad.load({
-							files: ['./controllers/secure/SecuredController.js?access_token=' + access_token]
-						});						
-					} else {
-						$state.go('home', {message: 'Unauthenticated! Please login.'});
+							files: ['./controllers/secure/SecuredController.js?access_token=' + access_token]						});						
 					}
 				}]
 			}

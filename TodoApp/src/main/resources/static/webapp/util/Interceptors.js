@@ -1,6 +1,6 @@
 (function(angular) {
 	
-	var Interceptor = function($q, $window, AppConstants, $cookies, $rootScope) {
+	var Interceptor = function($q, $window, AppConstants, $cookies, $rootScope, $injector) {
 		return {
 			request: function($config) {
 				$rootScope.isLoading = true;
@@ -31,11 +31,32 @@
 			responseError : function(rejection) {
 				$rootScope.isLoading = false;
 				switch (rejection.status) {
+				case 400:
 				case 401:
+					/* disable refresh method for now
+					$cookies.remove('access_token');
+					var httpService = $injector.get('httpService');
+					httpService.refresh();
+					break;
+					*/
 				case 403:
 				case 406:
-					$cookies.remove('access_token');
-					$window.location = '/webapp/unauthorized.html';
+					var data = rejection.data;
+					if (data) {
+						var desc = data.error_description;
+						if (desc) {
+							if (desc.contains('Invalid refresh token:') || desc.contains('Refresh token expired:')) {
+								$cookies.remove('refresh_token');
+							} else if (desc.contains('Invalid access token:') || desc.contains('Access token expired:')) {
+								$cookies.remove('access_token');
+							}
+						}
+					}
+					
+					$state = $injector.get('$state');
+					$state.go('unauthorized', {message : 'Your request is unauthorized.'});
+					
+					// $window.location = '/webapp/index.html#/unauthorized';
 					break;
 				case 500:
 					$window.location = '/';
@@ -52,7 +73,7 @@
 		};
 	};
 
-	Interceptor.$inject = [ '$q', '$window', 'AppConstants', '$cookies', '$rootScope' ];
+	Interceptor.$inject = [ '$q', '$window', 'AppConstants', '$cookies', '$rootScope', '$injector' ];
 	
 	angular.module('todoapp').config(function($httpProvider) {
 		$httpProvider.interceptors.push('Interceptor');

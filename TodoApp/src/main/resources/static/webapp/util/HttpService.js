@@ -27,7 +27,7 @@
         	 * errorCallback (callback function) : callback function to handle rest-api call failed status.
         	 */
         	this.login = function(credentials, errorCallback) {
-        		credentials.grant_type = AppConstants.OAUTH2_GRANT_TYPE;
+        		credentials.grant_type = AppConstants.OAUTH2_GRANT_TYPE_PASSWORD;
         		
         		var request =  $http({
 					method : 'POST',
@@ -44,9 +44,42 @@
         			var cookieExpiresIn = new Date();
         			cookieExpiresIn.setSeconds(cookieExpiresIn.getSeconds() + data.data.expires_in);
 				    $cookies.put('access_token', data.data.access_token, {expires : cookieExpiresIn });
-				    
-				    console.log('sucessfully authenticated');
+				    $cookies.put('refresh_token', data.data.refresh_token);
+
+				    console.log('Sucessfully authenticated. Session expires in ' + data.data.expires_in + ' sec.');
 			    }, errorCallback) );
+        	}
+        	
+        	this.refresh = function(errorCallback) {
+        		var token = $cookies.get('refresh_token');
+        		if (token) {
+	        		var body = {
+	        				grant_type    : AppConstants.OAUTH2_GRANT_TYPE_REFRESH,
+	        				refresh_token : token
+	        		}
+	        		
+	        		var request =  $http({
+						method : 'POST',
+						url    :  AppConstants.BASE_URL + AppConstants.URL_OAUTH_TOKEN,
+						headers: {
+			                "Authorization": AppConstants.OAUTH2_AUTHORIZATION,
+			                "Content-type": "application/x-www-form-urlencoded"
+			            },
+			            data: $httpParamSerializer(body)
+					});
+	        		
+	        		return( request.then(function(data){
+	        			$http.defaults.headers.common.Authorization = 'Bearer ' + data.data.access_token;
+	        			var cookieExpiresIn = new Date();
+	        			cookieExpiresIn.setSeconds(cookieExpiresIn.getSeconds() + data.data.expires_in);
+					    $cookies.put('access_token', data.data.access_token, {expires : cookieExpiresIn });
+					    $cookies.put('refresh_token', data.data.refresh_token);
+	
+					    console.log('Sucessfully refreshed authentication. Session expires in ' + data.data.expires_in + ' sec.');
+				    }, errorCallback) );
+        		} else {
+        			console.log('refresh_token is null');
+        		}
         	}
         	
         	/**

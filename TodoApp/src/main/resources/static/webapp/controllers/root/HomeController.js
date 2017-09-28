@@ -11,10 +11,6 @@
 		    });
 		}
 		
-		$scope.securedPage = function() {
-			$state.go('secured');
-		}
-		
 		$scope.securedApi = function() {
 			var url = '/api/superadmin/getAdminProfileList';
 			httpService.get(url, null, false, function(response){
@@ -22,6 +18,10 @@
 		    }, function(response){
 				$scope.securedApiResponse = JSON.stringify(response);
 		    });
+		}
+		
+		$scope.refreshToken = function() {
+			httpService.refresh();
 		}
 
 	};
