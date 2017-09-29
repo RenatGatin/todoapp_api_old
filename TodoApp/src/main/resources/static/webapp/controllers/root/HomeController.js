@@ -1,14 +1,26 @@
 (function(angular) {
-	var HomeController = function($scope, $rootScope, $timeout, AppConstants, SharingService, httpService, $httpParamSerializer, $http, $state, $stateParams) {
+	var HomeController = function($scope, $rootScope, $timeout, AppConstants, SharingService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
 
-		$scope.data = {username:'', password:''};
-		$scope.errorMessage = $stateParams.message
-		
-		$scope.doAdminLogin = function() {
-			httpService.login($scope.data, function(response){
-				if (response.data && response.data.error)
-					alert(response.data.error_description);
-		    });
+		$scope.errorMessage = $stateParams.message;
+
+		$scope.doLogin = function(credentials, formName) {
+			if ($('#' + formName).parsley().validate()) {
+				httpService.login(credentials, function(response){
+					
+					if (response.status == 200) {
+						httpService.setTokens(response.data);
+						
+					} else {
+						toaster.pop('error', 'Login error. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+					}
+			    }, function(response){
+					if (response.data && response.data.error) {
+						toaster.pop('error', 'Login error. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+					} else {
+						toaster.pop('error', 'Login error. Response: ' + JSON.stringify(response));
+					}
+			    });
+			}
 		}
 		
 		$scope.securedApi = function() {
@@ -25,6 +37,6 @@
 		}
 
 	};
-	HomeController.$inject = [ '$scope', '$rootScope', '$timeout', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', '$state', '$stateParams'];
+	HomeController.$inject = [ '$scope', '$rootScope', '$timeout', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', '$state', '$stateParams', 'toaster'];
 	angular.module('todoapp.controllers').controller('HomeController', HomeController);
 }(angular));

@@ -3,17 +3,52 @@
 		<div ng-if="errorMessage" class="col-xs-12 text-red padding-1em text-center border-solid-red back-dirt-white">
 			<p>{{errorMessage}}</p>
 		</div>
-		<div class="col-xs-12">
-			<h1>Admin login</h1>
-			<label for="adminLogin">Login:</label>
-			<input type="text" id="adminLogin" ng-Model="data.username"></input>
-			<br>
-			<label for="adminPass">Password:</label>
-			<input type="password" id="adminPass" ng-Model="data.password"></input>
-			<br>
-			<input type="submit" ng-click="doAdminLogin()"></input>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12 col-sm-6">
+			<div class="row">
+				<div class="col-xs-12">
+					<h4>Admin</h4>
+				</div>
+				<form name="adminForm" id="adminForm" data-parsley-valitade>
+					<div class="col-xs-5 no-padding-right">
+							<input type="text" class="form-control" ng-Model="admin.username" placeholder="username"
+								   pattern="[a-zA-Z\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
+					</div>
+					<div class="col-xs-5 no-padding-left no-padding-right">
+							<input type="password" class="form-control" ng-Model="admin.password" placeholder="password" 
+								   pattern="[a-zA-Z\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
+					</div>
+					<div class="col-xs-2 no-padding-left padding-left-02em">
+							<a class="btn btn-info" ng-click="doLogin(admin, 'adminForm')"><span class="glyphicon glyphicon-log-in"></span></a>
+					</div>
+				</form>
+			</div>
 		</div>
-		<br>
+		<div class="col-xs-12 col-sm-6">
+			<div class="row">
+				<div class="col-xs-12">
+					<h4>Customer</h4>
+				</div>
+				<form name="customerForm" id="customerForm" data-parsley-valitade>
+					<div class="col-xs-5 no-padding-right">
+							<input type="text" class="form-control" ng-Model="customer.username" placeholder="username"
+								   pattern="[a-zA-Z\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
+					</div>
+					<div class="col-xs-5 no-padding-left no-padding-right">
+							<input type="password" class="form-control" ng-Model="customer.password" placeholder="password" 
+								   pattern="[a-zA-Z\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
+					</div>
+					<div class="col-xs-2 no-padding-left padding-left-02em">
+							<a class="btn btn-success" ng-click="doLogin(customer, 'customerForm')"><span class="glyphicon glyphicon-log-in"></span></a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
 		<div class="col-xs-12">
 			<a href="#/secured">
 				<button>Secured Page</button>

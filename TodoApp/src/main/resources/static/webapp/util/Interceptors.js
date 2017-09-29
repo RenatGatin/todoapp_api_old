@@ -54,12 +54,10 @@
 					}
 					
 					$state = $injector.get('$state');
-					$state.go('unauthorized', {message : 'Your request is unauthorized.'});
-					
-					// $window.location = '/webapp/index.html#/unauthorized';
+					//$state.go('unauthorized', {message : 'Your request is unauthorized.'});
 					break;
 				case 500:
-					$window.location = '/';
+					$state.go('unauthorized', {message : 'Error occurred on server.'});
 					break;
 				}
 				return $q.reject(rejection);

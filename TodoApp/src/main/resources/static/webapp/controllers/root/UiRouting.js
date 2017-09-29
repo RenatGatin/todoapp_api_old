@@ -23,6 +23,13 @@
 			params		: {message : null}
 		})
 		
+		.state('server-error', {
+			url 		: '/server-error',
+			templateUrl : './resources/pages/root/server-error.html',
+			controller  : 'UnauthorizedController', 
+			params		: {message : null}
+		})
+		
 		.state('secured', {
 			url : '/secured',
 			templateUrl : './resources/pages/secure/secured.html',

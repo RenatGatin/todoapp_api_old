@@ -7,26 +7,24 @@
         .module('todoapp')
         .service('httpService', ['$http', '$state', '$httpParamSerializer', 'AppConstants', '$cookies', function($http, $state, $httpParamSerializer, AppConstants, $cookies) {		
 			
-        	/*
-        	// Ignore `invalid_grant` error - should be catched on `LoginController`.
-		    if ('invalid_grant' === rejection.data.error) {
-		    	return;
-		    }
+        	/**
+        	 * Sets tokens to cookies and headers
+        	 */
+        	this.setTokens = function(loginData) {
+        		$http.defaults.headers.common.Authorization = 'Bearer ' + loginData.access_token;
+    			var cookieExpiresIn = new Date();
+    			cookieExpiresIn.setSeconds(cookieExpiresIn.getSeconds() + loginData.expires_in);
+			    $cookies.put('access_token', loginData.access_token, {expires : cookieExpiresIn });
+			    $cookies.put('refresh_token', loginData.refresh_token);
 
-		    // Refresh token when a `invalid_token` error occurs.
-		    if ('invalid_token' === rejection.data.error) {
-		        return OAuth.getRefreshToken();
-		    }
-
-		    // Redirect to `/login` with the `error_reason`.
-		    return console.error(rejection.data.error);
-        	*/
+			    console.log('Sucessfully authenticated. Session expires in ' + loginData.expires_in + ' sec.');
+        	}
         	
         	/**
         	 * credentials (JSON object) : contains username and password
         	 * errorCallback (callback function) : callback function to handle rest-api call failed status.
         	 */
-        	this.login = function(credentials, errorCallback) {
+        	this.login = function(credentials, successCallback, errorCallback) {
         		credentials.grant_type = AppConstants.OAUTH2_GRANT_TYPE_PASSWORD;
         		
         		var request =  $http({
@@ -39,17 +37,12 @@
 		            data: $httpParamSerializer(credentials)
 				});
         		
-        		return( request.then(function(data){
-        			$http.defaults.headers.common.Authorization = 'Bearer ' + data.data.access_token;
-        			var cookieExpiresIn = new Date();
-        			cookieExpiresIn.setSeconds(cookieExpiresIn.getSeconds() + data.data.expires_in);
-				    $cookies.put('access_token', data.data.access_token, {expires : cookieExpiresIn });
-				    $cookies.put('refresh_token', data.data.refresh_token);
-
-				    console.log('Sucessfully authenticated. Session expires in ' + data.data.expires_in + ' sec.');
-			    }, errorCallback) );
+        		return( request.then(successCallback, errorCallback) );
         	}
         	
+        	/**
+        	 * Method refreshes access_token using refresh_token
+        	 */
         	this.refresh = function(errorCallback) {
         		var token = $cookies.get('refresh_token');
         		if (token) {
