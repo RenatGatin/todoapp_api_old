@@ -32,8 +32,17 @@
 		    });
 		}
 		
-		$scope.refreshToken = function() {
-			httpService.refresh();
+		$scope.showAlert = function() {
+			swal({
+				title : "Test header",
+				type : "success",
+				showCancelButton : true,
+				confirmButtonColor : "#8FC23F",
+				confirmButtonText : "Continue",
+				closeOnConfirm : true
+			}, function() {
+				// do nothing
+			});
 		}
 
 	};
