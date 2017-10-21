@@ -38,9 +38,13 @@
 </head>
 <body ng-app="todoapp" class="overflow-auto">
 	<toaster-container toaster-options="{'time-out': 5000}"></toaster-container>
+	
 	<div class="spinner" ng-show="isLoading">
-		<img src="./resources/images/loading_grey.gif" class="ajax-loader" />
+		<div class="div-center-screen-size-100-100">
+			<img src="./resources/images/gear_gray.png" class="width-height-per100 rotate360-5s" />
+		</div>
 	</div>
+	
 	<div>
 		 <ui-view></ui-view>
 	</div>
