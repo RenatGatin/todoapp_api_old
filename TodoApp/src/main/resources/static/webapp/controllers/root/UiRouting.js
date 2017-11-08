@@ -39,7 +39,8 @@
 					var access_token = $cookies.get('access_token');
 					if (access_token) {
 						return $ocLazyLoad.load({
-							files: ['./controllers/secure/SecuredController.js?access_token=' + access_token]						});						
+							files: ['./controllers/secure/SecuredController.js?access_token=' + access_token]
+						});						
 					}
 				}]
 			}
