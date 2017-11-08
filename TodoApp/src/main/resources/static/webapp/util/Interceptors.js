@@ -51,6 +51,21 @@
 								$cookies.remove('access_token');
 							}
 						}
+						
+						var rejectionStatus = rejection.status == 401;
+						var dataStatus = data.status && data.status == 401;
+						if (rejectionStatus || dataStatus) {
+							swal({
+								title : (dataStatus) ? data.error : rejection.statusText,
+								text: (dataStatus) ? data.message : 'Please login to access this resource',
+								type : "error",
+								showCancelButton : false,
+								confirmButtonText : "Login",
+								closeOnConfirm : true
+							}, function() {
+								$state.go('home');
+							});
+						}
 					}
 					
 					$state = $injector.get('$state');
