@@ -1,7 +1,7 @@
 (function(angular) {
 	var SecuredController = function($scope, $rootScope, AppConstants, SharingService, httpService, $httpParamSerializer, $http) {
 
-		$scope.testAngular = 'Secured Page loaded!';
+		$scope.testAngular = 'Secured ADMIN Page loaded!';
 		
 
 	};

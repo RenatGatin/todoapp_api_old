@@ -11,28 +11,28 @@
 
 		.state('home', {
 			url 		: '/home',
-			templateUrl : './resources/pages/root/home.html',
+			templateUrl : './pages/root/home.html',
 			controller  : 'HomeController', 
 			params		: {message : null}
 		})
 		
 		.state('unauthorized', {
 			url 		: '/unauthorized',
-			templateUrl : './resources/pages/root/unauthorized.html',
+			templateUrl : '../common/pages/root/unauthorized.html',
 			controller  : 'UnauthorizedController', 
 			params		: {message : null}
 		})
 		
 		.state('server-error', {
 			url 		: '/server-error',
-			templateUrl : './resources/pages/root/server-error.html',
+			templateUrl : '../common/pages/root/server-error.html',
 			controller  : 'UnauthorizedController', 
 			params		: {message : null}
 		})
 		
 		.state('secured', {
 			url : '/secured',
-			templateUrl : './resources/pages/secure/secured.html',
+			templateUrl : './pages/secure/secured.html',
 			controller : 'SecuredController', //will be loaded lazily from 'resolve'
 			resolve : {
 				loadMyCtrl: ['$ocLazyLoad', '$cookies', function($ocLazyLoad, $cookies) {

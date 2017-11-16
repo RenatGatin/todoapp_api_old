@@ -66,18 +66,25 @@ public class OAuth2Configuration {
 				.authorizeRequests()
 						.antMatchers("/favicon.ico").permitAll()
 						.antMatchers( 
-								"/webapp/index.html",
-								"/webapp/util/*",
-								"/webapp/controllers/root/*",
-								"/webapp/resources/fonts/*",
-								"/webapp/resources/images/*",
-								"/webapp/resources/libs/**",
-								"/webapp/resources/pages/root/*",
-								"/webapp/resources/scripts/*",
-								"/webapp/resources/styles/*"
+								"/webapp/admin/index.html",
+								"/webapp/admin/controllers/root/*",
+								"/webapp/admin/pages/root/*",
+								
+								"/webapp/customer/index.html",
+								"/webapp/customer/controllers/root/*",
+								"/webapp/customer/pages/root/*",
+								
+								"/webapp/common/util/*",
+								"/webapp/common/controllers/root/*",
+								"/webapp/common/resources/fonts/*",
+								"/webapp/common/resources/images/*",
+								"/webapp/common/resources/libs/**",
+								"/webapp/common/pages/root/*",
+								"/webapp/common/resources/scripts/*",
+								"/webapp/common/resources/styles/*"
 								).permitAll()
 								
-						.antMatchers("/webapp/controllers/secure/*").authenticated()
+						.antMatchers("/webapp/controllers/secure/*").authenticated() //TODO: may not need this line
 						
 						.antMatchers("/api/open/**").permitAll()
 						.antMatchers("/api/common/**").authenticated()

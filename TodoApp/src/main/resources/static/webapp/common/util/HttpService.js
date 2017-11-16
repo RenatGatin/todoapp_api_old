@@ -1,11 +1,12 @@
 /**=========================================================
  * Module: Service .js Class for handling all http reqeusts.
- =========================================================*/
+ * =========================================================
+*/
 
 (function(angular) {
     angular
         .module('todoapp')
-        .service('httpService', ['$http', '$state', '$httpParamSerializer', 'AppConstants', '$cookies', function($http, $state, $httpParamSerializer, AppConstants, $cookies) {		
+        .service('httpService', ['$http', '$httpParamSerializer', 'AppConstants', '$cookies', function($http, $httpParamSerializer, AppConstants, $cookies) {		
 			
         	/**
         	 * Sets tokens to cookies and headers
