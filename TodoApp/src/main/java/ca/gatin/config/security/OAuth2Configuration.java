@@ -84,7 +84,13 @@ public class OAuth2Configuration {
 								"/webapp/common/resources/styles/*"
 								).permitAll()
 								
-						.antMatchers("/webapp/controllers/secure/*").authenticated() //TODO: may not need this line
+						.antMatchers("/webapp/customer/controllers/secure/*",
+									 "/webapp/customer/pages/secure/*"
+								     ).hasAuthority(Authorities.ROLE_USER.name())  
+								     
+						.antMatchers("/webapp/admin/controllers/secure/*",
+									 "/webapp/admin/pages/secure/*"
+								     ).hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 						
 						.antMatchers("/api/open/**").permitAll()
 						.antMatchers("/api/common/**").authenticated()
