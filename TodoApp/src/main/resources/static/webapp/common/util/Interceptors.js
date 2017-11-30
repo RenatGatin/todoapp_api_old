@@ -1,6 +1,6 @@
 (function(angular) {
 	
-	var Interceptor = function($q, $window, AppConstants, $cookies, $rootScope, $injector) {
+	var Interceptor = function($q, $window, AppConstants, $cookies, $rootScope, $injector, toaster) {
 		return {
 			request: function($config) {
 				$rootScope.isLoading = true;
@@ -39,7 +39,6 @@
 					httpService.refresh();
 					break;
 					*/
-				case 403:
 				case 406:
 					var data = rejection.data;
 					if (data) {
@@ -71,6 +70,9 @@
 					
 					//$state.go('unauthorized', {message : 'Your request is unauthorized.'});
 					break;
+				case 403:
+					toaster.pop('error', rejection.data.error_description);
+					break;
 				case 500:
 					$state.go('unauthorized', {message : 'Error occurred on server.'});
 					break;
@@ -87,7 +89,7 @@
 		};
 	};
 
-	Interceptor.$inject = [ '$q', '$window', 'AppConstants', '$cookies', '$rootScope', '$injector' ];
+	Interceptor.$inject = [ '$q', '$window', 'AppConstants', '$cookies', '$rootScope', '$injector', 'toaster' ];
 	
 	angular.module('todoapp').config(function($httpProvider) {
 		$httpProvider.interceptors.push('Interceptor');
