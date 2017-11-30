@@ -24,7 +24,7 @@
 		}
 		
 		$scope.securedApi = function() {
-			var url = '/api/superadmin/getAdminProfileList';
+			var url = '/api/user/ping';
 			httpService.get(url, null, false, function(response){
 				$scope.securedApiResponse = JSON.stringify(response);
 		    }, function(response){
