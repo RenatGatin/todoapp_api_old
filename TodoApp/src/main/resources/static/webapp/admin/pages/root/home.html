@@ -13,12 +13,14 @@
 				</div>
 				<form name="adminForm" id="adminForm" data-parsley-valitade>
 					<div class="col-xs-5 no-padding-right">
-							<input type="text" class="form-control" ng-Model="admin.username" placeholder="username"
-								   pattern="[a-zA-Z\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
+							<input type="text" class="form-control" ng-Model="admin.username" placeholder="username" 
+								   ng-init="admin.username = 'immortal'"
+								   pattern="[a-zA-Z0-9\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
 					</div>
 					<div class="col-xs-5 no-padding-left no-padding-right">
 							<input type="password" class="form-control" ng-Model="admin.password" placeholder="password" 
-								   pattern="[a-zA-Z\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
+								   ng-init="admin.password = 'admin'"
+								   pattern="[a-zA-Z0-9\.\-\s]{1,30}" maxlength="30" data-parsley-error-message="Invalid characters. Max 30 allowed." data-parsley-trigger="change" required>
 					</div>
 					<div class="col-xs-2 no-padding-left padding-left-02em">
 							<a class="btn btn-info" ng-click="doLogin(admin, 'adminForm')"><span class="glyphicon glyphicon-log-in"></span></a>
