@@ -64,17 +64,18 @@
 								closeOnConfirm : true
 							}, function() {
 								$state.go('home');
+								$window.location.reload();
 							});
 						}
 					}
 					
-					$state = $injector.get('$state');
 					//$state.go('unauthorized', {message : 'Your request is unauthorized.'});
 					break;
 				case 500:
 					$state.go('unauthorized', {message : 'Error occurred on server.'});
 					break;
 				}
+				$state = $injector.get('$state');
 				return $q.reject(rejection);
 			},
 			
