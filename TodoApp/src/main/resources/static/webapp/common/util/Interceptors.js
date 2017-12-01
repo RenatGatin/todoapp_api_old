@@ -48,6 +48,7 @@
 								$cookies.remove('refresh_token');
 							} else if (desc.contains('Invalid access token:') || desc.contains('Access token expired:')) {
 								$cookies.remove('access_token');
+								$rootScope.profile = null;
 							}
 						}
 						

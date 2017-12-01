@@ -43,6 +43,71 @@
 		};
 	};
 	HttpMultipartFormService.$inject = [ '$http' ];
+	
+	var CommonService = function($rootScope, AppConstants, httpService, toaster, $cookies, $state, $window) {
+		function getProfile() {
+			httpService.get(AppConstants.GET_API_COMMON_PROFILE, null, false, function(response){
+				if (response.status == 200) {
+					var data = response.data;
+					if (data.status.code == AppConstants.SUCCESS) {
+						$rootScope.profile = data.entity;
+						
+					} else {
+						toaster.pop('error', 'Login fetching profile data. Status message: ' + data.status.message);
+					}
+				} else {
+					toaster.pop('error', 'Login fetching profile data. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+				}
+		    }, function(response){
+				toaster.pop('error', 'Login fetching profile data. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+		    });
+		}
+		
+		function logout() {
+			var accessToken = $cookies.get('access_token');
+			if (accessToken && accessToken.length > 0) {
+			
+				httpService.logout(accessToken, function(response){
+					if (response.status == 200) {
+						var data = response.data;
+						if (data.status.code == AppConstants.SUCCESS || data.status.code == AppConstants.ACCESS_TOKEN_NOT_FOUND) {
+							cleanCacheAndGoHome();
+							
+						} else {
+							toaster.pop('error', 'Logout error. Status message: ' + data.status.message);
+						}
+					} else {
+						toaster.pop('error', 'Logout error. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+					}
+			    }, function(response){
+					if (response.data && response.data.error) {
+						toaster.pop('error', 'Logout error. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+					} else {
+						toaster.pop('error', 'Logout error. Response: ' + JSON.stringify(response));
+					}
+			    });
+			} else {
+				cleanCacheAndGoHome();
+			}
+		}
+		
+		function cleanCacheAndGoHome() {
+			$cookies.remove("access_token");
+			$cookies.remove("refresh_token");
+			$rootScope.profile = null;
+			$state.go('home');
+			$window.location.reload();
+		}
 
-	angular.module("todoapp").factory("SharingService", SharingService).factory("HttpMultipartFormService", HttpMultipartFormService);
+		return {
+			getProfile : getProfile,
+			logout     : logout
+		};
+	};
+	CommonService.$inject = [ '$rootScope', 'AppConstants', 'httpService', 'toaster', '$cookies', '$state', '$window' ];
+
+	angular.module("todoapp")
+			.factory("SharingService", SharingService)
+			.factory("HttpMultipartFormService", HttpMultipartFormService)
+			.factory("CommonService", CommonService);
 }(angular));

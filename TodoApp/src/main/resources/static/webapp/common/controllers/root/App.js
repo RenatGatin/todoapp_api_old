@@ -10,8 +10,12 @@
 			})
 		}])
 	
-		.run(function($rootScope, SharingService, AppConstants) {
+		.run(function($rootScope, SharingService, AppConstants, CommonService) {
 			$rootScope.isLoading = false;
+			
+			$rootScope.logout = function() {
+				CommonService.logout();
+			}
 			
 			SharingService.set('test' , 'SharingService!');
 		});

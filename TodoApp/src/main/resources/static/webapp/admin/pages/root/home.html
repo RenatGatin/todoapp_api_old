@@ -7,9 +7,9 @@
 	
 	<div class="row">
 		<div class="col-xs-12 col-sm-6">
-			<div class="row">
+			<div class="row" ng-hide="profile">
 				<div class="col-xs-12">
-					<h4>Admin</h4>
+					<h4>Admin login</h4>
 				</div>
 				<form name="adminForm" id="adminForm" data-parsley-valitade>
 					<div class="col-xs-5 no-padding-right">
@@ -26,6 +26,18 @@
 							<a class="btn btn-info" ng-click="doLogin(admin, 'adminForm')"><span class="glyphicon glyphicon-log-in"></span></a>
 					</div>
 				</form>
+			</div>
+			<div class="row" ng-show="profile">
+				<div class="col-xs-12">
+					<h4>Admin session</h4>
+				</div>
+				<div class="col-xs-10 no-padding-right">
+						<h5>Welcome, {{profile.email}}</h5>
+				</div>
+
+				<div class="col-xs-2 no-padding-left padding-left-02em">
+						<a class="btn btn-danger" ng-click="logout();"><span class="glyphicon glyphicon-log-out"></span></a>
+				</div>
 			</div>
 		</div>
 	</div>

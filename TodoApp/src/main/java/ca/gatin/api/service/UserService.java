@@ -47,7 +47,7 @@ public class UserService {
 	 * @param role
 	 * @return
 	 */
-	public ServiceResponse<List<User>> getListOf(Authorities role, boolean isRequestFromSuperadmin) {
+	public ServiceResponse<?> getListOf(Authorities role, boolean isRequestFromSuperadmin) {
 		ServiceResponse<List<User>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		if (!role.equals(Authorities.ROLE_SUPERADMIN)) {

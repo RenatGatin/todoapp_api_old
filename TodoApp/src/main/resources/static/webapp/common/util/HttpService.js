@@ -30,12 +30,24 @@
         		
         		var request =  $http({
 					method : 'POST',
-					url    :  AppConstants.URL_OAUTH_TOKEN,
+					url    :  AppConstants.POST_OAUTH_TOKEN,
 					headers: {
 		                "Authorization": AppConstants.OAUTH2_AUTHORIZATION,
 		                "Content-type": "application/x-www-form-urlencoded"
 		            },
 		            data: $httpParamSerializer(credentials)
+				});
+        		
+        		return( request.then(successCallback, errorCallback) );
+        	}
+        	
+        	this.logout = function(accessToken, successCallback, errorCallback) {        		
+        		var request =  $http({
+					method : 'POST',
+					url    :  AppConstants.POST_OAUTH_LOGOUT,
+					headers: {
+		                'Authorization': 'Bearer ' + accessToken		            
+		            }
 				});
         		
         		return( request.then(successCallback, errorCallback) );
@@ -54,7 +66,7 @@
 	        		
 	        		var request =  $http({
 						method : 'POST',
-						url    :  AppConstants.URL_OAUTH_TOKEN,
+						url    :  AppConstants.POST_OAUTH_TOKEN,
 						headers: {
 			                "Authorization": AppConstants.OAUTH2_AUTHORIZATION,
 			                "Content-type": "application/x-www-form-urlencoded"

@@ -1,5 +1,5 @@
 (function(angular) {
-	var HomeController = function($scope, $rootScope, $timeout, AppConstants, SharingService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
+	var HomeController = function($scope, $window, $rootScope, $timeout, AppConstants, CommonService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
 
 		$scope.errorMessage = $stateParams.message;
 
@@ -9,6 +9,7 @@
 					
 					if (response.status == 200) {
 						httpService.setTokens(response.data);
+						CommonService.getProfile();
 						
 					} else {
 						toaster.pop('error', 'Login error. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
@@ -46,6 +47,6 @@
 		}
 
 	};
-	HomeController.$inject = [ '$scope', '$rootScope', '$timeout', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', '$state', '$stateParams', 'toaster'];
+	HomeController.$inject = [ '$scope', '$window', '$rootScope', '$timeout', 'AppConstants', 'CommonService', 'httpService', '$httpParamSerializer', '$http', '$state', '$stateParams', 'toaster'];
 	angular.module('todoapp.controllers').controller('HomeController', HomeController);
 }(angular));

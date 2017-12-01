@@ -5,10 +5,11 @@
 		SUCCESS 										: 0,
 		SYSTEM_UNAVAILABLE 								: 1001,
 		SYSTEM_INTERNAL_ERROR 							: 1002,
+		ACCESS_TOKEN_NOT_FOUND							: 1504,
 		
-		BASE_URL 										: 'http://localhost:8080',
-		URL_OAUTH_TOKEN									: '/oauth/token',
-		URL_EMPLOYEE_PROFILE	 						: '/mobibranch/profile',
+		POST_OAUTH_TOKEN								: '/oauth/token',
+		POST_OAUTH_LOGOUT								: '/oauth/logout',
+		GET_API_COMMON_PROFILE							: '/api/common/profile',
 		
 		OAUTH2_GRANT_TYPE_PASSWORD						: 'password',
 		OAUTH2_GRANT_TYPE_REFRESH						: 'refresh_token',

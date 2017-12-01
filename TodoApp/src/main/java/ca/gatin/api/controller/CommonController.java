@@ -41,9 +41,9 @@ public class CommonController extends BaseController {
 		return userService.selfDisable(principal);
 	}
 	
-	@RequestMapping(value = "/getSelfProfile", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getSelfProfile(Principal principal) {
-		logger.debug("> /api/common/getSelfProfile");
+		logger.debug("> /api/common/profile");
 		
 		return userService.getSelfProfile(principal);
 	}
