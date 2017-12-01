@@ -30,7 +30,7 @@
         		
         		var request =  $http({
 					method : 'POST',
-					url    :  AppConstants.BASE_URL + AppConstants.URL_OAUTH_TOKEN,
+					url    :  AppConstants.URL_OAUTH_TOKEN,
 					headers: {
 		                "Authorization": AppConstants.OAUTH2_AUTHORIZATION,
 		                "Content-type": "application/x-www-form-urlencoded"
@@ -54,7 +54,7 @@
 	        		
 	        		var request =  $http({
 						method : 'POST',
-						url    :  AppConstants.BASE_URL + AppConstants.URL_OAUTH_TOKEN,
+						url    :  AppConstants.URL_OAUTH_TOKEN,
 						headers: {
 			                "Authorization": AppConstants.OAUTH2_AUTHORIZATION,
 			                "Content-type": "application/x-www-form-urlencoded"
