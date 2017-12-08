@@ -11,6 +11,8 @@
 		}])
 	
 		.run(function($rootScope, SharingService, AppConstants, CommonService) {
+			CommonService.checkSession();
+			
 			$rootScope.isLoading = false;
 			
 			$rootScope.logout = function() {

@@ -44,13 +44,23 @@
 	};
 	HttpMultipartFormService.$inject = [ '$http' ];
 	
-	var CommonService = function($rootScope, AppConstants, httpService, toaster, $cookies, $state, $window) {
+	var CommonService = function($rootScope, AppConstants, httpService, toaster, $cookies, $state, $window, SharingService) {
+		function checkSession() {
+			var accessToken = $cookies.get('access_token');
+			if (accessToken && accessToken.length > 0) {
+				getProfile();
+			} else {
+				cleanCacheAndGoHome();
+			}
+		}
+		
 		function getProfile() {
 			httpService.get(AppConstants.GET_API_COMMON_PROFILE, null, false, function(response){
 				if (response.status == 200) {
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						$rootScope.profile = data.entity;
+						SharingService.set('profile', data.entity);
 						
 					} else {
 						toaster.pop('error', 'Login fetching profile data. Status message: ' + data.status.message);
@@ -92,19 +102,24 @@
 		}
 		
 		function cleanCacheAndGoHome() {
-			$cookies.remove("access_token");
-			$cookies.remove("refresh_token");
-			$rootScope.profile = null;
-			$state.go('home');
-			$window.location.reload();
+			if (!SharingService.get('reloadedHome')) {
+				$cookies.remove("access_token");
+				$cookies.remove("refresh_token");
+				$rootScope.profile = null;
+				SharingService.clear();
+				$state.go('home');
+				SharingService.set('reloadedHome', true);
+				$window.location.reload();
+			}
 		}
 
 		return {
-			getProfile : getProfile,
-			logout     : logout
+			getProfile    : getProfile,
+			checkSession  : checkSession,
+			logout        : logout
 		};
 	};
-	CommonService.$inject = [ '$rootScope', 'AppConstants', 'httpService', 'toaster', '$cookies', '$state', '$window' ];
+	CommonService.$inject = [ '$rootScope', 'AppConstants', 'httpService', 'toaster', '$cookies', '$state', '$window', 'SharingService' ];
 
 	angular.module("todoapp")
 			.factory("SharingService", SharingService)
