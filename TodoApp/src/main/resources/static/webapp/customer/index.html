@@ -15,6 +15,7 @@
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-resource/angular-resource.min.js"></script>
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="../common/resources/libs/bower_components/angular-ui-router-styles/ui-router-styles.js"></script>
 <script type="text/javascript" src="../common/resources/libs/manual/ocLazyLoad/ocLazyLoad.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../common/resources/libs/manual/sweetalert/sweetalert.min.css" />
@@ -36,7 +37,7 @@
 <script type="text/javascript" src="../common/util/Interceptors.js"></script>
 
 </head>
-<body ng-app="todoapp" class="overflow-auto">
+<body ng-app="todoapp" class="overflow-auto" ui-router-styles>
 	<toaster-container toaster-options="{'time-out': 5000}"></toaster-container>
 	
 	<div class="spinner" ng-show="isLoading">

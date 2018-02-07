@@ -1,6 +1,6 @@
 (function(angular) {
 	
-	angular.module('todoapp.routers', ['ui.router']);
+	angular.module('todoapp.routers', ['ui.router', 'uiRouterStyles']);
 	angular.module('todoapp.controllers', ['ui.bootstrap']);
 	angular.module('todoapp', ['todoapp.routers','todoapp.controllers', 'ngCookies', 'oc.lazyLoad', 'toaster'])
 		.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
