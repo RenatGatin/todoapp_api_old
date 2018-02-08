@@ -16,6 +16,14 @@
 			params		: {message : null}
 		})
 		
+		.state('sign-in', {
+			url 		: '/sign-in',
+			templateUrl : './pages/root/sign-in/sign-in.html',
+			data: {
+			    css: './pages/root/sign-in/sign-in.css'
+			}
+		})
+		
 		.state('unauthorized', {
 			url 		: '/unauthorized',
 			templateUrl : '../common/pages/root/unauthorized.html',
@@ -48,5 +56,5 @@
 	};
 
 	UiRouting.$inject = [ '$urlRouterProvider', '$stateProvider', '$httpProvider'];
-	angular.module('todoapp.routers', [ 'ui.router' ]).config(UiRouting);
+	angular.module('todoapp.routers').config(UiRouting);
 }(angular));
