@@ -68,11 +68,11 @@ public class OAuth2Configuration {
 						.antMatchers( 
 								"/webapp/admin/index.html",
 								"/webapp/admin/controllers/root/*",
-								"/webapp/admin/pages/root/*",
+								"/webapp/admin/pages/root/**",
 								
 								"/webapp/customer/index.html",
 								"/webapp/customer/controllers/root/*",
-								"/webapp/customer/pages/root/*",
+								"/webapp/customer/pages/root/**",
 								
 								"/webapp/common/util/*",
 								"/webapp/common/controllers/root/*",
