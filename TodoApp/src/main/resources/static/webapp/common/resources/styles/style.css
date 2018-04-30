@@ -185,3 +185,73 @@ a:hover {
 .margin-top-min10px {
 	margin-top: -10px;
 }
+
+.banner-image1 {
+	background-image: url('../images/carousel/nature_1.jpg');
+}
+
+.banner-image2 {
+	background-image: url('../images/carousel/nature_2.jpg');
+}
+
+.banner-image3 {
+	background-image: url('../images/carousel/nature_3.jpg');
+}
+
+.banner {
+	width: 100vw;
+	height: 250px;
+	background-repeat: no-repeat;
+	background-size: cover;
+    background-position: 50%;
+}
+
+.signup-home-back {
+	color: rgba(255,255,255,0.6);
+	background: url('../images/simple-codelines.svg'),#2b3137;
+    background-position: center 10%;
+    background-size: cover;
+	width: 100vw;
+}
+
+.rounded-1 {
+	border-radius: 3px !important;
+}
+
+.bg-gray-light {
+	background-color: #fafbfc !important;
+}
+
+	
+.invalid-tooltip {
+	width: auto;
+}
+
+@media (min-width: 1012px) {}
+	.p-responsive {
+	    padding-right: 16px !important;
+	    padding-left: 16px !important;
+	}
+}
+
+@media (min-width: 544px) {
+	.p-responsive {
+	    padding-right: 40px !important;
+	    padding-left: 40px !important;
+	}
+}
+
+.p-responsive {
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.container-lg {
+    max-width: 1012px;
+    margin-right: auto;
+    margin-left: auto;
+}

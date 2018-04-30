@@ -32,8 +32,22 @@
 		    }, function(response){
 				$scope.securedApiResponse = JSON.stringify(response);
 		    });
-		}
+		};
 		
+		$scope.signUp = function (event) {
+	        var formElement = angular.element(event.target);
+	        
+	        formElement.addClass('was-validated');
+	        if (formElement[0].checkValidity() === false) {
+	            event.preventDefault();
+	            event.stopPropagation();
+	            return;
+	        }
+	        
+			toaster.pop('success', 'OK', 'Form is valid!');
+
+	    }; 
+	    
 		$scope.showAlert = function() {
 			swal({
 				title : "Test header",

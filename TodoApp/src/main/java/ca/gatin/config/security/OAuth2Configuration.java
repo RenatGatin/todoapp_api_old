@@ -77,7 +77,7 @@ public class OAuth2Configuration {
 								"/webapp/common/util/*",
 								"/webapp/common/controllers/root/*",
 								"/webapp/common/resources/fonts/*",
-								"/webapp/common/resources/images/*",
+								"/webapp/common/resources/images/**",
 								"/webapp/common/resources/libs/**",
 								"/webapp/common/pages/root/*",
 								"/webapp/common/resources/scripts/*",

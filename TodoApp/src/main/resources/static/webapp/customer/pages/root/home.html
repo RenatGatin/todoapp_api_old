@@ -1,57 +1,196 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">
-  	<img alt="ToDo App" title="ToDo App" width="30" height="30" class="logo-todo-30px d-inline-block align-top"">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-    	<li class="nav-item active">
-        	<a class="nav-link" href="#">Home</a>
-      	</li>
-    	<li class="nav-item active">
-        	<a class="nav-link" href="#">Features</a>
-      	</li><li class="nav-item active">
-        	<a class="nav-link" href="#">Contact us</a>
-      	</li>
-    
-      <!-- save for future usage
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-      -->
-      
-    </ul>
-    <span class="d-block d-lg-inline-block">
-        <div class="px-0 py-2 m-0">
-          <a class="text-bold text-white no-underline" href="#/sign-in">Sign in</a>
-            <span class="text-gray">or</span>
-            <a class="text-bold text-white no-underline" href="/join?source=header-home">Sign up</a>
-        </div>
-    </span>
-  </div>
-</nav>
+<div class="width-full bg-dark">
+<div class="container-lg p-responsive position-relative">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+	  <a class="navbar-brand" href="#">
+	  	<img alt="ToDo App" title="ToDo App" width="30" height="30" class="logo-todo-30px d-inline-block align-top"">
+	  </a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	    	<li class="nav-item active">
+	        	<a class="nav-link" href="#">Home</a>
+	      	</li>
+	    	<li class="nav-item active">
+	        	<a class="nav-link" href="#">Features</a>
+	      	</li><li class="nav-item active">
+	        	<a class="nav-link" href="#">Contact us</a>
+	      	</li>
+	    
+	      <!-- save for future usage
+	      <li class="nav-item active">
+	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">Link</a>
+	      </li>
+	      <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Dropdown
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="#">Action</a>
+	          <a class="dropdown-item" href="#">Another action</a>
+	          <div class="dropdown-divider"></div>
+	          <a class="dropdown-item" href="#">Something else here</a>
+	        </div>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link disabled" href="#">Disabled</a>
+	      </li>
+	      -->
+	      
+	    </ul>
+	    <span class="d-block d-lg-inline-block">
+	        <div class="px-0 py-2 m-0">
+	          <a class="text-bold text-white no-underline" href="#/sign-in">Sign in</a>
+	            <span class="text-gray">or</span>
+	            <a class="text-bold text-white no-underline" href="/join?source=header-home">Sign up</a>
+	        </div>
+	    </span>
+	  </div>
+	</nav>
+</div>
+</div>
 
-<div class="container">
+<!-- Carousel -->
+<div id="carouselExampleIndicators" class="carousel slide" 
+	 data-ride="carousel"
+	 data-interval="70000"
+	 data-keyboard="true"
+	 data-pause="hover"
+	 data-wrap="true">
+	<ol class="carousel-indicators">
+		<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+		<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+		<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+	</ol>
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<div class="banner banner-image1">
+			</div>
+		
+			<!-- 
+			<img class="d-block w-100" src="../common/resources/images/carousel/nature_1.jpg" alt="First slide">
+			-->
+			<div class="carousel-caption d-none d-md-block">
+				<h5>Image 1</h5>
+    			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+			</div>
+		</div>
+		<div class="carousel-item">
+			<div class="banner banner-image2">
+			</div>
+			<div class="carousel-caption d-none d-md-block">
+				<h5>Image 2</h5>
+    			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+			</div>
+		</div>
+		<div class="carousel-item">
+			<div class="banner banner-image3">
+			</div>
+			<div class="carousel-caption d-none d-md-block">
+				<h5>Image 3</h5>
+    			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+			</div>
+		</div>
+	</div>
+	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+</div>
+
+<!-- Sign up -->
+<div class="signup-home-back">
+
+	<div class="container-lg p-responsive position-relative py-5">
+		<div class="row">
+			<div class="col-md-7 text-center text-md-left bg-success">
+				<h1>Built for developers</h1>
+				<p>GitHub is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside millions of other developers.</p>
+			</div>
+			
+			
+			<!-- Quick Sign up -->
+			<div class="col-sm-12 col-md-5">
+				<div class="rounded-1 text-gray bg-gray-light py-4 px-4 px-md-3 px-lg-4">
+					<form class="needs-validation" novalidate ng-submit="signUp($event);">
+						<div class="form-row align-items-center">
+							<div class="col-12">
+								<label for="firstName">First name</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-user"></i></div>
+									</div>
+									<input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+								    <div class="invalid-tooltip font10">
+							        	First Name is required.
+							        </div>
+								</div>
+							</div>
+							<div class="col-12">
+								<label for="lastName">Last name</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-user"></i></div>
+									</div>
+									<input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+									<div class="invalid-tooltip font10">
+							        	Last Name is required.
+							        </div>
+								</div>
+							</div>
+							<div class="col-12">
+								<label for="username">Username</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-at"></i></div>
+									</div>
+									<input type="email" class="form-control" id="username" placeholder="sample@mail.com" required>
+									<div class="invalid-tooltip font10">
+							        	Valid and unique email is required. You will use it as username.
+							        </div>
+								</div>
+							</div>
+							<div class="col-12">
+							    <label for="password">Password</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-key"></i></div>
+									</div>
+									<input type="password" class="form-control" id="password" placeholder="Password" required>
+									<div class="invalid-tooltip font10">
+							        	Password is required. Min 4 characters.
+							        </div>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-check mb-4 mt-4">
+									<input class="form-check-input" type="checkbox" id="rememberMe"> 
+									<label class="form-check-label" for="rememberMe"> Remember me </label>
+								</div>
+							</div>
+							<div class="col-12">
+								<button type="submit" class="btn btn-success btn-large btn-block mb-2 p-2">Sign up for ToDo</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>	
+		</div>
+	</div>
+	
+</div>
+
+<div class="container mt-5">
 	<div class="row">
 		<div ng-if="errorMessage" class="col-12 text-red padding-1em text-center border-solid-red back-dirt-white">
 			<p>{{errorMessage}}</p>

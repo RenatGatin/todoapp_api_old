@@ -4,18 +4,23 @@
 <!-- 
  <link rel="icon" href="../common/resources/images/g.ico">
 -->
-<title>Customer Portal</title>      
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"> <!-- old version 3 <link rel="stylesheet" type="text/css" href="../common/resources/libs/bower_components/bootstrap/dist/css/bootstrap.min.css" /> -->
+<title>Customer Portal</title> 
+     
+<!-- Bootstrap and its deps. -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" type="text/css" href="../common/resources/styles/style.css">
 <script type="text/javascript" src="../common/resources/scripts/script.js"></script>
 
-<script type="text/javascript" src="../common/resources/libs/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script> <!-- old version 3 <script type="text/javascript" src="../common/resources/libs/bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-resource/angular-resource.min.js"></script>
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="../common/resources/libs/bower_components/angular-ui-router-styles/ui-router-styles.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/resources/libs/bower_components/font-awesome/web-fonts-with-css/css/fontawesome-all.min.css"/>
 <script type="text/javascript" src="../common/resources/libs/manual/ocLazyLoad/ocLazyLoad.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../common/resources/libs/manual/sweetalert/sweetalert.min.css" />
@@ -35,6 +40,9 @@
 <script type="text/javascript" src="../common/util/AppConstants.js"></script>
 <script type="text/javascript" src="../common/util/Services.js"></script>
 <script type="text/javascript" src="../common/util/Interceptors.js"></script>
+
+<!-- keep in the bottom to overwrite libs styles -->
+<link rel="stylesheet" type="text/css" href="../common/resources/styles/overstyle.css">
 
 </head>
 <body ng-app="todoapp" class="overflow-auto" ui-router-styles>
