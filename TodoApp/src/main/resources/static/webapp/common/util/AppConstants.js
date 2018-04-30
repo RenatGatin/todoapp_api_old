@@ -7,6 +7,8 @@
 		SYSTEM_INTERNAL_ERROR 							: 1002,
 		ACCESS_TOKEN_NOT_FOUND							: 1504,
 		
+		BASE_URL										: '/todoapp',
+		
 		POST_OAUTH_TOKEN								: '/oauth/token',
 		POST_OAUTH_LOGOUT								: '/oauth/logout',
 		GET_API_COMMON_PROFILE							: '/api/common/profile',

@@ -55,7 +55,7 @@
 		}
 		
 		function getProfile() {
-			httpService.get(AppConstants.GET_API_COMMON_PROFILE, null, false, function(response){
+			httpService.get(AppConstants.BASE_URL + AppConstants.GET_API_COMMON_PROFILE, null, false, function(response){
 				if (response.status == 200) {
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
