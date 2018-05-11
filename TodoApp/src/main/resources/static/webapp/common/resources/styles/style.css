@@ -262,6 +262,10 @@ a:hover {
 	border-radius: 3px !important;
 }
 
+.rounded-2 {
+	border-radius: 9px !important;
+}
+
 .bg-gray-light {
 	background-color: #fafbfc !important;
 }
