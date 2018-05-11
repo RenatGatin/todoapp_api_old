@@ -182,6 +182,50 @@ a:hover {
 	font-size: 16px;
 }
 
+.font17 {
+	font-size: 17px;
+}
+
+.font18 {
+	font-size: 18px;
+}
+
+.font19 {
+	font-size: 19px;
+}
+
+.font20 {
+	font-size: 20px;
+}
+
+.font21 {
+	font-size: 21px;
+}
+
+.font-1rem {
+	font-size: 1rem;
+}
+
+.font-1_7rem {
+	font-size: 1.7rem;
+}
+
+.font-2rem {
+	font-size: 2rem;
+}
+
+.font-3rem {
+	font-size: 3rem;
+}
+
+.font-4rem {
+	font-size: 4rem;
+}
+
+.font-5rem {
+	font-size: 5rem;
+}
+
 .margin-top-min10px {
 	margin-top: -10px;
 }
