@@ -255,7 +255,7 @@ a:hover {
 	background: url('../images/simple-codelines.svg'),#2b3137;
     background-position: center 10%;
     background-size: cover;
-	width: 100vw;
+	/* width: 100vw; */
 }
 
 .rounded-1 {
