@@ -2,6 +2,10 @@ html,body {
 	height: 100%;
 }
 
+body {
+    font-weight: 300;
+}
+
 .overflow-auto {
 	overflow: auto
 }
@@ -302,4 +306,99 @@ a:hover {
     max-width: 1012px;
     margin-right: auto;
     margin-left: auto;
+}
+
+/*
+	---- FOOTER ----
+*/
+
+footer.page-footer {
+    bottom: 0;
+    color: #fff;
+}
+
+.stylish-color-dark {
+    background-color: #3e4551!important;
+}
+
+.font-small {
+    font-size: .9rem;
+}
+
+footer.page-footer a {
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    background-color: transparent;
+}
+
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 1;
+}
+
+.btn-floating {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    width: 47px;
+    height: 47px;
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    margin: 10px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+}
+
+.btn-floating.btn-sm {
+    width: 36.15385px;
+    height: 36.15385px;
+}
+
+a.waves-effect, a.waves-light {
+    display: inline-block;
+}
+
+
+.rgba-white-slight {
+    background-color: rgba(255,255,255,.1);
+}
+
+.btn-floating.btn-sm {
+    width: 36.15385px;
+    height: 36.15385px;
+}
+
+a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.btn-floating.btn-sm i {
+    font-size: .96154rem;
+    line-height: 36.15385px;
+}
+
+.btn-floating i {
+    display: inline-block;
+    width: inherit;
+    text-align: center;
+    color: #fff;
 }
