@@ -16,6 +16,7 @@
 			$rootScope.isLoading = false;
 			
 			$rootScope.logout = function() {
+				SharingService.set('reloadedHome', false);
 				CommonService.logout();
 			}
 			

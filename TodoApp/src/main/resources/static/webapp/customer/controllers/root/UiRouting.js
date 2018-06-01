@@ -19,6 +19,7 @@
 		.state('sign-in', {
 			url 		: '/sign-in',
 			templateUrl : './pages/root/sign-in/sign-in.html',
+			controller  : 'SignInController', 
 			data: {
 			    css: './pages/root/sign-in/sign-in.css'
 			}
@@ -48,6 +49,22 @@
 					if (access_token) {
 						return $ocLazyLoad.load({
 							files: ['./controllers/secure/SecuredController.js?access_token=' + access_token]
+						});						
+					}
+				}]
+			}
+		})
+		
+		.state('dashboard', {
+			url : '/dashboard',
+			templateUrl : './pages/secure/dashboard/dashboard.html',
+			controller : 'DashboardController',
+			resolve : {
+				loadMyCtrl: ['$ocLazyLoad', '$cookies', function($ocLazyLoad, $cookies) {
+					var access_token = $cookies.get('access_token');
+					if (access_token) {
+						return $ocLazyLoad.load({
+							files: ['./controllers/secure/dashboard/DashboardController.js?access_token=' + access_token]
 						});						
 					}
 				}]

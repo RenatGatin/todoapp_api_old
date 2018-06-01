@@ -1,12 +1,24 @@
 <div class="div-sign-in text-center">
-	<form class="form-signin">
+	<form class="form-signin needs-validation" novalidate ng-submit="signIn($event);">
 		<img alt="ToDo App" title="ToDo App" width="72" height="72" class="mb-4 logo-todo-70px d-inline-block"">
 		<h3 class="mb-3 signin-form-header">Sign in to ToDoList</h3>
 		<div class="signin-form-body mt-3 min-width-18rem">
-			<label for="inputEmail" class="width-full text-left"><strong>Username</strong></label> 
-			<input type="email" id="inputEmail" class="form-control form-control-signin" placeholder="Email address" required autofocus=""> 
-			<label for="inputPassword" class="width-full text-left mt-3"><strong>Password</strong> <a href="#/password_reset" class="label-link">Forgot password?</a></label> 
-			<input type="password" id="inputPassword" class="form-control form-control-signin" placeholder="Password" required>
+			<div class="input-group">
+				<label for="inputEmail" class="width-full text-left"><strong>Username</strong></label> 
+				<input type="email" id="inputEmail" ng-model="customer.username" ng-init="customer.username = 'user01@mail.me'" 
+					   class="form-control form-control-signin" placeholder="Email address" required autofocus> 
+				<div class="invalid-tooltip font12">
+		        	Invalid email
+		        </div>
+			</div>
+	        <div class="input-group">
+				<label for="inputPassword" class="width-full text-left mt-3"><strong>Password</strong> <a href="#/password_reset" class="label-link">Forgot password?</a></label> 
+				<input type="password" id="inputPassword" ng-model="customer.password" ng-init="customer.password = 'user'" 
+					   class="form-control form-control-signin" placeholder="Password" required>
+		        <div class="invalid-tooltip font12">
+		        	Invalid password
+		        </div>
+	        </div>
 			<!--  
 			<div class="checkbox mb-3">
 				<label> <input type="checkbox" value="remember-me"> Remember me

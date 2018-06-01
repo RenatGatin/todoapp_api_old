@@ -67,29 +67,29 @@ public class OAuth2Configuration {
 						.antMatchers("/favicon.ico").permitAll()
 						.antMatchers( 
 								"/webapp/admin/index.html",
-								"/webapp/admin/controllers/root/*",
+								"/webapp/admin/controllers/root/**",
 								"/webapp/admin/pages/root/**",
 								
 								"/webapp/customer/index.html",
-								"/webapp/customer/controllers/root/*",
+								"/webapp/customer/controllers/root/**",
 								"/webapp/customer/pages/root/**",
 								
-								"/webapp/common/util/*",
-								"/webapp/common/controllers/root/*",
-								"/webapp/common/resources/fonts/*",
+								"/webapp/common/util/**",
+								"/webapp/common/controllers/root/**",
+								"/webapp/common/resources/fonts/**",
 								"/webapp/common/resources/images/**",
 								"/webapp/common/resources/libs/**",
-								"/webapp/common/pages/root/*",
-								"/webapp/common/resources/scripts/*",
-								"/webapp/common/resources/styles/*"
+								"/webapp/common/pages/root/**",
+								"/webapp/common/resources/scripts/**",
+								"/webapp/common/resources/styles/**"
 								).permitAll()
 								
-						.antMatchers("/webapp/customer/controllers/secure/*",
-									 "/webapp/customer/pages/secure/*"
+						.antMatchers("/webapp/customer/controllers/secure/**",
+									 "/webapp/customer/pages/secure/**"
 								     ).hasAuthority(Authorities.ROLE_USER.name())  
 								     
-						.antMatchers("/webapp/admin/controllers/secure/*",
-									 "/webapp/admin/pages/secure/*"
+						.antMatchers("/webapp/admin/controllers/secure/**",
+									 "/webapp/admin/pages/secure/**"
 								     ).hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 						
 						.antMatchers("/api/open/**").permitAll()

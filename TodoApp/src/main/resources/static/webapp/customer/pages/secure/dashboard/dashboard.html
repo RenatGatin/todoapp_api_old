@@ -1,0 +1,42 @@
+
+<h2>Secured zone!</h2>
+<h3>test: {{testAngular}}</h3>
+
+<div class="container my-5">
+	<div class="row">
+		<div ng-if="errorMessage" class="col-12 text-red padding-1em text-center border-solid-red back-dirt-white">
+			<p>{{errorMessage}}</p>
+		</div>
+	</div>
+	
+	<div class="row" ng-show="profile">
+		<div class="col-12">
+			<h4>Customer session</h4>
+		</div>
+		
+		<div class="col-12 no-padding-right float-right">
+			<p class="float-left"><i>Welcome, {{profile.email}}</i></p>
+			<button type="button" class="btn btn-outline-secondary float-right" ng-click="logout();">Sign out</button>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<div class="row">
+		<div class="col-12">
+			<a href="#/secured">
+				<button type="button" class="btn btn-outline-danger">Secured Page</button>
+			</a>
+		</div>
+		<br>
+		<div class="col-12">
+			<button type="button" class="btn btn-outline-warning" ng-click="securedApi()">Secured API</button>
+			<br>
+			<span>{{securedApiResponse}}</span>
+		</div>
+		<div class="col-12">
+			<button type="button" class="btn btn-outline-info" ng-click="showAlert()">Show alert</button>
+		</div>
+		<br>
+	</div>
+</div>
