@@ -1,6 +1,6 @@
 (function(angular) {
 	var controller = function($scope, $rootScope, AppConstants, SharingService, httpService, $httpParamSerializer, $http, CommonService) {
-		SharingService.set('reloadedHome', false);
+		//SharingService.set('reloadedHome', false);
 		
 		CommonService.getProfile();
 		

@@ -63,13 +63,13 @@
 						SharingService.set('profile', data.entity);
 						
 					} else {
-						toaster.pop('error', 'Login fetching profile data. Status message: ' + data.status.message);
+						toaster.pop('error', 'Error fetching profile data. Status message: ' + data.status.message);
 					}
 				} else {
-					toaster.pop('error', 'Login fetching profile data. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+					toaster.pop('error', 'Error fetching profile data. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 				}
 		    }, function(response){
-				toaster.pop('error', 'Login fetching profile data. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+				toaster.pop('error', 'Error fetching profile data. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 		    });
 		}
 		
@@ -87,7 +87,7 @@
 							toaster.pop('error', 'Logout error. Status message: ' + data.status.message);
 						}
 					} else {
-						toaster.pop('error', 'Logout error. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+						toaster.pop('error', 'Logout error. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 					}
 			    }, function(response){
 					if (response.data && response.data.error) {
@@ -102,15 +102,15 @@
 		}
 		
 		function cleanCacheAndGoHome() {
-			if (!SharingService.get('reloadedHome')) {
+			//if (!SharingService.get('reloadedHome')) {
 				$cookies.remove("access_token");
 				$cookies.remove("refresh_token");
 				$rootScope.profile = null;
-				SharingService.clear();
+				//SharingService.clear();
 				$state.go('home');
-				SharingService.set('reloadedHome', true);
-				$window.location.reload();
-			}
+		//		SharingService.set('reloadedHome', true);
+		//		$window.location.reload();
+			//}
 		}
 
 		return {

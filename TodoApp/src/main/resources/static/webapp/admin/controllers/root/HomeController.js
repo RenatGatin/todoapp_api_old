@@ -9,7 +9,7 @@
 					
 					if (response.status == 200) {
 						httpService.setTokens(response.data);
-						SharingService.set('reloadedHome', false);
+						//SharingService.set('reloadedHome', false);
 						CommonService.getProfile();
 						
 					} else {

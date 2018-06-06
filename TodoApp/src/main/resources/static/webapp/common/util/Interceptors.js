@@ -15,9 +15,8 @@
 	        
 	        response: function(response) {
 	        	$rootScope.isLoading = false;
-	            //if you get a token back in your response you can use 
-	            //the response interceptor to update the token in the 
-	            //stored in the cookie
+	        	
+	        	/*
 	            if (response.config.url === 'api/token' && response.config.data.tokenData) {
 	                  //fetch token
 	                  var token=response.config.data.tokenData;
@@ -25,11 +24,13 @@
 	                  //set token
 	                  //$window.sessionStorage.setItem('userInfo-token', token);
 	            }
+	            */
 	            return response;
 	        },
 	        
 			responseError : function(rejection) {
 				$rootScope.isLoading = false;
+				var url = rejection.config.url;
 				switch (rejection.status) {
 				case 400:
 				case 401:
@@ -57,14 +58,14 @@
 						if (rejectionStatus || dataStatus) {
 							swal({
 								title : (dataStatus) ? data.error : rejection.statusText,
-								text: (dataStatus) ? data.message : 'Please login to access this resource',
+								text: (dataStatus) ? data.message : 'Please sign in to access this resource\n' + url,
 								type : "error",
 								showCancelButton : false,
 								confirmButtonText : "Login",
 								closeOnConfirm : true
 							}, function() {
 								$state.go('home');
-								$window.location.reload();
+								//$window.location.reload();
 							});
 						}
 					}
@@ -73,6 +74,9 @@
 					break;
 				case 403:
 					toaster.pop('error', rejection.data.error_description);
+					break;
+				case 404:
+					toaster.pop('error', 'HTTP 404', 'Resource not found: "' + url + '"');
 					break;
 				case 500:
 					$state.go('unauthorized', {message : 'Error occurred on server.'});
