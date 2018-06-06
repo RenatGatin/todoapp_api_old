@@ -36,6 +36,10 @@ body {
 	animation: rotate360 5s linear infinite;
 }
 
+@-moz-keyframes rotate360 { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes rotate360 { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes rotate360 { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
 .div-center-screen-size-100-100 {
 	display: inline-block;
 	position: fixed;
