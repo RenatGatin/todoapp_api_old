@@ -61,6 +61,7 @@
 					if (data.status.code == AppConstants.SUCCESS) {
 						$rootScope.profile = data.entity;
 						SharingService.set('profile', data.entity);
+						$state.go('dashboard');
 						
 					} else {
 						toaster.pop('error', 'Error fetching profile data. Status message: ' + data.status.message);
@@ -102,15 +103,10 @@
 		}
 		
 		function cleanCacheAndGoHome() {
-			//if (!SharingService.get('reloadedHome')) {
-				$cookies.remove("access_token");
-				$cookies.remove("refresh_token");
-				$rootScope.profile = null;
-				//SharingService.clear();
-				$state.go('home');
-		//		SharingService.set('reloadedHome', true);
-		//		$window.location.reload();
-			//}
+			$cookies.remove("access_token");
+			$cookies.remove("refresh_token");
+			$rootScope.profile = null;
+			$state.go('home');
 		}
 
 		return {

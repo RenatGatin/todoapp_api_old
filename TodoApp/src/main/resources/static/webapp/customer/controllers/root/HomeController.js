@@ -1,8 +1,9 @@
 (function(angular) {
 	var HomeController = function($scope, $rootScope, SharingService, $timeout, AppConstants, CommonService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
-
 		$scope.errorMessage = $stateParams.message;
-
+		
+		CommonService.checkSession();
+		
 		$scope.signUp = function (event) {
 	        var formElement = angular.element(event.target);
 	        

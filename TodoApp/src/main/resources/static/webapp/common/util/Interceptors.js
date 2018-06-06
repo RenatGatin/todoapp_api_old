@@ -16,15 +16,6 @@
 	        response: function(response) {
 	        	$rootScope.isLoading = false;
 	        	
-	        	/*
-	            if (response.config.url === 'api/token' && response.config.data.tokenData) {
-	                  //fetch token
-	                  var token=response.config.data.tokenData;
-
-	                  //set token
-	                  //$window.sessionStorage.setItem('userInfo-token', token);
-	            }
-	            */
 	            return response;
 	        },
 	        
@@ -65,12 +56,9 @@
 								closeOnConfirm : true
 							}, function() {
 								$state.go('home');
-								//$window.location.reload();
 							});
 						}
 					}
-					
-					//$state.go('unauthorized', {message : 'Your request is unauthorized.'});
 					break;
 				case 403:
 					toaster.pop('error', rejection.data.error_description);

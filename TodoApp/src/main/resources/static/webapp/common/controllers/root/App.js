@@ -11,15 +11,10 @@
 		}])
 	
 		.run(function($rootScope, SharingService, AppConstants, CommonService) {
-			CommonService.checkSession();
-			
 			$rootScope.isLoading = false;
 			
 			$rootScope.logout = function() {
-				//SharingService.set('reloadedHome', false);
 				CommonService.logout();
 			}
-			
-			SharingService.set('test' , 'SharingService!');
 		});
 }(angular));
