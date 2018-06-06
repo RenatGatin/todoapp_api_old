@@ -130,6 +130,10 @@ keyframes rotate360 { 100% {
 	font-weight: 600 !important
 }
 
+.font-weight-600 {
+	font-weight: 600;
+}
+
 .text-italic {
 	font-style: italic !important
 }
@@ -369,6 +373,10 @@ footer.page-footer a {
     border-radius: 50%;
     padding: 0;
     cursor: pointer;
+}
+
+.cursor-pointer {
+	cursor: pointer;
 }
 
 .btn-floating.btn-sm {
