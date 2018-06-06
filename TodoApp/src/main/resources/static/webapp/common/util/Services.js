@@ -50,7 +50,7 @@
 			if (accessToken && accessToken.length > 0) {
 				getProfile();
 			} else {
-				cleanCacheAndGoHome();
+				cleanCacheAndGo(null);
 			}
 		}
 		
@@ -82,7 +82,7 @@
 					if (response.status == 200) {
 						var data = response.data;
 						if (data.status.code == AppConstants.SUCCESS || data.status.code == AppConstants.ACCESS_TOKEN_NOT_FOUND) {
-							cleanCacheAndGoHome();
+							cleanCacheAndGo('home');
 							
 						} else {
 							toaster.pop('error', 'Logout error. Status message: ' + data.status.message);
@@ -98,15 +98,18 @@
 					}
 			    });
 			} else {
-				cleanCacheAndGoHome();
+				cleanCacheAndGo('home');
 			}
 		}
 		
-		function cleanCacheAndGoHome() {
+		function cleanCacheAndGo(redirectState) {
 			$cookies.remove("access_token");
 			$cookies.remove("refresh_token");
 			$rootScope.profile = null;
-			$state.go('home');
+
+			if (redirectState) {
+				$state.go(redirectState);
+			}
 		}
 
 		return {

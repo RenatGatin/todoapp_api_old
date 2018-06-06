@@ -1,6 +1,8 @@
 (function(angular) {
 	var controller = function($scope, $rootScope, SharingService, $timeout, AppConstants, CommonService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
 
+		CommonService.checkSession();
+		
 		$scope.signIn = function(event) {
 			var formElement = angular.element(event.target);
 	        
