@@ -22,13 +22,13 @@
 					$state.go('dashboard');
 					
 				} else {
-					toaster.pop('error', 'Login error. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
+					toaster.pop('error', 'SignIn error. HTTP status: ' + response.status + '. Message: ' + resonse.data.error_description);
 				}
 		    }, function(response){
 				if (response.data && response.data.error) {
-					toaster.pop('error', 'Login error. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+					toaster.pop('error', 'SignIn error. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 				} else {
-					toaster.pop('error', 'Login error. Response: ' + JSON.stringify(response));
+					toaster.pop('error', 'SignIn error. Response: ' + JSON.stringify(response));
 				}
 		    });
 		}

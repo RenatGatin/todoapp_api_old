@@ -61,7 +61,7 @@
 								text: (dataStatus) ? data.message : 'Please sign in to access this resource\n' + url,
 								type : "error",
 								showCancelButton : false,
-								confirmButtonText : "Login",
+								confirmButtonText : "Sign in",
 								closeOnConfirm : true
 							}, function() {
 								$state.go('home');
