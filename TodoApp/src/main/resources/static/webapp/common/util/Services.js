@@ -60,7 +60,6 @@
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						$rootScope.profile = data.entity;
-						SharingService.set('profile', data.entity);
 						$state.go('dashboard');
 						
 					} else {
