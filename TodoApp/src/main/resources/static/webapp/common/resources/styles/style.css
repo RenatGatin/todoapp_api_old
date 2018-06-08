@@ -420,3 +420,16 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
     text-align: center;
     color: #fff;
 }
+
+button.dropdown-item:focus, 
+button.dropdown-item:hover, 
+button.dropdown-item:active,
+button.dropdown-item:visited,
+a.dropdown-item:focus, 
+a.dropdown-item:hover, 
+a.dropdown-item:active {
+    color: #fff !important;
+    text-decoration: none !important;
+    background-color: #343a40 !important;
+    border: none;
+}
