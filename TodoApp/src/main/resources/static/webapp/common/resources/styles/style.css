@@ -287,10 +287,22 @@ a:hover {
 	width: auto;
 }
 
-@media (min-width: 1012px) {}
+@media (min-width: 1012px) {
 	.p-responsive {
 	    padding-right: 16px !important;
 	    padding-left: 16px !important;
+	}
+}
+
+.dropdown-menu-left-right-responsive {
+	left: 0;
+   	right: auto;
+}
+
+@media (min-width: 768px) {
+	.dropdown-menu-left-right-responsive {
+		left: auto;
+    	right: 0;
 	}
 }
 
