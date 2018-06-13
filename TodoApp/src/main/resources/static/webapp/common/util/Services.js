@@ -45,12 +45,12 @@
 	HttpMultipartFormService.$inject = [ '$http' ];
 	
 	var CommonService = function($rootScope, AppConstants, httpService, toaster, $cookies, $state, $window, SharingService) {
-		function checkSession() {
+		function checkSession(redirectState) {
 			var accessToken = $cookies.get('access_token');
 			if (accessToken && accessToken.length > 0) {
 				getProfile();
 			} else {
-				cleanCacheAndGo(null);
+				cleanCacheAndGo(redirectState);
 			}
 		}
 		
@@ -106,7 +106,7 @@
 			$cookies.remove("refresh_token");
 			$rootScope.profile = null;
 
-			if (redirectState) {
+			if (redirectState && redirectState != $state.current.name) {
 				$state.go(redirectState);
 			}
 		}

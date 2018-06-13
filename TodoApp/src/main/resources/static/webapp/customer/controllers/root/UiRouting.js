@@ -25,6 +25,22 @@
 			}
 		})
 		
+		.state('sign-up', {
+			url 		: '/sign-up',
+			templateUrl : './pages/root/sign-up/sign-up.html',
+			controller  : 'SignUpController', 
+			data: {
+			    css: './pages/root/sign-up/sign-up.css'
+			},
+			resolve : {
+				loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+					return $ocLazyLoad.load({
+						files: ['./controllers/root/SignUpController.js']
+					});						
+				}]
+			}
+		})
+		
 		.state('unauthorized', {
 			url 		: '/unauthorized',
 			templateUrl : '../common/pages/root/unauthorized.html',
