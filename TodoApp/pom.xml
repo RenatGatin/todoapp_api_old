@@ -44,6 +44,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		
+		<!--
+		Tried to make static data in \src\main\resources\static\webapp to Not 
+		trigger the restart of the app when changed, but did not succeeded in it
+		
+		Moving resources to \src\main\webapp helped
+		 	
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+    		<scope>runtime</scope>
+        </dependency> 
+        -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
