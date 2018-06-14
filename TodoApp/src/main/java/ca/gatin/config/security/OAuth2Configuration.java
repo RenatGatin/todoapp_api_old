@@ -66,30 +66,30 @@ public class OAuth2Configuration {
 				.authorizeRequests()
 						.antMatchers("/favicon.ico").permitAll()
 						.antMatchers( 
-								"/webapp/admin/index.html",
-								"/webapp/admin/controllers/root/**",
-								"/webapp/admin/pages/root/**",
+								"/admin/index.html",
+								"/admin/controllers/root/**",
+								"/admin/pages/root/**",
 								
-								"/webapp/customer/index.html",
-								"/webapp/customer/controllers/root/**",
-								"/webapp/customer/pages/root/**",
+								"/customer/index.html",
+								"/customer/controllers/root/**",
+								"/customer/pages/root/**",
 								
-								"/webapp/common/util/**",
-								"/webapp/common/controllers/root/**",
-								"/webapp/common/resources/fonts/**",
-								"/webapp/common/resources/images/**",
-								"/webapp/common/resources/libs/**",
-								"/webapp/common/pages/root/**",
-								"/webapp/common/resources/scripts/**",
-								"/webapp/common/resources/styles/**"
+								"/common/util/**",
+								"/common/controllers/root/**",
+								"/common/resources/fonts/**",
+								"/common/resources/images/**",
+								"/common/resources/libs/**",
+								"/common/pages/root/**",
+								"/common/resources/scripts/**",
+								"/common/resources/styles/**"
 								).permitAll()
 								
-						.antMatchers("/webapp/customer/controllers/secure/**",
-									 "/webapp/customer/pages/secure/**"
+						.antMatchers("/customer/controllers/secure/**",
+									 "/customer/pages/secure/**"
 								     ).hasAuthority(Authorities.ROLE_USER.name())  
 								     
-						.antMatchers("/webapp/admin/controllers/secure/**",
-									 "/webapp/admin/pages/secure/**"
+						.antMatchers("/admin/controllers/secure/**",
+									 "/admin/pages/secure/**"
 								     ).hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 						
 						.antMatchers("/api/open/**").permitAll()
