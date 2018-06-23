@@ -214,6 +214,22 @@ a:hover {
 	font-size: 21px;
 }
 
+.font22 {
+	font-size: 22px;
+}
+
+.font23 {
+	font-size: 23px;
+}
+
+.font24 {
+	font-size: 24px;
+}
+
+.font25 {
+	font-size: 25px;
+}
+
 .font-1rem {
 	font-size: 1rem;
 }
@@ -432,4 +448,31 @@ a.dropdown-item:active {
     text-decoration: none !important;
     background-color: #343a40 !important;
     border: none;
+}
+
+.letter-spacing-minus1px {
+	letter-spacing: -1px;
+}
+
+.steps {
+    list-style: none;
+    border: 1px solid #dfe2e5;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(27,31,35,0.05);
+}
+
+.steps li:first-child {
+    border-left: 0;
+}
+
+.steps li.current {
+    color: #24292e;
+    background-color: #fff;
+}
+
+.steps li {
+    color: #c6cbd1;
+    cursor: default;
+    background-color: #fafbfc;
+    border-left: 1px solid #dfe2e5;
 }

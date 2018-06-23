@@ -1,5 +1,49 @@
 <ng-include src="'./pages/root/navbar/navbar-home.html'"></ng-include>
 
+<div class="div-sign-in">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1 class="font-weight-normal letter-spacing-minus1px mb-0">Join ToDoList</h1>
+				<p class="font21 font-weight-light text-secondary">The best way to plan, build and share your tasks.</p>
+			</div>
+			<div class="col-12">
+				<ol class="steps row m-0">
+					<li class="col-4 p-2" ng-class="{'current' : step  == 'create'}">
+						<div class="d-flex justify-content-start">
+							<i class="fas fa-user-astronaut font25 pl-2 pr-3 pt-2 pb-3"></i>
+							<span>
+								<span class="step font-weight-600">Step 1:</span>
+								<br> 
+								<span>Create personal account</span>
+							</span>
+						</div>
+					</li>
+					<li class="col-4 p-2" ng-class="{'current' : step  == 'confirm'}">
+						<div class="d-flex justify-content-start">
+							<i class="fas fa-at font25 pl-2 pr-3 pt-2 pb-3"></i>
+							<span>
+								<span class="step font-weight-600">Step 2:</span>
+								<br> 
+								<span>Confirm your email</span>
+							</span>
+						</div>
+					</li>
+					<li class="col-4 p-2" ng-class="{'current' : step  == 'start'}">
+						<div class="d-flex justify-content-start">
+							<i class="fas fa-clipboard-list font25 pl-2 pr-3 pt-2 pb-3"></i>
+							<span>
+								<span class="step font-weight-600">Step 3:</span>
+								<br> 
+								<span>Start new ToDo list</span>
+							</span>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="div-sign-in text-center">
 	<form class="form-signin needs-validation" novalidate ng-submit="signIn($event);">
 		<a href="#">
@@ -10,7 +54,7 @@
 			<div class="input-group">
 				<label for="inputEmail" class="width-full text-left"><strong>Username</strong></label> 
 				<input type="email" id="inputEmail" ng-model="customer.username" ng-init="customer.username = 'user01@mail.me'" 
-					   class="form-control form-control-signin" placeholder="Email address" required autofocus> 
+					   class="form-control form-control-signin" placeholder="Email address" required> 
 				<div class="invalid-tooltip font12">
 		        	Invalid email
 		        </div>

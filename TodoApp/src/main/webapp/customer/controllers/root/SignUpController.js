@@ -2,7 +2,7 @@
 	var controller = function($scope, $rootScope, SharingService, $timeout, AppConstants, CommonService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
 
 		CommonService.checkSession('sign-up');
-		
+		$scope.step = 'create';
 		
 		
 	};
