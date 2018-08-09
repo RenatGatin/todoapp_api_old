@@ -45,6 +45,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
 		
 		<!--
 		Tried to make static data in \src\main\resources\static\webapp to Not 

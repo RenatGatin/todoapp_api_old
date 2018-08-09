@@ -93,6 +93,7 @@ public class OAuth2Configuration {
 								     ).hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
 						
 						.antMatchers("/api/open/**").permitAll()
+						.antMatchers("/api/test/**").permitAll()
 						.antMatchers("/api/common/**").authenticated()
 						.antMatchers("/api/user/**").hasAuthority(Authorities.ROLE_USER.name()) //.antMatchers("/secure/**").authenticated()
 						.antMatchers("/api/admin/**").hasAuthority(Authorities.ROLE_ADMIN.name()) // .antMatchers("/admin/**").hasAnyAuthority(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_SUPERADMIN.name())
