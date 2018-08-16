@@ -1,5 +1,7 @@
 package ca.gatin.api.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,7 +29,7 @@ public class EmailService {
 		mail.setTo("renat.gatin@gmail.com");
 		mail.setFrom("emc2.software.lab@gmail.com");
 		mail.setSubject("Test subject");
-		mail.setText("Test mail body text ENV");
+		mail.setText("Test mail body text. Timestamp: " + new Date());
 		
 		javaMailSender.send(mail);
 	}
