@@ -15,6 +15,7 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.UserService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
+import ca.gatin.model.security.User;
 
 /**
  * Admin secured API Controller
@@ -35,6 +36,13 @@ public class AdminController extends BaseController {
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
 	
 		return serviceResponse;
+	}
+	
+	@RequestMapping(value = "/createUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> createUser(@RequestBody User newUser) {
+		logger.info("> /api/admin/createUser: " + newUser.toString());
+		
+		return userService.create(newUser, false);
 	}
 	
 	@RequestMapping(value = "/getUserProfileList", produces = MediaType.APPLICATION_JSON_VALUE)

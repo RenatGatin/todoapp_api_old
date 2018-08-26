@@ -8,6 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import ca.gatin.model.security.PseudoUser;
 import ca.gatin.model.signup.PreSignupUser;
 
 @Service
@@ -23,13 +24,25 @@ public class EmailService {
 		this.javaMailSender = javaMailSender;
 	}
 	
-	public void send(PreSignupUser user) {
+	public void test() {
 		
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo("renat.gatin@gmail.com");
 		mail.setFrom("emc2.software.lab@gmail.com");
 		mail.setSubject("Test subject");
 		mail.setText("Test mail body text. Timestamp: " + new Date());
+		
+		javaMailSender.send(mail);
+	}
+	
+	public void sendActivationKey(PseudoUser user) {
+		
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom("emc2.software.lab@gmail.com");
+		mail.setSubject("Email Activation required");
+		mail.setText("Hey, " + user.getFirstname() + "!\nPlease use this Key:\n" + user.getActivationKey() + 
+					 "\nto activate your account.\nTimestamp: " + new Date());
 		
 		javaMailSender.send(mail);
 	}

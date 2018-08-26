@@ -13,6 +13,7 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.AuthorityService;
 import ca.gatin.api.service.UserService;
 import ca.gatin.model.security.User;
+import ca.gatin.model.signup.PreSignupUser;
 
 /**
  * Open API Controller
@@ -38,11 +39,11 @@ public class OpenController extends BaseController {
 		return serviceResponse;
 	}
 	
-	@RequestMapping(value = "/createUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> createUser(@RequestBody User newUser) {
-		logger.info("> /api/open/createUser: " + newUser.toString());
+	@RequestMapping(value = "/preSignupUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> createUser(@RequestBody PreSignupUser preSignupUser) {
+		logger.info("> /api/open/preSignupUser: " + preSignupUser.toString());
 		
-		return userService.create(newUser, false);
+		return userService.create(preSignupUser);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +15,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
+import ca.gatin.dao.service.PseudoUserPersistenceService;
 import ca.gatin.dao.service.UserPersistenceService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.Authority;
+import ca.gatin.model.security.PseudoUser;
 import ca.gatin.model.security.User;
+import ca.gatin.model.signup.PreSignupUser;
 
 /**
  * Service responsible for all interaction with User
@@ -36,10 +41,16 @@ public class UserService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private UserPersistenceService userPersistenceService;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PseudoUserPersistenceService pseudoUserPersistenceService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	/**
 	 * Get list of given type of user
@@ -70,6 +81,55 @@ public class UserService {
 		} else {
 			serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
 		}
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> create(PreSignupUser preSignupUser) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		if (!hasAllRequiredFields(preSignupUser, serviceResponse)) {
+			return serviceResponse;
+		}
+		
+		if (pseudoUserPersistenceService.existsByEmail(preSignupUser.getEmail())) {
+			serviceResponse.setStatus(ResponseStatus.ACCOUNT_UNIQUE_FIELD_DUPLICATION);
+			return serviceResponse;
+		}
+		
+		String activationKey = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replaceAll("-", "");
+		if (pseudoUserPersistenceService.existsByActivationKey(activationKey)) {
+			activationKey = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replaceAll("-", "");
+		}
+		
+		PseudoUser pseudoUser = new PseudoUser();
+		pseudoUser.setUsername(preSignupUser.getEmail());
+		pseudoUser.setEmail(preSignupUser.getEmail());
+		pseudoUser.setFirstname(preSignupUser.getFirstName());
+		pseudoUser.setLastname(preSignupUser.getLastName());
+		pseudoUser.setPassword(passwordEncoder.encode(preSignupUser.getPassword()));
+		pseudoUser.setActivationKey(activationKey);
+		pseudoUser.setDateCreated(new Date());
+		
+		PseudoUser savedPseudoUser = null;
+		try {
+			savedPseudoUser = pseudoUserPersistenceService.save(pseudoUser);
+			
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.ERROR_SAVING_USER_IN_DATABASE);
+			e.printStackTrace();
+			return serviceResponse;
+		}
+		
+		try {
+			emailService.sendActivationKey(savedPseudoUser);
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.EMAIL_TRANSMISSION_ERROR);
+			e.printStackTrace();
+			pseudoUserPersistenceService.delete(pseudoUser.getId());
+			return serviceResponse;
+		}
+		
+		serviceResponse.setStatus(ResponseStatus.SUCCESS);
 		return serviceResponse;
 	}
 	
@@ -498,6 +558,25 @@ public class UserService {
 				}
 			}
 		}
+		return isValid;
+	}
+	
+	/**
+	 * Checks if new PreSignupUser has all valid required fields
+	 * 
+	 * @param preSignupUser
+	 * @param serviceResponse
+	 * @return
+	 */
+	private boolean hasAllRequiredFields(PreSignupUser preSignupUser,	ServiceResponse<?> serviceResponse) {
+		boolean isValid = true;
+		
+		if (StringUtils.isEmpty(preSignupUser.getEmail()) || StringUtils.isEmpty(preSignupUser.getPassword()) || 
+			StringUtils.isEmpty(preSignupUser.getFirstName()) || StringUtils.isEmpty(preSignupUser.getLastName())) {
+			
+			serviceResponse.setStatus(ResponseStatus.MISSING_REQUIRED_FIELD);
+			isValid = false;
+		} 
 		return isValid;
 	}
 	

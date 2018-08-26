@@ -47,7 +47,9 @@ public enum ResponseStatus {
 	NEW_PASSWORD_FIELDS_DOES_NOT_MATCH										(2015, "New password fields does not match"),
 	NEW_PASSWORD_HAS_TO_BE_DIFFERENT										(2016, "New password has to be different than current"),
 	OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE								(2017, "Old password field does not match current value"),
-	
+	ERROR_SAVING_USER_IN_DATABASE											(2018, "Error saving user in database"),
+	EMAIL_TRANSMISSION_ERROR												(2019, "Email transmission error"),
+
 	TODOITEM_CREATE_ID_FAILURE												(2501, "Can't TodoItem with specified ID value"),
 	TODOITEM_NOT_FOUND														(2502, "TodoItem(s) Not Found"),
 	TODOITEM_DB_CREATION_FAILURE											(2503, "TodoItem DB creation failure"),

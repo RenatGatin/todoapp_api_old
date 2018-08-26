@@ -36,7 +36,7 @@ public class TestController extends BaseController {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_INTERNAL_ERROR);
 		
 		try {
-			emailService.send(null);
+			emailService.test();
 			serviceResponse.setStatus(ResponseStatus.SUCCESS);
 			
 		} catch (Exception e) {

@@ -62,6 +62,13 @@ public class SuperAdminController extends BaseController {
 		return authorityService.getByAuthentication(true);
 	}
 	
+	@RequestMapping(value = "/createUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> createUser(@RequestBody User newUser) {
+		logger.info("> /api/superadmin/createUser: " + newUser.toString());
+		
+		return userService.create(newUser, false);
+	}
+	
 	@RequestMapping(value = "/createAdmin", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> createAdmin(@RequestBody User newAdmin) {
 		logger.info("> /api/superadmin/createAdmin: " + newAdmin.toString());
