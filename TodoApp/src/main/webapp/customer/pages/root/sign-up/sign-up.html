@@ -54,7 +54,7 @@
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
 									</div>
 									<input type="text" class="form-control col-sm-6 border-right-radius-5px" id="firstName" 
-										   placeholder="First Name" pattern="[a-zA-Z0-9\s'-,]{1,40}" required>
+										   placeholder="First Name" ng-model="signup.firstName" pattern="[a-zA-Z0-9\s'-,]{1,40}" required>
 								    <div class="invalid-tooltip font10">
 							        	First name is invalid
 							        </div>
@@ -67,7 +67,8 @@
 									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
 									</div>
-									<input type="text" class="form-control col-sm-6 border-right-radius-5px" id="lastName" placeholder="Last Name" required>
+									<input type="text" class="form-control col-sm-6 border-right-radius-5px" 
+										   id="lastName" ng-model="signup.lastName" placeholder="Last Name" required>
 									<div class="invalid-tooltip font10">
 							        	Last name is invalid
 							        </div>
@@ -75,12 +76,13 @@
 								<p class="font13 text-secondary mb-0">Please provide your last name for profile. It may only contain alphanumeric characters or single hyphens, spaces, apostrophe and period.</p>
 							</div>
 							<div class="col-12 mt-3">
-								<label class="font-weight-600 mb-1" for="username">Username</label>
+								<label class="font-weight-600 mb-1" for="email">Username</label>
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-at"></i></div>
 									</div>
-									<input type="email" class="form-control col-sm-6 border-right-radius-5px" id="username" placeholder="sample@mail.com" required>
+									<input type="email" class="form-control col-sm-6 border-right-radius-5px" 
+										   id="email" ng-model="signup.email"  placeholder="sample@mail.com" required>
 									<div class="invalid-tooltip font10">
 							        	Valid and unique email is required
 							        </div>
@@ -93,7 +95,8 @@
 									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-key"></i></div>
 									</div>
-									<input type="password" class="form-control col-sm-6 border-right-radius-5px" id="password" placeholder="Password" required>
+									<input type="password" class="form-control col-sm-6 border-right-radius-5px" 
+										   id="password" ng-model="signup.password" placeholder="Password" required>
 									<div class="invalid-tooltip font10">
 							        	Password is invalid
 							        </div>

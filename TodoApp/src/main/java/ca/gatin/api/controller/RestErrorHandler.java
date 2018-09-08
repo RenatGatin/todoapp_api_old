@@ -63,7 +63,6 @@ public class RestErrorHandler {
 					errorMessage.append(objError.getDefaultMessage());
 				}
 			}
-
 		}
 
 		return response;

@@ -6,6 +6,8 @@
 		SYSTEM_UNAVAILABLE 								: 1001,
 		SYSTEM_INTERNAL_ERROR 							: 1002,
 		ACCESS_TOKEN_NOT_FOUND							: 1504,
+		INVALID_DATA									: 2004,
+		ACCOUNT_UNIQUE_FIELD_DUPLICATION				: 2006,
 		
 		BASE_URL										: '/todoapp',
 		
