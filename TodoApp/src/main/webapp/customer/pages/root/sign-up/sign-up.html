@@ -41,52 +41,80 @@
 					</li>
 				</ol>
 			</div>
+			
+			<div class="col-12">
+				<h4 class="font-weight-light letter-spacing-minus1px my-4">Create your personal account</h4>
+				
+				<form class="needs-validation" novalidate ng-submit="createAccount($event);">
+						<div class="form-row align-items-center">
+							<div class="col-12">
+								<label class="font-weight-600 mb-1" for="firstName">First name</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-user"></i></div>
+									</div>
+									<input type="text" class="form-control col-sm-6 border-right-radius-5px" id="firstName" 
+										   placeholder="First Name" pattern="[a-zA-Z0-9\s'-,]{1,40}" required>
+								    <div class="invalid-tooltip font10">
+							        	First name is invalid
+							        </div>
+								</div>
+							    <p class="font13 text-secondary mb-0">Please provide your first name for profile. It may only contain alphanumeric characters or single hyphens, spaces, apostrophe and period.</p>
+							</div>
+							<div class="col-12 mt-3">
+								<label class="font-weight-600 mb-1" for="lastName">Last name</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-user"></i></div>
+									</div>
+									<input type="text" class="form-control col-sm-6 border-right-radius-5px" id="lastName" placeholder="Last Name" required>
+									<div class="invalid-tooltip font10">
+							        	Last name is invalid
+							        </div>
+								</div>
+								<p class="font13 text-secondary mb-0">Please provide your last name for profile. It may only contain alphanumeric characters or single hyphens, spaces, apostrophe and period.</p>
+							</div>
+							<div class="col-12 mt-3">
+								<label class="font-weight-600 mb-1" for="username">Username</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-at"></i></div>
+									</div>
+									<input type="email" class="form-control col-sm-6 border-right-radius-5px" id="username" placeholder="sample@mail.com" required>
+									<div class="invalid-tooltip font10">
+							        	Valid and unique email is required
+							        </div>
+								</div>
+								<p class="font13 text-secondary mb-0">Email address will be your username, which will be used for signing in. It may only contain alphanumeric characters or single hyphens, '@' sign and cannot begin or end with not alphabetic symbol. It will be verified after account is successfully created.</p>				
+							</div>
+							<div class="col-12 mt-3">
+							    <label class="font-weight-600 mb-1" for="password">Password</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text"><i class="fas fa-key"></i></div>
+									</div>
+									<input type="password" class="form-control col-sm-6 border-right-radius-5px" id="password" placeholder="Password" required>
+									<div class="invalid-tooltip font10">
+							        	Password is invalid
+							        </div>
+								</div>
+								<p class="font13 text-secondary mb-0">Use at least six characters. Case sensitive.</p>
+							</div>
+							
+							<div class="col-12">
+								<p class="tos-info">By clicking "Create an account" below, you agree to our <a href="/site/terms" target="_blank">terms of service</a> and <a href="/site/privacy" target="_blank">privacy statement</a>. We’ll occasionally send you account related emails.</p>
+							</div>
+							
+							<div class="col-12 mt-4">
+								<button type="submit" class="btn btn-success btn-large btn-block mb-2 p-2 max-width-13em">Create an account</button>
+							</div>
+							
+						</div>
+					</form>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="div-sign-in text-center">
-	<form class="form-signin needs-validation" novalidate ng-submit="signIn($event);">
-		<a href="#">
-			<img alt="ToDo App" title="ToDo App" width="72" height="72" class="mb-4 logo-todo-70px d-inline-block"">
-		</a>
-		<h3 class="mb-3 signin-form-header">Sign in to ToDoList</h3>
-		<div class="signin-form-body mt-3 min-width-18rem">
-			<div class="input-group">
-				<label for="inputEmail" class="width-full text-left"><strong>Username</strong></label> 
-				<input type="email" id="inputEmail" ng-model="customer.username" ng-init="customer.username = 'user01@mail.me'" 
-					   class="form-control form-control-signin" placeholder="Email address" required> 
-				<div class="invalid-tooltip font12">
-		        	Invalid email
-		        </div>
-			</div>
-	        <div class="input-group">
-				<label for="inputPassword" class="width-full text-left mt-3"><strong>Password</strong> <a href="#/password_reset" class="label-link">Forgot password?</a></label> 
-				<input type="password" id="inputPassword" ng-model="customer.password" ng-init="customer.password = 'user'" 
-					   class="form-control form-control-signin" placeholder="Password" required>
-		        <div class="invalid-tooltip font12">
-		        	Invalid password
-		        </div>
-	        </div>
-			<!--  
-			<div class="checkbox mb-3">
-				<label> <input type="checkbox" value="remember-me"> Remember me
-				</label>
-			</div>
-			-->
-			<button class="btn btn-success btn-block mt-3" type="submit">Sign in</button>		
-		</div>
-		<p class="create-account-callout mt-3 mb-0 font13">
-	        New to ToDoList?
-	        <a href="#" data-ga-click="Sign in, switch to sign up">Create an account</a>.
-	    </p>
-	    <p class="margin-top-min10px">
-	        <ul class="list-style-none d-flex flex-justify-center font12">
-				<li class="mr-3"><a href="#" class="link-gray" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
-				<li class="mr-3"><a href="#" class="link-gray" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
-				<li class="mr-3"><a href="#" class="link-gray" data-ga-click="Footer, go to security, text:security">Security</a></li>
-				<li><a href="#" class="link-gray" data-ga-click="Footer, go to contact, text:contact">Contact us</a></li>
-			</ul>
-	    </p>
-		<p class="mt-5 mb-3 text-muted">© Emc2 Software 2018</p>
-	</form>
+<div class="div-sign-in d-flex align-items-end">
+	<p class="text-muted text-center w-100 font12">© Emc2 Software 2018</p>
 </div>

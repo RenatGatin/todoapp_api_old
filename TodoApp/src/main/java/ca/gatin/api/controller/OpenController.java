@@ -1,5 +1,7 @@
 package ca.gatin.api.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -12,7 +14,6 @@ import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.AuthorityService;
 import ca.gatin.api.service.UserService;
-import ca.gatin.model.security.User;
 import ca.gatin.model.signup.PreSignupUser;
 
 /**
@@ -40,7 +41,7 @@ public class OpenController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/preSignupUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> createUser(@RequestBody PreSignupUser preSignupUser) {
+	public ServiceResponse<?> createUser(@Valid @RequestBody PreSignupUser preSignupUser) {
 		logger.info("> /api/open/preSignupUser: " + preSignupUser.toString());
 		
 		return userService.create(preSignupUser);

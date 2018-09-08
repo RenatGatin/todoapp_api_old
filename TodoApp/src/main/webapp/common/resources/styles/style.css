@@ -294,6 +294,11 @@ a:hover {
 	border-radius: 9px !important;
 }
 
+.border-right-radius-5px {
+	border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
 .bg-gray-light {
 	background-color: #fafbfc !important;
 }
@@ -485,4 +490,17 @@ a.dropdown-item:active {
 
 .steps li.current i {
     color: #0366d6;
+}
+
+.tos-info {
+	padding: 15px 0;
+	margin-top: 30px;
+	font-size: 15px;
+	margin-bottom: 10px;
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.max-width-13em {
+	max-width: 13em;
 }
