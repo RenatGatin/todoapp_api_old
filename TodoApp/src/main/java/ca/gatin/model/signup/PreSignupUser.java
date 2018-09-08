@@ -15,7 +15,7 @@ public class PreSignupUser {
 	
 	@NotBlank(message = "Last name is a required field")
 	@Pattern(regexp="^[a-zA-Z0-9\\s\\-\\.\\']*$", message="Last name has to follow the pattern: [a-zA-Z0-9\\s\\-\\.\\']")
-	@Size(min = 2, max = 20, message = "First name has to be between 2 - 20 characters")
+	@Size(min = 2, max = 20, message = "Last name has to be between 2 - 20 characters")
 	private String lastName;
 	
 	@NotBlank(message = "Email is a required field")
