@@ -29,7 +29,9 @@
 								printInvalidFields(data.fieldErrors);
 								
 							} else if (status.code == AppConstants.ACCOUNT_UNIQUE_FIELD_DUPLICATION) {
-								$scope.signup.email = null;
+								$timeout(function() {
+									$scope.signup.email = null;
+								}, 1500);
 								toaster.pop('warning', 'Email is taken ', 'This email is already used, please choose different one');
 								
 							} else {
