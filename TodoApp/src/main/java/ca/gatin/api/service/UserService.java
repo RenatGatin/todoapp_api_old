@@ -1,8 +1,10 @@
 package ca.gatin.api.service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
+import ca.gatin.dao.service.AuthorityPersistenceService;
 import ca.gatin.dao.service.PseudoUserPersistenceService;
 import ca.gatin.dao.service.UserPersistenceService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
@@ -27,6 +30,7 @@ import ca.gatin.model.security.Authority;
 import ca.gatin.model.security.PseudoUser;
 import ca.gatin.model.security.User;
 import ca.gatin.model.signup.PreSignupUser;
+import ca.gatin.util.Check;
 
 /**
  * Service responsible for all interaction with User
@@ -51,6 +55,9 @@ public class UserService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private AuthorityPersistenceService authorityPersistenceService;
 	
 	/**
 	 * Get list of given type of user
@@ -130,6 +137,69 @@ public class UserService {
 		}
 		
 		serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> isPreSignupUserActivated(String username) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		if (!Check.isValidEmailAddress(username)) {
+			serviceResponse.setStatus(ResponseStatus.INVALID_DATA);
+			return serviceResponse;
+		}
+		
+		PseudoUser pseudoUser = pseudoUserPersistenceService.getByEmail(username);
+		if (pseudoUser != null) {
+			ResponseStatus status = (pseudoUser.isActivated()) ? ResponseStatus.PRESIGNUP_USER_STATUS_ACTIVATED : ResponseStatus.PRESIGNUP_USER_STATUS_NOT_ACTIVATED;
+			serviceResponse.setStatus(status);
+		} else {
+			serviceResponse.setStatus(ResponseStatus.PRESIGNUP_USER_NOT_EXIST);
+		}
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> activatePreSignupUser(String username, String key) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		if (!Check.isValidEmailAddress(username)) {
+			serviceResponse.setStatus(ResponseStatus.INVALID_DATA);
+			return serviceResponse;
+		}
+		
+		PseudoUser pseudoUser = pseudoUserPersistenceService.getByEmail(username);
+		if (pseudoUser != null && !pseudoUser.isActivated() && pseudoUser.getActivationKey().equals(key)) {
+			User user = new User();
+			user.setUsername(pseudoUser.getEmail());
+			user.setEmail(pseudoUser.getEmail());
+			user.setPassword(pseudoUser.getPassword());
+			user.setDateCreated(new Date());
+			user.setEnabled(true);
+			user.setActivated(true);
+			Set<Authority> authorities = new HashSet<Authority>(); 
+			authorities.add(authorityPersistenceService.findOneBy(Authorities.ROLE_USER));
+			user.setAuthorities(authorities);
+			
+			try {
+				userPersistenceService.save(user);
+			} catch (Exception e) {
+				logger.error("Error creating an instance of User from PseudoUser");
+				e.printStackTrace();
+				serviceResponse.setStatus(ResponseStatus.ERROR_SAVING_USER_IN_DATABASE);
+				return serviceResponse;
+			}
+			pseudoUserPersistenceService.activate(pseudoUser.getId());
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			
+		} else if (pseudoUser != null && pseudoUser.isActivated()) {
+			serviceResponse.setStatus(ResponseStatus.PRESIGNUP_USER_STATUS_ACTIVATED);
+			
+		} else if (pseudoUser != null && !pseudoUser.getActivationKey().equals(key)) {
+			serviceResponse.setStatus(ResponseStatus.PRESIGNUP_USER_INVALID_ACTIVATION_KEY);
+			
+		} else {
+			serviceResponse.setStatus(ResponseStatus.PRESIGNUP_USER_NOT_EXIST);
+		}
+		
 		return serviceResponse;
 	}
 	

@@ -41,8 +41,13 @@ public class EmailService {
 		mail.setTo(user.getEmail());
 		mail.setFrom("emc2.software.lab@gmail.com");
 		mail.setSubject("Email Activation required");
-		mail.setText("Hey, " + user.getFirstname() + "!\nPlease use this Key:\n" + user.getActivationKey() + 
-					 "\nto activate your account.\nTimestamp: " + new Date());
+		mail.setText("Hey, " + user.getFirstname() + "!" +
+					 "\nPlease use this Key:" + 
+				     "\n" + user.getActivationKey() + 
+					 "\nto activate your account." + 
+				     "\nOr click this link: " + "http://localhost:8080/todoapp/customer/#/sign-up?username=" + user.getEmail() + "&key=" + user.getActivationKey() +
+				     "\nand follow the instuctions." + 
+				     "\n\nTimestamp: " + new Date());
 		
 		javaMailSender.send(mail);
 	}

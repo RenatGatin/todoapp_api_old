@@ -14,4 +14,6 @@ public interface AuthorityPersistenceService {
 	 * @return List<Authority>
 	 */
 	List<Authority> getAll();
+
+	Authority findOneBy(Authorities authorities);
 }

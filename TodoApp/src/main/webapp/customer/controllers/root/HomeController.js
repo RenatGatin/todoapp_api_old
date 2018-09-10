@@ -14,8 +14,7 @@
 	            return;
 	        }
 	        
-			toaster.pop('success', 'OK', 'Form is valid!');
-
+	        $state.go('sign-up', { signup : $scope.signup });
 	    }; 
 	    
 	};

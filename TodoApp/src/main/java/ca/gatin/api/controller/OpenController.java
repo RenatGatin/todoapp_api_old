@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,6 +46,20 @@ public class OpenController extends BaseController {
 		logger.info("> /api/open/preSignupUser: " + preSignupUser.toString());
 		
 		return userService.create(preSignupUser);
+	}
+	
+	@RequestMapping(value = "/isPreSignupUserActivated/{username}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	public ServiceResponse<?> isPreSignupUserActivated(@PathVariable String username) {
+		logger.info("> /api/open/isPreSignupUserActivated: " + username);
+		
+		return userService.isPreSignupUserActivated(username);
+	}
+	
+	@RequestMapping(value = "/activatePreSignupUser/{username}/{key}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> activatePreSignupUser(@PathVariable String username, @PathVariable String key) {
+		logger.info("> /api/open/activatePreSignupUser: username: " + username + ", key: " + key);
+		
+		return userService.activatePreSignupUser(username, key);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)

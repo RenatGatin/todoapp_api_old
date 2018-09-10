@@ -29,7 +29,7 @@
 							</span>
 						</div>
 					</li>
-					<li class="col-12 col-sm-4 p-2" ng-class="{'current' : step  == 'start'}">
+					<li class="col-12 col-sm-4 p-2" ng-class="{'current' : step  == 'newlist'}">
 						<div class="d-flex justify-content-start">
 							<i class="fas fa-clipboard-list font25 pl-2 pr-3 pt-2 pb-3"></i>
 							<span>
@@ -42,10 +42,117 @@
 				</ol>
 			</div>
 			
-			<ng-include src="'./pages/root/sign-up/create-account.html'"></ng-include>
+			<div class="col-12" ng-if="step == 'create'">
+				<h4 class="font-weight-light letter-spacing-minus1px my-4">Create your personal account</h4>
+				
+				<form class="needs-validation" novalidate ng-submit="createAccount($event);">
+					<div class="form-row align-items-center">
+						<div class="col-12">
+							<label class="font-weight-600 mb-1" for="firstName">First name</label>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<div class="input-group-text"><i class="fas fa-user"></i></div>
+								</div>
+								<input type="text" class="form-control col-sm-6 border-right-radius-5px" id="firstName" minlength="2" maxlength="20"
+									   placeholder="First Name" ng-model="data.signup.firstName" pattern="[a-zA-Z0-9\s'-.]{2,20}" required autofocus="autofocus">
+							    <div class="invalid-tooltip font10">
+						        	First name is invalid
+						        </div>
+							</div>
+						    <p class="font13 text-secondary mb-0">Please provide your first name for profile. It may only contain alphanumeric characters or single hyphens, spaces, apostrophe and period.</p>
+						</div>
+						<div class="col-12 mt-3">
+							<label class="font-weight-600 mb-1" for="lastName">Last name</label>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<div class="input-group-text"><i class="fas fa-user"></i></div>
+								</div>
+								<input type="text" class="form-control col-sm-6 border-right-radius-5px" minlength="2" maxlength="20"
+									   id="lastName" ng-model="data.signup.lastName" pattern="[a-zA-Z0-9\s'-.]{2,20}" placeholder="Last Name" required>
+								<div class="invalid-tooltip font10">
+						        	Last name is invalid
+						        </div>
+							</div>
+							<p class="font13 text-secondary mb-0">Please provide your last name for profile. It may only contain alphanumeric characters or single hyphens, spaces, apostrophe and period.</p>
+						</div>
+						<div class="col-12 mt-3">
+							<label class="font-weight-600 mb-1" for="email">Username</label>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<div class="input-group-text"><i class="fas fa-at"></i></div>
+								</div>
+								<input type="email" class="form-control col-sm-6 border-right-radius-5px" 
+									   id="email" ng-model="data.signup.email"  placeholder="sample@mail.com" required>
+								<div class="invalid-tooltip font10">
+						        	Valid and unique email is required
+						        </div>
+							</div>
+							<p class="font13 text-secondary mb-0">Email address will be your username, which will be used for signing in. It may only contain alphanumeric characters or single hyphens, '@' sign and cannot begin or end with not alphabetic symbol. It will be verified after account is successfully created.</p>				
+						</div>
+						<div class="col-12 mt-3">
+						    <label class="font-weight-600 mb-1" for="password">Password</label>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<div class="input-group-text"><i class="fas fa-key"></i></div>
+								</div>
+								<input type="password" class="form-control col-sm-6 border-right-radius-5px" pattern=".{6,}"
+									   id="password" ng-model="data.signup.password" placeholder="Password" required>
+								<div class="invalid-tooltip font10">
+						        	Password is invalid
+						        </div>
+							</div>
+							<p class="font13 text-secondary mb-0">Use at least six characters. Case sensitive.</p>
+						</div>
+						
+						<div class="col-12">
+							<p class="tos-info">By clicking "Create an account" below, you agree to our <a href="/site/terms" target="_blank">terms of service</a> and <a href="/site/privacy" target="_blank">privacy statement</a>. We’ll occasionally send you account related emails.</p>
+						</div>
+						
+						<div class="col-12 mt-4">
+							<button type="submit" class="btn btn-success btn-large btn-block mb-2 p-2 max-width-13em">Create an account</button>
+						</div>
+					</div>
+				</form>
+			</div>
 			
+			<div class="col-12" ng-if="step == 'confirm'">
+				<h4 class="font-weight-light letter-spacing-minus1px my-4">Activate your account by confirming email</h4>
+				<p>We have send to your email <span class="text-success">{{data.activation.email}}</span> an activation key. Please follow the instructions or insert this key to the field below and click activate button.</p>
+				
+				<form class="needs-validation" novalidate ng-submit="activateAccount($event);">
+					<div class="form-row align-items-center">
+						<div class="col-12">
+							<label class="font-weight-600 mb-1" for="key">Activation key</label>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<div class="input-group-text"><i class="fas fa-key"></i></div>
+								</div>
+								<input type="text" class="form-control border-right-radius-5px" id="key"
+									   placeholder="Key" ng-model="data.activation.key" required>
+							    <div class="invalid-tooltip font10">
+						        	Required field
+						        </div>
+							</div>
+						    <p class="font13 text-secondary mb-0">Created account has to be activated through email for security purposes. We need to make sure that provided email address is valid and accessible by user because it will be used for account recovery and 'forgot password' procedures. Not activated account will be purged from database in 30 days.</p>
+						</div>
+						
+						<div class="col-12 mt-4">
+							<button type="submit" class="btn btn-success btn-large btn-block mb-2 p-2 max-width-13em">Confirm and Activate</button>
+						</div>
+					</div>
+				</form>
+			</div>
 			
-			
+			<div class="col-12" ng-if="step == 'newlist'">
+				<h4 class="font-weight-light letter-spacing-minus1px my-4">Your account have been successfully activated</h4>
+				<p>Congratulations! Now you are ready to start new ToDo list. Please sign in to your personal account.</p>
+				
+				<div class="mt-4">
+					<a class="no-underline" href="#/sign-in">
+					<button class="btn btn-success btn-large btn-block mb-2 p-2 max-width-13em">Sign in</button>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

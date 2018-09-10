@@ -38,7 +38,8 @@
 						files: ['./controllers/root/SignUpController.js']
 					});						
 				}]
-			}
+			},
+			params : { signup: null }
 		})
 		
 		.state('unauthorized', {

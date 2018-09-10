@@ -49,6 +49,10 @@ public enum ResponseStatus {
 	OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE								(2017, "Old password field does not match current value"),
 	ERROR_SAVING_USER_IN_DATABASE											(2018, "Error saving user in database"),
 	EMAIL_TRANSMISSION_ERROR												(2019, "Email transmission error"),
+	PRESIGNUP_USER_STATUS_ACTIVATED											(2020, "PreSignupUser status is activated"),
+	PRESIGNUP_USER_STATUS_NOT_ACTIVATED										(2021, "PreSignupUser status is not activated"),
+	PRESIGNUP_USER_NOT_EXIST												(2022, "PreSignupUser does not exist"),
+	PRESIGNUP_USER_INVALID_ACTIVATION_KEY									(2023, "PreSignupUser invalid activation key"),
 
 	TODOITEM_CREATE_ID_FAILURE												(2501, "Can't TodoItem with specified ID value"),
 	TODOITEM_NOT_FOUND														(2502, "TodoItem(s) Not Found"),
