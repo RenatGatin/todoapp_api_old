@@ -25,6 +25,22 @@
 			}
 		})
 		
+		.state('password-reset', {
+			url 		: '/password-reset',
+			templateUrl : './pages/root/sign-in/password-reset.html',
+			controller  : 'PasswordResetController', 
+			data: {
+			    css: './pages/root/sign-in/sign-in.css'
+			},
+			resolve : {
+				loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+					return $ocLazyLoad.load({
+						files: ['./controllers/root/PasswordResetController.js']
+					});						
+				}]
+			},
+		})
+		
 		.state('sign-up', {
 			url 		: '/sign-up',
 			templateUrl : './pages/root/sign-up/sign-up.html',

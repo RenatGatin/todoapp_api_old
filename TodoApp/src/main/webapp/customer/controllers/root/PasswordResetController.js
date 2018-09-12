@@ -1,0 +1,62 @@
+(function(angular) {
+	var controller = function($scope, $rootScope, SharingService, $timeout, AppConstants, CommonService, httpService, $httpParamSerializer, $http, $state, $stateParams, toaster) {
+
+		CommonService.checkSession();
+		
+		$scope.sendPasswordReset = function(event) {
+			var formElement = angular.element(event.target);
+	        
+	        formElement.addClass('was-validated');
+	        if (formElement[0].checkValidity() === false) {
+	            event.preventDefault();
+	            event.stopPropagation();
+	            return;
+	        }
+	        
+	        doSend($scope.email); 
+		};
+		
+		function doSend(email) {
+			$rootScope.isLoading = true;
+			$timeout(function() {
+				$scope.sentSuccessfully = true;
+				$rootScope.isLoading = false;
+			}, 2000);
+			return;
+			
+			httpService.post(AppConstants.BASE_URL + '/api/open/passwordReset/' + email + '/', null, false, function(response){
+				var data = response.data;
+				if (data) {
+					var status = data.status;
+					if (status) {
+						if (status.code == AppConstants.SUCCESS) {
+							$scope.sentSuccessfully = true;
+							
+						} else if (status.code == AppConstants.ACCOUNT_NOT_FOUND) {
+							$timeout(function() {
+								$scope.email = '';
+							}, 1500);
+							toaster.pop('warning', 'Email not found', "Can't find that email, sorry.");
+							
+						} else {
+							toaster.pop('error', 'Reset password error.', 'Status code: ' + status.code + ', message: ' + status.message);
+						}
+					} else {
+						toaster.pop('error', 'Reset password error.', ' No data status returned. Data: ' + JSON.stringify(data));
+					}
+				} else {
+					toaster.pop('error', 'Reset passwordgnUp error.', ' No data returned.');
+				}
+		    }, function(response){
+				if (response.status) {
+					toaster.pop('error', 'Reset password error.', ' HTTP status: ' + response.status + '. StatusText: ' + response.statusText);
+				} else {
+					toaster.pop('error', 'Reset password error.', ' Response: ' + JSON.stringify(response));
+				}
+		    });
+		}
+
+	};
+	controller.$inject = [ '$scope', '$rootScope','SharingService', '$timeout', 'AppConstants', 'CommonService', 'httpService', '$httpParamSerializer', '$http', '$state', '$stateParams', 'toaster'];
+	angular.module('todoapp.controllers').controller('PasswordResetController', controller);
+}(angular));

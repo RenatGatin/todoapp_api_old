@@ -91,6 +91,14 @@ public class UserService {
 		return serviceResponse;
 	}
 	
+	public ServiceResponse<?> passwordReset(String email) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		//TODO: .... implementation here
+		
+		return serviceResponse;
+	}
+	
 	public ServiceResponse<?> create(PreSignupUser preSignupUser) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		

@@ -74,6 +74,10 @@
 	min-width: 18rem;
 }
 
+.min-width-19rem {
+	min-width: 19rem;
+}
+
 .create-account-callout {
     padding: 15px 20px;
     text-align: center;

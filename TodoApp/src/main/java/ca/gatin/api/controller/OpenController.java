@@ -62,6 +62,13 @@ public class OpenController extends BaseController {
 		return userService.activatePreSignupUser(username, key);
 	}
 	
+	@RequestMapping(value = "/passwordReset/{email}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> passwordReset(@PathVariable String email) {
+		logger.info("> /api/open/passwordReset: email: " + email);
+		
+		return userService.passwordReset(email);
+	}
+	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAuthorities(Authentication authentication) {
 		logger.debug("> /api/open/getAuthorities by: " + authentication);
