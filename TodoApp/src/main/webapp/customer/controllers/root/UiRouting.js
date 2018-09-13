@@ -41,6 +41,22 @@
 			},
 		})
 		
+		.state('password-do-reset', {
+			url 		: '/password-do-reset/{resetkey}',
+			templateUrl : './pages/root/sign-in/password-do-reset.html',
+			controller  : 'PasswordDoResetController', 
+			data: {
+			    css: './pages/root/sign-in/sign-in.css'
+			},
+			resolve : {
+				loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+					return $ocLazyLoad.load({
+						files: ['./controllers/root/PasswordDoResetController.js']
+					});						
+				}]
+			},
+		})
+		
 		.state('sign-up', {
 			url 		: '/sign-up',
 			templateUrl : './pages/root/sign-up/sign-up.html',

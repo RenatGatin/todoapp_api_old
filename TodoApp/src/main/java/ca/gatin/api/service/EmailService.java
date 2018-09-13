@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import ca.gatin.model.security.PseudoUser;
+import ca.gatin.model.security.User;
 import ca.gatin.model.signup.PreSignupUser;
 
 @Service
@@ -40,13 +41,31 @@ public class EmailService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom("emc2.software.lab@gmail.com");
-		mail.setSubject("Email Activation required");
+		mail.setSubject("[GitHub] Please activate your account");
 		mail.setText("Hey, " + user.getFirstname() + "!" +
-					 "\nPlease use this Key:" + 
+					"\nWelcome on board!" + 
+					 "\n\nYou can use this Key:" + 
 				     "\n" + user.getActivationKey() + 
 					 "\nto activate your account." + 
-				     "\nOr click this link: " + "http://localhost:8080/todoapp/customer/#/sign-up?username=" + user.getEmail() + "&key=" + user.getActivationKey() +
+				     "\n\nOr click this link: " + "http://localhost:8080/todoapp/customer/#/sign-up?username=" + user.getEmail() + "&key=" + user.getActivationKey() +
 				     "\nand follow the instuctions." + 
+				     "\n\nTimestamp: " + new Date());
+		
+		javaMailSender.send(mail);
+	}
+	
+	public void sendResetPasswordKey(User user, String resetPasswordKey) {
+		
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom("emc2.software.lab@gmail.com");
+		mail.setSubject("[ToDoApp] Please reset your password");
+		mail.setText("We heard that you lost your ToDoApp password. Sorry about that!" +
+					 "\n\nBut don’t worry! You can use the following link to reset your password:" + 
+					 "\n\n " + "http://localhost:8080/todoapp/customer/#/password-do-reset/" + resetPasswordKey  +
+				     "\n\nIf you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit http://localhost:8080/todoapp/customer/#/password-reset" + 
+					 "\n\nThanks," + 
+				     "\nYour friends at ToDoApp" + 
 				     "\n\nTimestamp: " + new Date());
 		
 		javaMailSender.send(mail);

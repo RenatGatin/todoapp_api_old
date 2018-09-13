@@ -53,6 +53,9 @@ public enum ResponseStatus {
 	PRESIGNUP_USER_STATUS_NOT_ACTIVATED										(2021, "PreSignupUser status is not activated"),
 	PRESIGNUP_USER_NOT_EXIST												(2022, "PreSignupUser does not exist"),
 	PRESIGNUP_USER_INVALID_ACTIVATION_KEY									(2023, "PreSignupUser invalid activation key"),
+	ACCOUNT_NOT_ACTIVATED													(2024, "Account is not activated"),
+	ACCOUNT_NOT_ENABLED														(2025, "Account is not enabled"),
+	RESET_PASSWORD_EMAIL_WAS_SENT											(2026, "Reset password email was already sent"),
 
 	TODOITEM_CREATE_ID_FAILURE												(2501, "Can't TodoItem with specified ID value"),
 	TODOITEM_NOT_FOUND														(2502, "TodoItem(s) Not Found"),

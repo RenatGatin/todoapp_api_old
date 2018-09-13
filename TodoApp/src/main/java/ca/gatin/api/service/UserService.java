@@ -94,7 +94,48 @@ public class UserService {
 	public ServiceResponse<?> passwordReset(String email) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		//TODO: .... implementation here
+		if (!Check.isValidEmailAddress(email)) {
+			serviceResponse.setStatus(ResponseStatus.INVALID_DATA);
+			return serviceResponse;
+		}
+		
+		User user = userPersistenceService.getByEmail(email);
+		if (user != null) {
+			
+			if (!user.isActivated()) {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_ACTIVATED);
+				
+			} else if (!user.isEnabled()) {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_ENABLED);
+				
+			} else {
+				String resetPasswordKey = (!Check.isEmpty(user.getResetPasswordKey())) ? user.getResetPasswordKey() :
+						((UUID.randomUUID().toString() + UUID.randomUUID().toString()).replaceAll("-", ""));
+				
+				try {
+					emailService.sendResetPasswordKey(user, resetPasswordKey);
+				} catch (Exception e) {
+					serviceResponse.setStatus(ResponseStatus.EMAIL_TRANSMISSION_ERROR);
+					e.printStackTrace();
+					user.setResetPasswordKey(null);
+					user.setDateCreatedResetPasswordKey(null);
+					return serviceResponse;
+				}
+				
+				try {
+					user.setResetPasswordKey(resetPasswordKey);
+					user.setDateCreatedResetPasswordKey(new Date());
+					user.setDateLastModified(new Date());
+					userPersistenceService.save(user);
+					serviceResponse.setStatus(ResponseStatus.SUCCESS);
+				} catch (Exception e) {
+					serviceResponse.setStatus(ResponseStatus.ERROR_SAVING_USER_IN_DATABASE);
+					e.printStackTrace();
+				}
+			}
+		} else {
+			serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+		}
 		
 		return serviceResponse;
 	}

@@ -45,6 +45,9 @@ public class User {
     @Column(name = "resetpasswordkey")
     private String resetPasswordKey;
     
+    @Column(name = "date_created_resetpasswordkey")
+    private Date dateCreatedResetPasswordKey;
+    
     private boolean enabled;
     
     @Column(name = "date_created")
@@ -168,7 +171,15 @@ public class User {
         return id.hashCode();
     }*/
 
-    @Override
+    public Date getDateCreatedResetPasswordKey() {
+		return dateCreatedResetPasswordKey;
+	}
+
+	public void setDateCreatedResetPasswordKey(Date dateCreatedResetPasswordKey) {
+		this.dateCreatedResetPasswordKey = dateCreatedResetPasswordKey;
+	}
+
+	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password="
 				+ password + ", email=" + email + ", activated=" + activated
