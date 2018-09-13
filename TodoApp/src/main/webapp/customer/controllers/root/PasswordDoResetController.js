@@ -9,6 +9,10 @@
 			return;
 		}
 		
+		/*
+		 * It looks like you clicked on an invalid password reset link. Please try again.
+		 */
+		
 		httpService.post(AppConstants.BASE_URL + '/api/open/checkPasswordResetKey/' + passwordResetKey + '/', null, false, function(response){
 			var data = response.data;
 			if (data) {
