@@ -91,6 +91,19 @@ public class UserService {
 		return serviceResponse;
 	}
 	
+	public ServiceResponse<?> checkPasswordResetKey(String key) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			boolean isExists = userPersistenceService.existsByResetPasswordKey(key);
+			serviceResponse.setStatus(isExists ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_NOT_FOUND);
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.DATABASE_PERSISTANCE_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
+	
 	public ServiceResponse<?> passwordReset(String email) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		

@@ -56,4 +56,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "UPDATE user SET password = :password WHERE id = :id", nativeQuery = true)
 	int changePassword(@Param("id") Long id, @Param("password") String password);
 
+	@Query(value = "SELECT COUNT(*) FROM user WHERE LOWER(resetPasswordKey) = LOWER(:key)", nativeQuery = true)
+	int countByResetPasswordKey(@Param("key") String key);
+
 }

@@ -125,4 +125,9 @@ public class UserPersistenceServiceJpaDaoImpl implements UserPersistenceService 
 		return userRepository.changePassword(id, newPasswordEncoded) > 0;
 	}
 
+	@Override
+	public boolean existsByResetPasswordKey(String key) {
+		return userRepository.countByResetPasswordKey(key) > 0;
+	}
+
 }
