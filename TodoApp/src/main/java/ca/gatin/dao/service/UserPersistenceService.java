@@ -156,10 +156,18 @@ public interface UserPersistenceService {
 	boolean changePassword(Long id, String newPasswordEncoded);
 
 	/**
-	 * Check it there is user record with key
+	 * Check it there is user record with resetPasswordKey
 	 * 
 	 * @param key
 	 * @return
 	 */
 	boolean existsByResetPasswordKey(String key);
+
+	/**
+	 * Get User by resetPasswordKey
+	 * 
+	 * @param key
+	 * @return
+	 */
+	User getByResetPasswordKey(String key);
 }

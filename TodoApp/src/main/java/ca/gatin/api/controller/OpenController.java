@@ -15,6 +15,7 @@ import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.AuthorityService;
 import ca.gatin.api.service.UserService;
+import ca.gatin.model.signup.ChangePasswordWithKeyBean;
 import ca.gatin.model.signup.PreSignupUser;
 
 /**
@@ -60,6 +61,20 @@ public class OpenController extends BaseController {
 		logger.info("> /api/open/checkPasswordResetKey: " + key);
 		
 		return userService.checkPasswordResetKey(key);
+	}
+	
+	@RequestMapping(value = "/activatePreSignupUser/{username}/{key}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> activatePreSignupUser(@PathVariable String username, @PathVariable String key) {
+		logger.info("> /api/open/activatePreSignupUser: username: " + username + ", key: " + key);
+		
+		return userService.activatePreSignupUser(username, key);
+	}
+	
+	@RequestMapping(value = "/changePasswordWithKey", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> changePasswordWithKey(@Valid @RequestBody ChangePasswordWithKeyBean bean) {
+		logger.info("> /api/open/changePasswordWithKey: " + bean.getResetPasswordKey());
+		
+		return userService.changePasswordWithKey(bean);
 	}
 	
 	@RequestMapping(value = "/passwordReset/{email}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)

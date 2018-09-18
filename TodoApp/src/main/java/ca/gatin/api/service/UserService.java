@@ -29,6 +29,7 @@ import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.Authority;
 import ca.gatin.model.security.PseudoUser;
 import ca.gatin.model.security.User;
+import ca.gatin.model.signup.ChangePasswordWithKeyBean;
 import ca.gatin.model.signup.PreSignupUser;
 import ca.gatin.util.Check;
 
@@ -87,6 +88,29 @@ public class UserService {
 			}
 		} else {
 			serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
+		}
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> changePasswordWithKey(ChangePasswordWithKeyBean bean) {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			User user = userPersistenceService.getByResetPasswordKey(bean.getResetPasswordKey());
+			if (user != null) {
+				user.setResetPasswordKey(null);
+				user.setDateCreatedResetPasswordKey(null);
+				user.setPassword(passwordEncoder.encode(bean.getPassword()));
+				user.setDateLastModified(new Date());
+				userPersistenceService.save(user);
+				
+				serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			} else {
+				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+			}
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.DATABASE_PERSISTANCE_ERROR);
+			e.printStackTrace();
 		}
 		return serviceResponse;
 	}
