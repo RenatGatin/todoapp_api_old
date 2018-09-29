@@ -11,7 +11,7 @@
         	/**
         	 * Sets tokens to cookies and headers
         	 */
-        	this.setTokens = function(loginData) {
+        	this.setGloballyTokens = function(loginData) {
         		$http.defaults.headers.common.Authorization = 'Bearer ' + loginData.access_token;
     			var cookieExpiresIn = new Date();
     			cookieExpiresIn.setSeconds(cookieExpiresIn.getSeconds() + loginData.expires_in);
@@ -19,6 +19,13 @@
 			    $cookies.put('refresh_token', loginData.refresh_token);
 
 			    console.log('Sucessfully authenticated. Session expires in ' + loginData.expires_in + ' sec.');
+        	}
+        	
+        	/**
+        	 * Remove token(s) from headers
+        	 */
+        	this.removeGlobalTokens = function() {
+        		delete $http.defaults.headers.common.Authorization;
         	}
         	
         	/**
@@ -49,6 +56,7 @@
 		                'Authorization': 'Bearer ' + accessToken		            
 		            }
 				});
+        		this.removeGlobalTokens();
         		
         		return( request.then(successCallback, errorCallback) );
         	}

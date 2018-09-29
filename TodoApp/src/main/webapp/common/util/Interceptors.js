@@ -1,10 +1,10 @@
 (function(angular) {
 	
-	var Interceptor = function($q, $window, AppConstants, $cookies, $rootScope, $injector, toaster) {
+	var Interceptor = function($q, $window, AppConstants, $cookies, $rootScope, $injector, toaster ) {
 		return {
 			request: function($config) {
 				$rootScope.isLoading = true;
-	            if ($config.url != (AppConstants.BASE_URL + AppConstants.URL_OAUTH_TOKEN)) {
+	            if ($config.url != (AppConstants.BASE_URL + AppConstants.POST_OAUTH_TOKEN)) {
 	            	var token = $cookies.get('access_token');
 	            	if (token) {
 	            		$config.headers['Authorization'] = 'Bearer '+ token;
@@ -20,6 +20,9 @@
 	        },
 	        
 			responseError : function(rejection) {
+				$state = $injector.get('$state');
+				httpService = $injector.get('httpService');
+				
 				$rootScope.isLoading = false;
 				var url = rejection.config.url;
 				switch (rejection.status) {
@@ -40,6 +43,7 @@
 								$cookies.remove('refresh_token');
 							} else if (desc.contains('Invalid access token:') || desc.contains('Access token expired:')) {
 								$cookies.remove('access_token');
+								httpService.removeGlobalTokens();
 								$rootScope.profile = null;
 							}
 						}
@@ -70,7 +74,7 @@
 					$state.go('unauthorized', {message : 'Error occurred on server.'});
 					break;
 				}
-				$state = $injector.get('$state');
+
 				return $q.reject(rejection);
 			},
 			

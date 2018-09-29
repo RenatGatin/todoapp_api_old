@@ -20,7 +20,7 @@
 			httpService.login(credentials, function(response){
 				
 				if (response.status == 200) {
-					httpService.setTokens(response.data);
+					httpService.setGloballyTokens(response.data);
 					$state.go('dashboard');
 					
 				} else {
