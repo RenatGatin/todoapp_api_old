@@ -504,3 +504,27 @@ a.dropdown-item:active {
 .max-width-13em {
 	max-width: 13em;
 }
+
+.content-area {
+	font-family: -apple-system, BlinkMacSystemFont, "Inter UI", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6c757d;
+    text-align: left;
+    background-color: #F7F9FA;
+}
+
+.content-area h1 {
+	color: #212529;
+	font-weight: 400;
+}
+
+.breadcrumb-item a {
+    font-weight: 500;
+    color: #007bff;
+}
+
+.border-bottom-navbar {
+	border-bottom: 1px solid #E9EEF2;
+}

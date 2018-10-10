@@ -27,6 +27,8 @@
 				// do nothing
 			});
 		};
+		
+		//$scope.errorMessage = 'Test tttttt';
 
 	};
 	controller.$inject = [ '$scope', '$rootScope', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', 'CommonService'];

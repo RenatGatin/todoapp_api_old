@@ -1,47 +1,35 @@
 <ng-include src="'./pages/secure/navbar/navbar-dashboard.html'"></ng-include>
+<ng-include ng-if="errorMessage" src="'../common/pages/root/error-block.html'"></ng-include>
 
-
-
-<div class="container my-5">
-	<h2>Secured zone!</h2>
-	<h3>test: {{testAngular}}</h3>
-	
-	<div class="row">
-		<div ng-if="errorMessage" class="col-12 text-red padding-1em text-center border-solid-red back-dirt-white">
-			<p>{{errorMessage}}</p>
+<!-- Breadcrumbs -->
+<div class="border-bottom-navbar">
+	<div class="container">
+		<div class="row">
+			<div class="navbar bg-white p-0">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb m-0 bg-white font14">
+			    		<li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+			    		<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+			  		</ol>
+				</nav>
+			</div>
 		</div>
-	</div>
-	
-	<div class="row" ng-show="profile">
-		<div class="col-12">
-			<h4>Customer session</h4>
-		</div>
-		
-		<div class="col-12 no-padding-right float-right">
-			<p class="float-left"><i>Welcome, {{profile.email}}</i></p>
-			<button type="button" class="btn btn-outline-secondary float-right" ng-click="logout();">Sign out</button>
-		</div>
-	</div>
-	
-	<hr>
-	
-	<div class="row">
-		<div class="col-12">
-			<a href="#/secured">
-				<button type="button" class="btn btn-outline-danger">Secured Page</button>
-			</a>
-		</div>
-		<br>
-		<div class="col-12">
-			<button type="button" class="btn btn-outline-warning" ng-click="securedApi()">Secured API</button>
-			<br>
-			<span>{{securedApiResponse}}</span>
-		</div>
-		<div class="col-12">
-			<button type="button" class="btn btn-outline-info" ng-click="showAlert()">Show alert</button>
-		</div>
-		<br>
 	</div>
 </div>
+
+<!-- Content area -->
+<div class="content-area text-normal">
+	<div class="container">
+		<div class="row pt-3">
+			<div class="col-12">
+				<h1>Connections <i class="fas fa-share-alt-square font-2rem"></i></h1>
+				<p class="lead text-normal">Lorem ipsum lovely template products.</p>
+			</div>
+			
+		</div>
+		
+	</div>
+</div>
+
 
 <ng-include src="'./pages/root/footer/footer-home.html'"></ng-include>

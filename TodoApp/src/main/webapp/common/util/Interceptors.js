@@ -65,7 +65,15 @@
 					}
 					break;
 				case 403:
-					toaster.pop('error', rejection.data.error_description);
+					var error = 'Failure accessing resource: "' + url + '". ';
+					var description;
+					try {
+						description = JSON.parse(rejection.data).error_description;
+					} catch (e) {
+						description = rejection.data;
+					}
+					error += description;
+					toaster.pop('error', 'HTTP 403', error);
 					break;
 				case 404:
 					toaster.pop('error', 'HTTP 404', 'Resource not found: "' + url + '"');
