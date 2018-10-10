@@ -20,19 +20,88 @@
 <!-- Content area -->
 <div class="content-area text-normal">
 	<div class="container">
+		<!-- header -->
 		<div class="row pt-3">
 			<div class="col-12">
 				<h1>ToDo List <i class="fas fa-clipboard-list font-2rem"></i></h1>
 				<p class="lead text-normal">Create, group and share your ToDo items within ToDo lists.</p>
+				<hr>
 			</div>
-			
 		</div>
-		
+		<!-- add new and filter -->
+		<div class="row">
+			<div class="col-12 d-md-flex justify-content-between">
+				<div class="d-flex justify-content-start">
+					<h4>Lists</h4>
+					<button class="btn btn-circle ml-2">
+			            <i class="fas fa-plus"></i>
+	        	    </button>
+				</div>
+				
+				<div class="input-group mb-2 mt-2 mt-md-0 max-width-md-15em">
+					<div class="input-group-prepend">
+						<div class="input-group-text border-left-radius-15px"><i class="fas fa-sort-amount-down font13"></i></div>
+					</div>
+					<input type="text" class="form-control border-right-radius-15px font12" placeholder="Filter lists" required>
+				</div>
+			</div>
+		</div>
+		<!-- empty results -->
+		<div class="row">
+			<div class="col-12 mt-2" ng-if="noFilterResults">
+				<div class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
+					<p class="m-0 p-5">No matching results</h4>
+				</div>
+			</div>
+			<div class="col-12 mt-2" ng-if="todoList.length == 0">
+				<div class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
+					<p class="m-0 p-5">No created lists</h4>
+				</div>
+			</div>
+		</div>
+		<!-- list items -->
+		<div class="row pl-3" ng-if="todoList.length > 0">
+			<div ng-repeat="listItem in todoList" class="col-12 col-md-6 mt-3 pl-0">
+				<div class="bg-white card card-project rounded list-card-style">
+					<div class="progress">
+                        <div class="progress-bar" random-class="bg-primary,bg-success,bg-danger,bg-warning,bg-info" role="progressbar" style="width: {{listItem.completed/listItem.total*100}}%"></div>
+                    </div>
+					<div class="card-body p-3">
+						<!-- title -->
+						<div class="d-flex justify-content-between">
+							<h5 class="font18 text-bold">{{listItem.name}}</h5>
+							<i class="fas fa-ellipsis-v pl-3 cursor-pointer"></i>
+						</div>
+						<!-- connections -->
+						<ul class="avatars mt-2 mb-4">
+							<li><a href="#" data-toggle="tooltip" data-placement="top" title="Me"> 
+									<img alt="Me" class="avatar" src="../common/resources/images/profile-placeholder.jpg">
+								</a>
+							</li>
+							<li ng-repeat="conn in listItem.connectionIds">
+								<a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown({{conn.id}})">
+									<img alt="Peggy Brown({{conn.id}})" class="avatar filter-by-alt"
+									src="../common/resources/images/profile-placeholder.jpg" data-filter-by="alt">
+								</a>
+							</li>
+						</ul>
+						<!-- meta -->
+						<div class="card-meta d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <i class="fab fa-stack-overflow font19"></i>
+                                <span class="pl-1 font13">{{listItem.completed}}/{{listItem.total}}</span>
+                            </div>
+                            <span class="font13">Due {{listItem.total - listItem.completed}}</span>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 <!-- Content area -->
-<div class="content-area text-normal">
+<div class="content-area text-normal pt-5">
 	<div class="container">
 		<div class="row pt-3">
 			<div class="col-12">

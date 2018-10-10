@@ -1,6 +1,18 @@
 (function(angular) {
 	angular.module("todoapp")
 	
+	
+	.directive('randomClass', [function() {
+		return {
+			restrict : "A",
+			link : function(scope, element, attrs) {
+				var classNames = attrs.randomClass.split(',');
+				var randomClass = classNames[Math.floor(Math.random()*classNames.length)]
+				angular.element(element).addClass(randomClass);
+			}
+		}
+	} ])
+	
 	/**
 	 * New passwords match validation
 	 */

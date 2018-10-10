@@ -299,10 +299,23 @@ a:hover {
     border-bottom-right-radius: 5px !important;
 }
 
+.border-right-radius-15px {
+	border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+}
+
+.border-left-radius-15px {
+	border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+}
+
 .bg-gray-light {
 	background-color: #fafbfc !important;
 }
 
+.bg-gray-light-2 {
+    background-color: #E9ECEF !important;
+}
 	
 .invalid-tooltip {
 	width: auto;
@@ -505,6 +518,10 @@ a.dropdown-item:active {
 	max-width: 13em;
 }
 
+.max-width-15em {
+	max-width: 15em;
+}
+
 .content-area {
 	font-family: -apple-system, BlinkMacSystemFont, "Inter UI", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1rem;
@@ -515,7 +532,7 @@ a.dropdown-item:active {
     background-color: #F7F9FA;
 }
 
-.content-area h1 {
+.content-area h1, h2, h3, h4, h5 {
 	color: #212529;
 	font-weight: 400;
 }
@@ -527,4 +544,62 @@ a.dropdown-item:active {
 
 .border-bottom-navbar {
 	border-bottom: 1px solid #E9EEF2;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
+}
+
+.list-card-style {
+	box-shadow: 0 0.1875rem 0.375rem rgba(33, 37, 41, 0.05);
+	border: 1px solid #E9EEF2;
+}
+
+.card > .progress .progress-bar {
+    height: 0.3rem;
+    border-radius: .5rem 0 0 0;
+}
+
+.card > .progress {
+    height: 0.3rem;
+}
+
+.card-body {
+	
+}
+
+.card-project .avatars {
+    margin-bottom: 2.25rem;
+}
+
+.avatars {
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+	margin-left: 0.5em;
+}
+
+.avatars > li {
+    display: inline-block;
+    margin-left: -0.8rem;
+}
+
+.card .avatar {
+    border-color: #fff;
+    background: #fff;
+}
+
+.avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 2px solid #F7F9FA;
+    background: #F7F9FA;
+    color: #fff;
 }

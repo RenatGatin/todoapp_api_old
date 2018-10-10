@@ -27,6 +27,37 @@
 				// do nothing
 			});
 		};
+
+		$scope.todoList = [
+				{ 
+					name: 'Abc',
+					total: 10,
+					completed: 6,
+					connectionIds : [ 
+						{
+							id : 1,
+							id : 2,
+							id : 3
+						}
+					]
+				}, 
+				{ 
+					name: 'Def',
+					total: 8,
+					completed: 1,
+					connectionIds : []
+				}, 
+				{ 	name: 'Ghi',
+					total: 11,
+					completed: 7,
+					connectionIds : [ 
+						{
+							id : 1,
+							id : 2
+						}
+					]
+				}
+		];
 		
 		//$scope.errorMessage = 'Test tttttt';
 

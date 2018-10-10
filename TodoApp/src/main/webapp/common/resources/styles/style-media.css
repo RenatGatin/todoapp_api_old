@@ -1,0 +1,47 @@
+/**
+ * Common CSS styling
+ * Suppose to have only media related classes
+ * 
+ * @author RGatin
+ * @since 10-oct-2018
+ * 
+ */
+@CHARSET "ISO-8859-1";
+
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+	
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+@media (min-width: 768px) {
+	.max-width-md-15em {
+		max-width: 15em;
+	}	
+}
+
+/* Landscape phones and portrait tablets */
+@media ( max-width : 767px) {
+	
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+	
+}
+
+
+/* All bigger then phones */
+@media (min-width: 768px) {
+  
+}
