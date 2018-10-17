@@ -1,11 +1,18 @@
 -- IMPORTANT: Requires MySQL version minimum: 5.6.5
 
-DROP TABLE IF EXISTS user_authority;
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS authority;
-DROP TABLE IF EXISTS oauth_access_token;
-DROP TABLE IF EXISTS oauth_refresh_token;
+
+-- IF you doesn't want to delete foregn_key dependent tables in proper order - you can disable FOREIGN_KEY_CHECKS and enable it again after all done
+--SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `user_authority`;
+DROP TABLE IF EXISTS `todo_list_share`;
+DROP TABLE IF EXISTS `todo_list`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `authority`;
+DROP TABLE IF EXISTS `oauth_access_token`;
+DROP TABLE IF EXISTS `oauth_refresh_token`;
 DROP TABLE IF EXISTS `pseudo_user`;
+--SET FOREIGN_KEY_CHECKS=1; 
+-- end of disabling FOREIGN_KEY_CHECKS
 
 CREATE TABLE user (
   id int(11) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -74,4 +81,24 @@ CREATE TABLE `pseudo_user` (
   UNIQUE KEY `activationkey` (`activationkey`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
+);
+
+CREATE TABLE `todo_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `creator_id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `date_created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Unique_id_creator` (`id`,`creator_id`) USING BTREE,
+  KEY `FK_creator_user` (`creator_id`),
+  CONSTRAINT `FK_creator_user` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `todo_list_share` (
+  `list_id` int(11) NOT NULL,
+  `share_user_id` int(11) NOT NULL,
+  UNIQUE KEY `Unique_list_share` (`list_id`,`share_user_id`) USING BTREE,
+  KEY `FK_share_user` (`share_user_id`),
+  CONSTRAINT `FK_list_id` FOREIGN KEY (`list_id`) REFERENCES `todo_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_share_user` FOREIGN KEY (`share_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
