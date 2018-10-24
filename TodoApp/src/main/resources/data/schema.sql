@@ -4,6 +4,7 @@
 -- IF you doesn't want to delete foregn_key dependent tables in proper order - you can disable FOREIGN_KEY_CHECKS and enable it again after all done
 --SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `user_authority`;
+DROP TABLE IF EXISTS `todo_item`;
 DROP TABLE IF EXISTS `todo_list_share`;
 DROP TABLE IF EXISTS `todo_list`;
 DROP TABLE IF EXISTS `user`;
@@ -88,6 +89,7 @@ CREATE TABLE `todo_list` (
   `creator_id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
   `date_created` datetime NOT NULL,
+  `date_last_modified` datetime NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Unique_id_creator` (`id`,`creator_id`) USING BTREE,
   KEY `FK_creator_user` (`creator_id`),
@@ -101,4 +103,19 @@ CREATE TABLE `todo_list_share` (
   KEY `FK_share_user` (`share_user_id`),
   CONSTRAINT `FK_list_id` FOREIGN KEY (`list_id`) REFERENCES `todo_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_share_user` FOREIGN KEY (`share_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `todo_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `list_id` int(11) NOT NULL,
+  `title` varchar(500) NOT NULL,
+  `notes` varchar(5000) DEFAULT NULL,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Can be hidden only if completed',
+  `date_created` datetime NOT NULL,
+  `date_last_modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Unique_item_list` (`id`,`list_id`) USING BTREE,
+  KEY `list_id` (`list_id`),
+  CONSTRAINT `FK_item_list` FOREIGN KEY (`list_id`) REFERENCES `todo_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
