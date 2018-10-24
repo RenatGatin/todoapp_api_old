@@ -2,7 +2,7 @@ package ca.gatin.dao.service;
 
 import java.util.List;
 
-import ca.gatin.model.security.PseudoUser;
+import ca.gatin.model.signup.PseudoUser;
 
 public interface PseudoUserPersistenceService {
 

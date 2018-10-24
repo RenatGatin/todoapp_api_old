@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.gatin.model.security.PseudoUser;
+import ca.gatin.model.signup.PseudoUser;
 
 /**
  * User JPA persistence

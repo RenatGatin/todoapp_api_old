@@ -1,4 +1,4 @@
-package ca.gatin.model.security;
+package ca.gatin.model.signup;
 
 import java.util.Date;
 

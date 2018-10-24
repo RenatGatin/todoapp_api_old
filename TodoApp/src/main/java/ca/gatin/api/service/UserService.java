@@ -27,10 +27,10 @@ import ca.gatin.dao.service.UserPersistenceService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.Authority;
-import ca.gatin.model.security.PseudoUser;
 import ca.gatin.model.security.User;
 import ca.gatin.model.signup.ChangePasswordWithKeyBean;
 import ca.gatin.model.signup.PreSignupUser;
+import ca.gatin.model.signup.PseudoUser;
 import ca.gatin.util.Check;
 
 /**

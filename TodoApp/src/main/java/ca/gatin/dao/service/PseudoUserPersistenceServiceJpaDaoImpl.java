@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.gatin.dao.repository.PseudoUserRepository;
-import ca.gatin.model.security.PseudoUser;
+import ca.gatin.model.signup.PseudoUser;
 
 @Service
 public class PseudoUserPersistenceServiceJpaDaoImpl implements PseudoUserPersistenceService {

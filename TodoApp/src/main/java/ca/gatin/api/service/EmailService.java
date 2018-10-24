@@ -8,9 +8,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import ca.gatin.model.security.PseudoUser;
 import ca.gatin.model.security.User;
 import ca.gatin.model.signup.PreSignupUser;
+import ca.gatin.model.signup.PseudoUser;
 
 @Service
 public class EmailService {
