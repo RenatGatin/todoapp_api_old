@@ -9,6 +9,7 @@ import ca.gatin.api.controller.BaseController;
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.EmailService;
+import ca.gatin.api.service.TodoService;
 
 /**
  * Testing public API Controller
@@ -22,6 +23,9 @@ public class TestController extends BaseController {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	TodoService todoService;
 	
 	@RequestMapping(value= "/simple", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> testManual() {
@@ -44,6 +48,16 @@ public class TestController extends BaseController {
 		}
 		
 		return serviceResponse;
+	}
+	
+	@RequestMapping(value= "/testTodos", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> testTodos() {
+		return todoService.testTodos();
+	}
+	
+	@RequestMapping(value= "/testTodoList", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> testTodoList() {
+		return todoService.testTodoList();
 	}
 	
 }
