@@ -144,7 +144,7 @@
       </Host>
       -->
       
-      <Host appBase="webapps/TodoApp"  name="todoapp.rg">
+      <Host appBase="webapps/TodoApp" name="todoapp.rg">
       	<Context docBase="../TodoApp" path="" reloadable="false"/>
       </Host>
     </Engine>
