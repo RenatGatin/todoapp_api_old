@@ -18,7 +18,7 @@
 		EMAIL_TRANSMISSION_ERROR						: 2019,
 		PRESIGNUP_USER_STATUS_ACTIVATED					: 2020,
 		
-		BASE_URL										: '/todoapp',
+		BASE_URL										: 'http://todoapp.rg:8080',
 		
 		POST_OAUTH_TOKEN								: '/oauth/token',
 		POST_OAUTH_LOGOUT								: '/oauth/logout',

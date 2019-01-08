@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import ca.gatin.model.security.User;
-import ca.gatin.model.signup.PreSignupUser;
 import ca.gatin.model.signup.PseudoUser;
 
 @Service
@@ -47,7 +46,7 @@ public class EmailService {
 					 "\n\nYou can use this Key:" + 
 				     "\n" + user.getActivationKey() + 
 					 "\nto activate your account." + 
-				     "\n\nOr click this link: " + "http://localhost:8080/todoapp/customer/#/sign-up?username=" + user.getEmail() + "&key=" + user.getActivationKey() +
+				     "\n\nOr click this link: " + "http://todoapp.rg:8080/customer/#/sign-up?username=" + user.getEmail() + "&key=" + user.getActivationKey() +
 				     "\nand follow the instuctions." + 
 				     "\n\nTimestamp: " + new Date());
 		
@@ -62,8 +61,8 @@ public class EmailService {
 		mail.setSubject("[ToDoApp] Please reset your password");
 		mail.setText("We heard that you lost your ToDoApp password. Sorry about that!" +
 					 "\n\nBut don’t worry! You can use the following link to reset your password:" + 
-					 "\n\n " + "http://localhost:8080/todoapp/customer/#/password-do-reset/" + resetPasswordKey  +
-				     "\n\nIf you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit http://localhost:8080/todoapp/customer/#/password-reset" + 
+					 "\n\n " + "http://todoapp.rg:8080/customer/#/password-do-reset/" + resetPasswordKey  +
+				     "\n\nIf you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit http://todoapp.rg:8080/customer/#/password-reset" + 
 					 "\n\nThanks," + 
 				     "\nYour friends at ToDoApp" + 
 				     "\n\nTimestamp: " + new Date());
