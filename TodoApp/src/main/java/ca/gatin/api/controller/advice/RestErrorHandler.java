@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ca.gatin.api.exception.NoAccountFoundException;
+import ca.gatin.api.exception.ServiceExceptionResponse;
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.SimpleServiceResponse;
 import ca.gatin.api.response.ValidationErrorsResponse;
@@ -76,9 +77,23 @@ public class RestErrorHandler {
 	
 	@ExceptionHandler(NoAccountFoundException.class)
 	@ResponseBody
-	public SimpleServiceResponse processNoAccountFoundException(HttpServletRequest request, NoAccountFoundException ex) {
+	public ServiceExceptionResponse processNoAccountFoundException(HttpServletRequest request, NoAccountFoundException ex) {
 		logger.debug(ex.getMessage());
 		return ex.getServiceResponse();
+	}
+	
+	/**
+	 * Catch All Exceptions method
+	 * 
+	 * @param request
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	public ServiceExceptionResponse processGenericException(HttpServletRequest request, Exception ex) {
+		logger.error("GenericException is: " + ex + ", message is: " + ex.getMessage());
+		return new ServiceExceptionResponse(ResponseStatus.SYSTEM_INTERNAL_ERROR);
 	}
 
 }
