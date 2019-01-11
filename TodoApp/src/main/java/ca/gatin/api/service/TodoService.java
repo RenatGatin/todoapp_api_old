@@ -46,45 +46,30 @@ public class TodoService {
 	public ServiceResponse<?> testTodoItemAll() {
 		ServiceResponse<List<TodoItem>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		try {
-			List<TodoItem> todoItems = todoItemPersistenceService.getAll();
-			serviceResponse.setStatus(ResponseStatus.SUCCESS);
-			serviceResponse.setEntity(todoItems);
-			
-		} catch (Exception e) {
-			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
-			e.printStackTrace();
-		}
+		List<TodoItem> todoItems = todoItemPersistenceService.getAll();
+		serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		serviceResponse.setEntity(todoItems);
+
 		return serviceResponse;
 	}
 	
 	public ServiceResponse<?> testTodoListAll() {
 		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		try {
-			List<TodoList> todoItems = todoListPersistenceService.getAll();
-			serviceResponse.setStatus(ResponseStatus.SUCCESS);
-			serviceResponse.setEntity(todoItems);
-			
-		} catch (Exception e) {
-			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
-			e.printStackTrace();
-		}
+		List<TodoList> todoItems = todoListPersistenceService.getAll();
+		serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		serviceResponse.setEntity(todoItems);
+		
 		return serviceResponse;
 	}
 	
 	public ServiceResponse<?> getTodoListAll(User user) {
 		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		try {
-			List<TodoList> todoItems = todoListPersistenceService.getAll();
-			serviceResponse.setStatus(ResponseStatus.SUCCESS);
-			serviceResponse.setEntity(todoItems);
+		List<TodoList> todoItems = todoListPersistenceService.getAll();
+		serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		serviceResponse.setEntity(todoItems);
 			
-		} catch (Exception e) {
-			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
-			e.printStackTrace();
-		}
 		return serviceResponse;
 	}
 
