@@ -35,79 +35,57 @@ public class SuperAdminController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.info("> /api/superadmin/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
-	
 		return serviceResponse;
 	}
 	
 	@RequestMapping(value = "/getAdminProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAdminProfileList() {
-		logger.info("> /api/superadmin/getAdminProfileList");
-		
 		return userService.getListOf(Authorities.ROLE_ADMIN, true);
 	}
 	
 	@RequestMapping(value = "/getUserProfileList", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getUserProfileList() {
-		logger.debug("> /api/superadmin/getUserProfileList");
-		
 		return userService.getListOf(Authorities.ROLE_USER, true);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAuthorities(Authentication authentication) {
-		logger.debug("> /api/superadmin/getAuthorities by: " + authentication);
-	
 		return authorityService.getByAuthentication(true);
 	}
 	
 	@RequestMapping(value = "/createUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> createUser(@RequestBody User newUser) {
-		logger.info("> /api/superadmin/createUser: " + newUser.toString());
-		
 		return userService.create(newUser, false);
 	}
 	
 	@RequestMapping(value = "/createAdmin", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> createAdmin(@RequestBody User newAdmin) {
-		logger.info("> /api/superadmin/createAdmin: " + newAdmin.toString());
-		
 		return userService.create(newAdmin, true);
 	}
 	
 	@RequestMapping(value = "/deleteByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> deleteByUsername(@PathVariable String username) {
-		logger.info("> /api/superadmin/deleteByUsername");
-		
 		return userService.deleteByUsername(username, true);
 	}
 	
 	@RequestMapping(value = "/disableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> disableByUsername(@PathVariable String username) {
-		logger.info("> /api/superadmin/disableByUsername");
-		
 		return userService.enableOrDisableByUsername(false, username, true);
 	}
 	
 	@RequestMapping(value = "/enableByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> enableByUsername(@PathVariable String username) {
-		logger.info("> /api/superadmin/enableByUsername : " + username);
-		
 		return userService.enableOrDisableByUsername(true, username, true);
 	}
 	
 	@RequestMapping(value = "/changePassword/{username}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, @PathVariable String username) {
-		logger.info("> /api/superadmin/changePassword : " + username);
-		
 		return userService.changePassword(changePasswordRequestBean, username, true);
 	}
 	
 	@RequestMapping(value = "/getProfileByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getProfileByUsername(@PathVariable String username) {
-		logger.debug("> /api/superadmin/getProfileByUsername : " + username);
-		
 		return userService.getAdminOrUserProfileByUsername(username, true);
 	}
 	

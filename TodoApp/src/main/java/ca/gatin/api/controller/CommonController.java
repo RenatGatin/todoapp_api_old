@@ -30,25 +30,19 @@ public class CommonController extends BaseController {
 	
 	@RequestMapping(value = "/selfChangePassword", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfChangePassword(@RequestBody ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
-		logger.info("> /api/common/selfChangePassword");
 		User user = getCurrentUser(principal);
-		
 		return userService.selfChangePassword(changePasswordRequestBean, user);
 	}
 	
 	@RequestMapping(value = "/selfDisable", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> selfDisable(Principal principal) {
-		logger.info("> /api/common/selfDisable");
 		User user = getCurrentUser(principal);
-		
 		return userService.selfDisable(user);
 	}
 	
 	@RequestMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getSelfProfile(Principal principal) {
-		logger.debug("> /api/common/profile");
 		User user = getCurrentUser(principal);
-		
 		return userService.getSelfProfile(user);
 	}
 	

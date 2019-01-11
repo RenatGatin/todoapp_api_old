@@ -36,23 +36,20 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.debug("> /api/user/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
-	
 		return serviceResponse;
 	}
 	
 	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> selfDelete(Principal principal) {
-		logger.info("> /api/user/selfDelete");
 		User user = getCurrentUser(principal);
-		
 		return userService.selfDelete(user);
 	}
 	
 	@RequestMapping(value= "/todo/list/all", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getTodoListAll(Principal principal) {
-		return todoService.getTodoListAll(principal);
+		User user = getCurrentUser(principal);
+		return todoService.getTodoListAll(user);
 	}
 	
 }

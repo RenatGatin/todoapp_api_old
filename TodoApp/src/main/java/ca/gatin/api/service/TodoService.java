@@ -13,6 +13,7 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.dao.service.TodoItemPersistenceService;
 import ca.gatin.dao.service.TodoListPersistenceService;
 import ca.gatin.dao.service.UserPersistenceService;
+import ca.gatin.model.security.User;
 import ca.gatin.model.todo.TodoItem;
 import ca.gatin.model.todo.TodoList;
 
@@ -71,11 +72,20 @@ public class TodoService {
 		}
 		return serviceResponse;
 	}
-
-	public ServiceResponse<?> getTodoListAll(Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
+	public ServiceResponse<?> getTodoListAll(User user) {
+		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		try {
+			List<TodoList> todoItems = todoListPersistenceService.getAll();
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			serviceResponse.setEntity(todoItems);
+			
+		} catch (Exception e) {
+			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
+			e.printStackTrace();
+		}
+		return serviceResponse;
+	}
 
 }

@@ -36,58 +36,42 @@ public class OpenController extends BaseController {
 	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
-		logger.debug("> /api/open/ping");
 		ServiceResponse<Object> serviceResponse = new ServiceResponse<>(ResponseStatus.SUCCESS);
-	
 		return serviceResponse;
 	}
 	
 	@RequestMapping(value = "/preSignupUser", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> createUser(@Valid @RequestBody PreSignupUser preSignupUser) {
-		logger.info("> /api/open/preSignupUser: " + preSignupUser.toString());
-		
 		return userService.create(preSignupUser);
 	}
 	
 	@RequestMapping(value = "/isPreSignupUserActivated/{username}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	public ServiceResponse<?> isPreSignupUserActivated(@PathVariable String username) {
-		logger.info("> /api/open/isPreSignupUserActivated: " + username);
-		
 		return userService.isPreSignupUserActivated(username);
 	}
 	
 	@RequestMapping(value = "/checkPasswordResetKey/{key}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	public ServiceResponse<?> checkPasswordResetKey(@PathVariable String key) {
-		logger.info("> /api/open/checkPasswordResetKey: " + key);
-		
 		return userService.checkPasswordResetKey(key);
 	}
 	
 	@RequestMapping(value = "/activatePreSignupUser/{username}/{key}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> activatePreSignupUser(@PathVariable String username, @PathVariable String key) {
-		logger.info("> /api/open/activatePreSignupUser: username: " + username + ", key: " + key);
-		
 		return userService.activatePreSignupUser(username, key);
 	}
 	
 	@RequestMapping(value = "/changePasswordWithKey", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> changePasswordWithKey(@Valid @RequestBody ChangePasswordWithKeyBean bean) {
-		logger.info("> /api/open/changePasswordWithKey: " + bean.getResetPasswordKey());
-		
 		return userService.changePasswordWithKey(bean);
 	}
 	
 	@RequestMapping(value = "/passwordReset/{email}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ServiceResponse<?> passwordReset(@PathVariable String email) {
-		logger.info("> /api/open/passwordReset: email: " + email);
-		
 		return userService.passwordReset(email);
 	}
 	
 	@RequestMapping(value = "/getAuthorities", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> getAuthorities(Authentication authentication) {
-		logger.debug("> /api/open/getAuthorities by: " + authentication);
-	
 		return authorityService.getByAuthentication(false);
 	}
 	
