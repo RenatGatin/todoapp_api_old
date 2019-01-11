@@ -66,7 +66,7 @@ public class TodoService {
 	public ServiceResponse<?> getTodoListAll(User user) {
 		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
-		List<TodoList> todoItems = todoListPersistenceService.getAll();
+		List<TodoList> todoItems = todoListPersistenceService.getByCreator(user);
 		serviceResponse.setStatus(ResponseStatus.SUCCESS);
 		serviceResponse.setEntity(todoItems);
 			

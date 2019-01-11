@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.gatin.dao.repository.TodoListRepository;
+import ca.gatin.model.security.User;
 import ca.gatin.model.todo.TodoList;
 
 @Service
@@ -17,6 +18,12 @@ public class TodoListPersistenceServiceJpaDaoImpl implements TodoListPersistence
 	@Override
 	public List<TodoList> getAll() {
 		List<TodoList> list = todoListRepository.findAll();
+		return list;
+	}
+
+	@Override
+	public List<TodoList> getByCreator(User user) {
+		List<TodoList> list = todoListRepository.findByCreator(user);
 		return list;
 	}
 

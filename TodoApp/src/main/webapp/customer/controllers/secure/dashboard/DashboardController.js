@@ -1,6 +1,7 @@
 (function(angular) {
 	var controller = function($scope, $rootScope, AppConstants, SharingService, httpService, $httpParamSerializer, $http, CommonService) {
 		//SharingService.set('reloadedHome', false);
+		var GET_LIST_ALL = '/api/user/todo/list/all';
 		
 		CommonService.getProfile();
 		
@@ -14,6 +15,14 @@
 				$scope.securedApiResponse = JSON.stringify(response);
 		    });
 		};
+		
+			
+		httpService.get(GET_LIST_ALL, null, false, function(response){
+			$scope.securedApiResponse = JSON.stringify(response);
+			
+	    }, function(response){
+			$scope.securedApiResponse = JSON.stringify(response);
+	    });
 		
 		$scope.showAlert = function() {
 			swal({
