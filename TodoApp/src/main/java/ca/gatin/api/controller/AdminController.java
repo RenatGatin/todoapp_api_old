@@ -83,8 +83,9 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> selfDelete(Principal principal) {
 		logger.info("> /api/admin/delete");
+		User user = getCurrentUser(principal);
 		
-		return userService.selfDelete(principal);
+		return userService.selfDelete(user);
 	}
 	
 	@RequestMapping(value = "/getUserProfileByUsername/{username}", produces = MediaType.APPLICATION_JSON_VALUE)

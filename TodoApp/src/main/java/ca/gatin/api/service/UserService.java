@@ -1,8 +1,6 @@
 package ca.gatin.api.service;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
+//import java.security.Principal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +10,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -330,28 +325,20 @@ public class UserService {
 	 * Deletes currently logged in user.
 	 * Only allowed to User and Admin delete itself.
 	 * 
-	 * @param principal 
+	 * @param user 
 	 * @return
 	 */
-	public ServiceResponse<?> selfDelete(Principal principal) {
+	public ServiceResponse<?> selfDelete(User user) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
-			String username = principal.getName();
-			User user = userPersistenceService.getByUsername(username);
-			
-			if (user != null) {
+			if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+				boolean deleted = userPersistenceService.delete(user.getId());
+				ResponseStatus response = (deleted) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_DELETION_FAILURE;
+				serviceResponse.setStatus(response);
 				
-				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
-					boolean deleted = userPersistenceService.delete(user.getId());
-					ResponseStatus response = (deleted) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_DELETION_FAILURE;
-					serviceResponse.setStatus(response);
-					
-				} else {
-					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
-				}
 			} else {
-				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+				serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
 			}
 		} catch (Exception e) {
 			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
@@ -451,29 +438,21 @@ public class UserService {
 	 * Anybody can disable themselves 
 	 * except SUPERADMIN
 	 * 
-	 * @param principal
+	 * @param user
 	 * @return
 	 */
-	public ServiceResponse<?> selfDisable(Principal principal) {
+	public ServiceResponse<?> selfDisable(User user) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
-			String username = principal.getName();
-			User user = userPersistenceService.getByUsername(username);
-			
-			if (user != null) {
+			// prohibited to disable SUPERADMIN
+			if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
+				boolean disabled = userPersistenceService.disable(user.getId());
+				ResponseStatus response = (disabled) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE;
+				serviceResponse.setStatus(response);
 				
-				// prohibited to disable SUPERADMIN
-				if (!hasRole(Authorities.ROLE_SUPERADMIN, user)) {
-					boolean disabled = userPersistenceService.disable(user.getId());
-					ResponseStatus response = (disabled) ? ResponseStatus.SUCCESS : ResponseStatus.ACCOUNT_DB_UPDATION_FAILURE;
-					serviceResponse.setStatus(response);
-					
-				} else {
-					serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
-				}
 			} else {
-				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+				serviceResponse.setStatus(ResponseStatus.ACTION_NOT_PERMITTED);
 			}
 		} catch (Exception e) {
 			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
@@ -486,10 +465,10 @@ public class UserService {
 	 * Self change password
 	 * 
 	 * @param changePasswordRequestBean
-	 * @param principal
+	 * @param user
 	 * @return
 	 */
-	public ServiceResponse<?> selfChangePassword(ChangePasswordRequestBean changePasswordRequestBean, Principal principal) {
+	public ServiceResponse<?> selfChangePassword(ChangePasswordRequestBean changePasswordRequestBean, User user) {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
@@ -507,19 +486,11 @@ public class UserService {
 				serviceResponse.setStatus(ResponseStatus.NEW_PASSWORD_HAS_TO_BE_DIFFERENT);
 				
 			} else {
-				String username = principal.getName();
-				User user = userPersistenceService.getByUsername(username);
-				
-				if (user != null) {
-					
-					String encodedPassword = user.getPassword();
-					if (!passwordEncoder.matches(currentPassword, encodedPassword))
-						serviceResponse.setStatus(ResponseStatus.OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE);
-					else
-						serviceResponse = doChangePassword(newPassword1, user);
-					
+				String encodedPassword = user.getPassword();
+				if (!passwordEncoder.matches(currentPassword, encodedPassword)) {
+					serviceResponse.setStatus(ResponseStatus.OLD_PASSWORD_DOES_NOT_MATCH_CURRENT_VALUE);
 				} else {
-					serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
+					serviceResponse = doChangePassword(newPassword1, user);
 				}
 			}
 		} catch (Exception e) {
@@ -581,24 +552,16 @@ public class UserService {
 	/**
 	 * Get Profile of itself
 	 * 
-	 * @param principal
+	 * @param user
 	 * @return
 	 */
-	public ServiceResponse<?> getSelfProfile(Principal principal) {
+	public ServiceResponse<?> getSelfProfile(User user) {
 		ServiceResponse<User> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
-			String username = principal.getName();
-			User user = userPersistenceService.getByUsername(username);
-			
-			if (user != null) {
-				cleanUser(user);
-				serviceResponse.setEntity(user);
-				serviceResponse.setStatus(ResponseStatus.SUCCESS);
-				
-			} else {
-				serviceResponse.setStatus(ResponseStatus.ACCOUNT_NOT_FOUND);
-			}
+			cleanUser(user);
+			serviceResponse.setEntity(user);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
 		} catch (Exception e) {
 			serviceResponse.setStatus(ResponseStatus.SYSTEM_INTERNAL_ERROR);
 			e.printStackTrace();

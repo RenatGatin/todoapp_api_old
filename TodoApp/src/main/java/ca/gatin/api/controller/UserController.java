@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
+import ca.gatin.api.service.TodoService;
 import ca.gatin.api.service.UserService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
 import ca.gatin.model.security.Authorities;
@@ -30,6 +31,9 @@ public class UserController extends BaseController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	TodoService todoService;
+	
 	@RequestMapping(value = "/ping", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> ping() {
 		logger.debug("> /api/user/ping");
@@ -41,8 +45,14 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/selfDelete", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
 	public ServiceResponse<?> selfDelete(Principal principal) {
 		logger.info("> /api/user/selfDelete");
+		User user = getCurrentUser(principal);
 		
-		return userService.selfDelete(principal);
+		return userService.selfDelete(user);
+	}
+	
+	@RequestMapping(value= "/todo/list/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ServiceResponse<?> getTodoListAll(Principal principal) {
+		return todoService.getTodoListAll(principal);
 	}
 	
 }

@@ -8,20 +8,21 @@ package ca.gatin.api.response;
  *
  * @param <T>
  */
-public class ServiceResponse<T> {
+public class ServiceResponse<T> extends SimpleServiceResponse {
+	
 	private T entity;
-	private ResponseStatus status;
 
+	public ServiceResponse() {
+		super();
+	}
+	
 	public ServiceResponse(ResponseStatus status) {
-		this.status = status;
+		super(status);
 	}
-
-	public void setStatus(ResponseStatus status) {
-		this.status = status;
-	}
-
-	public ResponseStatus getStatus() {
-		return status;
+	
+	public ServiceResponse(ResponseStatus status, String message) {
+		super(status);
+		super.setMessage(message);
 	}
 
 	public T getEntity() {

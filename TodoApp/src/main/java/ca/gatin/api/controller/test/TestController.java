@@ -35,6 +35,7 @@ public class TestController extends BaseController {
 		return serviceResponse;
 	}
 	
+	//TODO: Delete after tests
 	@RequestMapping(value= "/mail", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> testMailSender() {
 		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_INTERNAL_ERROR);
@@ -50,14 +51,16 @@ public class TestController extends BaseController {
 		return serviceResponse;
 	}
 	
-	@RequestMapping(value= "/testTodos", produces = MediaType.APPLICATION_JSON_VALUE)
+	//TODO: Delete after tests
+	@RequestMapping(value= "/todo/item/all", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> testTodos() {
-		return todoService.testTodos();
+		return todoService.testTodoItemAll();
 	}
 	
-	@RequestMapping(value= "/testTodoList", produces = MediaType.APPLICATION_JSON_VALUE)
+	//TODO: Delete after tests
+	@RequestMapping(value= "/todo/list/all", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> testTodoList() {
-		return todoService.testTodoList();
+		return todoService.testTodoListAll();
 	}
 	
 }

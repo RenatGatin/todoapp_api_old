@@ -2,6 +2,8 @@ package ca.gatin.model.security;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -26,6 +28,7 @@ public class User {
     @Size(min = 0, max = 50)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     @Size(min = 0, max = 500)
     private String password;
@@ -37,14 +40,17 @@ public class User {
 
     private boolean activated;
 
+    @JsonIgnore
     @Size(min = 0, max = 100)
     @Column(name = "activationkey")
     private String activationKey;
 
+    @JsonIgnore
     @Size(min = 0, max = 100)
     @Column(name = "resetpasswordkey")
     private String resetPasswordKey;
     
+    @JsonIgnore
     @Column(name = "date_created_resetpasswordkey")
     private Date dateCreatedResetPasswordKey;
     

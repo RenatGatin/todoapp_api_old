@@ -1,5 +1,6 @@
 package ca.gatin.api.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,12 +37,12 @@ public class TodoService {
 	private TodoListPersistenceService todoListPersistenceService;
 	
 	/**
-	 * Get list of given type of user
+	 * Get list of all todo items from all lists
 	 * 
 	 * @param role
 	 * @return
 	 */
-	public ServiceResponse<?> testTodos() {
+	public ServiceResponse<?> testTodoItemAll() {
 		ServiceResponse<List<TodoItem>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
@@ -56,7 +57,7 @@ public class TodoService {
 		return serviceResponse;
 	}
 	
-	public ServiceResponse<?> testTodoList() {
+	public ServiceResponse<?> testTodoListAll() {
 		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		try {
@@ -69,6 +70,11 @@ public class TodoService {
 			e.printStackTrace();
 		}
 		return serviceResponse;
+	}
+
+	public ServiceResponse<?> getTodoListAll(Principal principal) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
