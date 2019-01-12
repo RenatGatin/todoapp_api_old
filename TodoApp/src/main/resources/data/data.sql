@@ -18,13 +18,15 @@ INSERT INTO `todo_list` VALUES ('1', '2', 'Test list', '2018-10-17 15:58:58', nu
 INSERT INTO `todo_list` VALUES ('2', '2', 'List 2(sdfsd kjls)', '2018-10-15 16:02:05', null);
 INSERT INTO `todo_list` VALUES ('3', '2', 'Third list shared', '2018-10-15 16:25:12', null);
 
+INSERT INTO `todo_list_share` VALUES ('2', '3');
 INSERT INTO `todo_list_share` VALUES ('3', '3');
 INSERT INTO `todo_list_share` VALUES ('3', '4');
 INSERT INTO `todo_list_share` VALUES ('3', '5');
 
-INSERT INTO `todo_item` VALUES ('1', '1', 'Buy Milk', null, '0', '0', '2018-10-23 18:16:23', null);
+INSERT INTO `todo_item` VALUES ('1', '1', 'Buy Milk', null, '1', '0', '2018-10-23 18:16:23', null);
 INSERT INTO `todo_item` VALUES ('2', '1', 'Go to School', null, '0', '0', '2018-10-18 18:21:25', null);
 INSERT INTO `todo_item` VALUES ('3', '1', 'Home Work', null, '0', '0', '2018-10-12 18:21:57', null);
+INSERT INTO `todo_item` VALUES ('4', '2', 'Play guitar', null, '0', '0', '2018-10-12 18:21:57', null);
 
 -- Separate USER, ADMIN and SUPERADMIN scopes
 -- INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);

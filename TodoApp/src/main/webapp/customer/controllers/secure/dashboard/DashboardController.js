@@ -18,11 +18,41 @@
 		
 			
 		httpService.get(GET_LIST_ALL, null, false, function(response){
-			$scope.securedApiResponse = JSON.stringify(response);
-			
+			if (response.status == 200) {
+				var data = response.data;
+				if (data.status.code == AppConstants.SUCCESS) {
+					$scope.todoListObjects = getTodoListWithExtraData(data.entity);
+					
+				} else {
+					toaster.pop('error', 'Error fetching data. Status message: ' + data.status.message);
+				}
+			} else {
+				toaster.pop('error', 'Error fetching data. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+			}
 	    }, function(response){
-			$scope.securedApiResponse = JSON.stringify(response);
+			toaster.pop('error', 'Error fetching data. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 	    });
+		
+		/**
+		 * adds "completed" and "total" properties to each todoList object
+		 */
+		function getTodoListWithExtraData(todoListObjects) {
+			if (todoListObjects) {
+				for (var i = 0; i < todoListObjects.length; i++) {
+					var todoListObj = todoListObjects[i];
+					todoListObj.completed = 0;
+					todoListObj.total = todoListObj.todoItems.length;
+					
+					for (var j = 0; j < todoListObj.total; j++) {
+						var todoItem = todoListObj.todoItems[j];
+						if (todoItem.completed) {
+							todoListObj.completed++;
+						}
+					}
+				}
+			}
+			return todoListObjects;
+		}
 		
 		$scope.showAlert = function() {
 			swal({
@@ -36,8 +66,10 @@
 				// do nothing
 			});
 		};
+		
+		
 
-		$scope.todoList = [
+		$scope.todoList2 = [
 				{ 
 					name: 'Abc',
 					total: 10,

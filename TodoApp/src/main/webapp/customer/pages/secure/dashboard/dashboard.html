@@ -53,15 +53,15 @@
 					<p class="m-0 p-5">No matching results</h4>
 				</div>
 			</div>
-			<div class="col-12 mt-2" ng-if="todoList.length == 0">
+			<div class="col-12 mt-2" ng-if="todoListObjects.length == 0">
 				<div class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
 					<p class="m-0 p-5">No created lists</h4>
 				</div>
 			</div>
 		</div>
 		<!-- list items -->
-		<div class="row pl-3" ng-if="todoList.length > 0">
-			<div ng-repeat="listItem in todoList" class="col-12 col-md-6 mt-3 pl-0">
+		<div class="row pl-3" ng-if="todoListObjects.length > 0">
+			<div ng-repeat="listItem in todoListObjects" class="col-12 col-md-6 mt-3 pl-0">
 				<div class="bg-white card card-project rounded list-card-style">
 					<div class="progress">
                         <div class="progress-bar" random-class="bg-primary,bg-success,bg-danger,bg-warning,bg-info" role="progressbar" style="width: {{listItem.completed/listItem.total*100}}%"></div>
@@ -88,9 +88,9 @@
 									<img alt="Me" class="avatar" src="../common/resources/images/profile-placeholder.jpg">
 								</a>
 							</li>
-							<li ng-repeat="conn in listItem.connectionIds">
-								<a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown({{conn.id}})">
-									<img alt="Peggy Brown({{conn.id}})" class="avatar filter-by-alt"
+							<li ng-repeat="conn in listItem.shares">
+								<a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown({{conn.username}})">
+									<img alt="Peggy Brown({{conn.username}})" class="avatar filter-by-alt"
 									src="../common/resources/images/profile-placeholder.jpg" data-filter-by="alt">
 								</a>
 							</li>
@@ -107,19 +107,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-
-<!-- Content area -->
-<div class="content-area text-normal pt-5">
-	<div class="container">
-		<div class="row pt-3">
-			<div class="col-12">
-				<h1>Data from Server <i class="fas fa-share-alt-square font-2rem"></i></h1>
-				<p class="lead text-normal">{{securedApiResponse}}</p>
-			</div>
-		</div>
-		
 	</div>
 </div>
 
