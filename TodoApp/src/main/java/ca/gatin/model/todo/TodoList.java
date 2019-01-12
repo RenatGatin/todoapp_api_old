@@ -44,7 +44,7 @@ public class TodoList {
     @Column(name = "date_last_modified")
     private Date dateLastModified;
 
-    @OneToMany(targetEntity=ca.gatin.model.todo.TodoItem.class, mappedBy="id")
+    @OneToMany(targetEntity=ca.gatin.model.todo.TodoItem.class, mappedBy="listId")
     private Set<TodoItem> todoItems;
     
     @ManyToMany
