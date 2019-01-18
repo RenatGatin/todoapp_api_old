@@ -34,7 +34,6 @@
     "commit": "e90bd56a8362be46a8d3ecc9320bd03176ce1e75"
   },
   "_source": "https://github.com/seegno/angular-oauth2.git",
-  "_target": "^4.1.1",
-  "_originalSource": "angular-oauth2",
-  "_direct": true
+  "_target": "4.1.1",
+  "_originalSource": "angular-oauth2"
 }

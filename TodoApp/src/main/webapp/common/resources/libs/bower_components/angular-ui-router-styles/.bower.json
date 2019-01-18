@@ -17,7 +17,6 @@
     "commit": "4685b84fb0e2d143a53ca6b85e93e68f90c3b45a"
   },
   "_source": "https://github.com/manuelmazzuola/angular-ui-router-styles.git",
-  "_target": "^1.1.0",
-  "_originalSource": "angular-ui-router-styles",
-  "_direct": true
+  "_target": "1.1.0",
+  "_originalSource": "angular-ui-router-styles"
 }
