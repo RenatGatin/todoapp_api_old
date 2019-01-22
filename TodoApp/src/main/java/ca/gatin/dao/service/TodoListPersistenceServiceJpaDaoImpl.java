@@ -27,5 +27,14 @@ public class TodoListPersistenceServiceJpaDaoImpl implements TodoListPersistence
 		return list;
 	}
 
-	
+	@Override
+	public TodoList getById(Long id) {
+		TodoList list = todoListRepository.findOne(id);
+		return list;
+	}
+
+	@Override
+	public void save(TodoList listItem) {
+		todoListRepository.save(listItem);
+	}
 }

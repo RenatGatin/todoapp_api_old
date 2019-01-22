@@ -63,7 +63,9 @@ public enum ResponseStatus {
 	TODOITEM_DB_CREATION_FAILURE											(2503, "TodoItem DB creation failure"),
 	TODOITEM_DB_UPDATION_FAILURE											(2504, "TodoItem DB updation failure"),
 	TODOITEM_NOT_PERSISTED_UPDATION_FAILURE									(2505, "Can't update TodoItem that hasn't been persisted"),
-	TODOITEM_DB_DELETION_FAILURE											(2506, "TodoItem DB deletion failure");
+	TODOITEM_DB_DELETION_FAILURE											(2506, "TodoItem DB deletion failure"),
+	
+	TODOLISTITEM_NOT_FOUND													(2601, "TodoListItem(s) Not Found");
 	
 	private int code;
 	private String message;

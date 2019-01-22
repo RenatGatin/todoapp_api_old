@@ -1,18 +1,28 @@
 package ca.gatin.api.service;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import ca.gatin.api.exception.PermissionDeniedException;
+import ca.gatin.api.exception.ValidationException;
+import ca.gatin.api.response.FieldErrorBean;
 import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.dao.service.TodoItemPersistenceService;
 import ca.gatin.dao.service.TodoListPersistenceService;
 import ca.gatin.dao.service.UserPersistenceService;
+import ca.gatin.model.request.SimpleStringBean;
 import ca.gatin.model.security.User;
 import ca.gatin.model.todo.TodoItem;
 import ca.gatin.model.todo.TodoList;
@@ -69,6 +79,34 @@ public class TodoService {
 		List<TodoList> todoItems = todoListPersistenceService.getByCreator(user);
 		serviceResponse.setStatus(ResponseStatus.SUCCESS);
 		serviceResponse.setEntity(todoItems);
+			
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> renameList(User user, Long id, String newName) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
+		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		newName = newName.trim();
+		if (StringUtils.isEmpty(newName)) {
+			FieldErrorBean fieldError = new FieldErrorBean("getStringVar", "is empty");
+			throw new ValidationException(fieldError);
+		}
+		
+		TodoList listItem = todoListPersistenceService.getById(id);
+		if (listItem == null) {
+			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
+			return serviceResponse;
+		}
+		
+		if (listItem.getCreator().getId() == user.getId()) {
+			listItem.setName(newName);
+			listItem.setDateLastModified(new Date());
+			todoListPersistenceService.save(listItem);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			
+		} else {
+			throw new PermissionDeniedException();
+		}
 			
 		return serviceResponse;
 	}

@@ -1,7 +1,8 @@
 (function(angular) {
-	var controller = function($scope, $rootScope, AppConstants, SharingService, httpService, $httpParamSerializer, $http, CommonService) {
+	var controller = function($scope, $rootScope, AppConstants, SharingService, httpService, $httpParamSerializer, $http, CommonService, toaster) {
 		//SharingService.set('reloadedHome', false);
 		var GET_LIST_ALL = '/api/user/todo/list/all';
+		var POST_LIST_RENAME = '/api/user/todo/list/rename/';
 		
 		CommonService.getProfile();
 		
@@ -16,6 +17,50 @@
 		    });
 		};
 		
+		$scope.listRename = function(listItem) {
+			swal({
+				  title: "Rename List",
+				  text: "Write new name:",
+				  type: "input",
+				  showCancelButton: true,
+				  closeOnConfirm: false,
+				  animation: "slide-from-top",
+				  inputPlaceholder: "new list name"
+				},
+				function(inputValue){
+				  if (inputValue === false) return false;
+				  
+				  if (inputValue === "") {
+				    swal.showInputError("You need to write something!");
+				    return false
+				  }
+				  
+				  doListRename(listItem, inputValue) 
+				});
+		};
+		
+		function doListRename(listItem, newName) {
+			var url = POST_LIST_RENAME + listItem.id + '/';
+			httpService.post(url, { stringVar : newName }, false, function(response){
+				if (response.status == 200) {
+					var data = response.data;
+					if (data.status.code == AppConstants.SUCCESS) {
+						listItem.name = newName;
+						swal("Nice!", "List's new name is: " + newName, "success"
+						, function() {
+							location.reload();
+						});
+						
+					} else {
+						toaster.pop('error', 'Error renaming list. Status message: ' + data.status.message);
+					}
+				} else {
+					toaster.pop('error', 'Error renaming list. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+				}
+		    }, function(response){
+				toaster.pop('error', 'Error renaming list. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+		    });
+		};
 			
 		httpService.get(GET_LIST_ALL, null, false, function(response){
 			if (response.status == 200) {
@@ -103,6 +148,6 @@
 		//$scope.errorMessage = 'Test tttttt';
 
 	};
-	controller.$inject = [ '$scope', '$rootScope', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', 'CommonService'];
+	controller.$inject = [ '$scope', '$rootScope', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', 'CommonService', 'toaster'];
 	angular.module('todoapp.controllers').controller('DashboardController', controller);
 }(angular));

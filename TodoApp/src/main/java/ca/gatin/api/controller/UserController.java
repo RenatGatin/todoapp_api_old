@@ -5,6 +5,9 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +18,7 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.TodoService;
 import ca.gatin.api.service.UserService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
+import ca.gatin.model.request.SimpleStringBean;
 import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.User;
 
@@ -52,4 +56,9 @@ public class UserController extends BaseController {
 		return todoService.getTodoListAll(user);
 	}
 	
+	@RequestMapping(value= "/todo/list/rename/{listId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> getTodoListAll(Principal principal, @PathVariable Long listId, @Validated @RequestBody SimpleStringBean newNameBean) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
+		User user = getCurrentUser(principal);
+		return todoService.renameList(user, listId, newNameBean.getStringVar());
+	}
 }

@@ -21,5 +21,15 @@ public interface TodoListPersistenceService {
 	 * @return
 	 */
 	List<TodoList> getByCreator(User user);
+
+	/**
+	 * Get one by ID
+	 * 
+	 * @param id
+	 * @return
+	 */
+	TodoList getById(Long id);
+
+	void save(TodoList listItem);
 	
 }
