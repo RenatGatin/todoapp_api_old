@@ -83,7 +83,7 @@ public class TodoService {
 		return serviceResponse;
 	}
 	
-	public ServiceResponse<?> renameList(User user, Long id, String newName) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
+	public ServiceResponse<?> renameList(User user, Long listId, String newName) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
 		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
 		newName = newName.trim();
@@ -92,7 +92,7 @@ public class TodoService {
 			throw new ValidationException(fieldError);
 		}
 		
-		TodoList listItem = todoListPersistenceService.getById(id);
+		TodoList listItem = todoListPersistenceService.getById(listId);
 		if (listItem == null) {
 			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
 			return serviceResponse;
@@ -102,6 +102,26 @@ public class TodoService {
 			listItem.setName(newName);
 			listItem.setDateLastModified(new Date());
 			todoListPersistenceService.save(listItem);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			
+		} else {
+			throw new PermissionDeniedException();
+		}
+			
+		return serviceResponse;
+	}
+
+	public ServiceResponse<?> deleteList(User user, Long listId) {
+		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		TodoList listItem = todoListPersistenceService.getById(listId);
+		if (listItem == null) {
+			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
+			return serviceResponse;
+		}
+		
+		if (listItem.getCreator().getId() == user.getId()) {
+			todoListPersistenceService.delele(listId);
 			serviceResponse.setStatus(ResponseStatus.SUCCESS);
 			
 		} else {

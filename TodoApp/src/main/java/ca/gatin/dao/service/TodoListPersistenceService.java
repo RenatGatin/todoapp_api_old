@@ -31,5 +31,7 @@ public interface TodoListPersistenceService {
 	TodoList getById(Long id);
 
 	void save(TodoList listItem);
+
+	void delele(Long listId);
 	
 }

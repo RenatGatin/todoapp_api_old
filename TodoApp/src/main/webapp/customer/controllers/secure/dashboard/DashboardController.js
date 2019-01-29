@@ -3,6 +3,7 @@
 		//SharingService.set('reloadedHome', false);
 		var GET_LIST_ALL = '/api/user/todo/list/all';
 		var POST_LIST_RENAME = '/api/user/todo/list/rename/';
+		var DELETE_LIST_RENAME = '/api/user/todo/list/delete/';
 		
 		CommonService.getProfile();
 		
@@ -14,6 +15,46 @@
 				$scope.securedApiResponse = JSON.stringify(response);
 		    }, function(response){
 				$scope.securedApiResponse = JSON.stringify(response);
+		    });
+		};
+		
+		$scope.listDelete = function(listItem, index) {
+			swal({   
+					title: "Are you sure?",   
+					text: "You will not be able to recover this list with todo items!",   
+					type: "warning",   
+					showCancelButton: true,   
+					confirmButtonColor: "#DD6B55",   
+					confirmButtonText: "Yes, delete it!",   
+					cancelButtonText: "No, cancel plx!",   
+					closeOnConfirm: false,   
+					closeOnCancel: false
+				}, function(isConfirm) {   
+					if (isConfirm) {
+						doListDelete(listItem, index);
+					} else {     
+						swal("Cancelled", "Your list is safe :)", "info");   
+					}
+				});
+		};
+		
+		function doListDelete(listItem, index) {
+			var url = DELETE_LIST_RENAME + listItem.id + '/';
+			httpService.del(url, null, false, function(response){
+				if (response.status == 200) {
+					var data = response.data;
+					if (data.status.code == AppConstants.SUCCESS) {
+						$scope.todoListObjects.splice(index, 1);
+						swal("Deleted!", "Your list has been deleted.", "success");
+						
+					} else {
+						toaster.pop('error', 'Error deleting list. Status message: ' + data.status.message);
+					}
+				} else {
+					toaster.pop('error', 'Error deleting list. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+				}
+		    }, function(response){
+				toaster.pop('error', 'Error deleting list. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 		    });
 		};
 		
@@ -111,41 +152,6 @@
 				// do nothing
 			});
 		};
-		
-		
-
-		$scope.todoList2 = [
-				{ 
-					name: 'Abc',
-					total: 10,
-					completed: 6,
-					connectionIds : [ 
-						{
-							id : 1,
-							id : 2,
-							id : 3
-						}
-					]
-				}, 
-				{ 
-					name: 'Def',
-					total: 8,
-					completed: 1,
-					connectionIds : []
-				}, 
-				{ 	name: 'Ghi',
-					total: 11,
-					completed: 7,
-					connectionIds : [ 
-						{
-							id : 1,
-							id : 2
-						}
-					]
-				}
-		];
-		
-		//$scope.errorMessage = 'Test tttttt';
 
 	};
 	controller.$inject = [ '$scope', '$rootScope', 'AppConstants', 'SharingService', 'httpService', '$httpParamSerializer', '$http', 'CommonService', 'toaster'];

@@ -57,8 +57,14 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value= "/todo/list/rename/{listId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ServiceResponse<?> getTodoListAll(Principal principal, @PathVariable Long listId, @Validated @RequestBody SimpleStringBean newNameBean) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
+	public ServiceResponse<?> getTodoListRename(Principal principal, @PathVariable Long listId, @Validated @RequestBody SimpleStringBean newNameBean) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
 		User user = getCurrentUser(principal);
 		return todoService.renameList(user, listId, newNameBean.getStringVar());
+	}
+	
+	@RequestMapping(value= "/todo/list/delete/{listId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+	public ServiceResponse<?> getTodoListDelete(Principal principal, @PathVariable Long listId) {
+		User user = getCurrentUser(principal);
+		return todoService.deleteList(user, listId);
 	}
 }
