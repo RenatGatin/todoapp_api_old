@@ -18,6 +18,7 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.TodoService;
 import ca.gatin.api.service.UserService;
 import ca.gatin.model.request.ChangePasswordRequestBean;
+import ca.gatin.model.request.CreateToDoListBean;
 import ca.gatin.model.request.SimpleStringBean;
 import ca.gatin.model.security.Authorities;
 import ca.gatin.model.security.User;
@@ -66,5 +67,11 @@ public class UserController extends BaseController {
 	public ServiceResponse<?> getTodoListDelete(Principal principal, @PathVariable Long listId) {
 		User user = getCurrentUser(principal);
 		return todoService.deleteList(user, listId);
+	}
+	
+	@RequestMapping(value= "/todo/list/create", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ServiceResponse<?> createTodoList(Principal principal, @Validated @RequestBody CreateToDoListBean todoListBean) {
+		User user = getCurrentUser(principal);
+		return todoService.createTodoList(user, todoListBean);
 	}
 }

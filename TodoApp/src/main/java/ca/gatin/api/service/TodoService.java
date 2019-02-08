@@ -22,6 +22,7 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.dao.service.TodoItemPersistenceService;
 import ca.gatin.dao.service.TodoListPersistenceService;
 import ca.gatin.dao.service.UserPersistenceService;
+import ca.gatin.model.request.CreateToDoListBean;
 import ca.gatin.model.request.SimpleStringBean;
 import ca.gatin.model.security.User;
 import ca.gatin.model.todo.TodoItem;
@@ -128,6 +129,29 @@ public class TodoService {
 			throw new PermissionDeniedException();
 		}
 			
+		return serviceResponse;
+	}
+
+	public ServiceResponse<?> createTodoList(User user, CreateToDoListBean todoListBean) {
+		ServiceResponse<TodoList> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		String name = todoListBean.getName().trim();
+		
+		TodoList listItem = todoListPersistenceService.getByName(name);
+		if (listItem != null) {
+			serviceResponse.setStatus(ResponseStatus.DATABASE_RECORD_DUPLICATION);
+			
+		} else {
+			listItem = new TodoList();
+			listItem.setName(name);
+			listItem.setCreator(user);
+			listItem.setDateCreated(new Date());
+			TodoList createdList = todoListPersistenceService.save(listItem);
+			
+			if (createdList != null) {
+				serviceResponse.setEntity(createdList);
+				serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			}
+		}
 		return serviceResponse;
 	}
 

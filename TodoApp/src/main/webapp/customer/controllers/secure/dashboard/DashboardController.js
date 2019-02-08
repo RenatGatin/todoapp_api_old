@@ -4,10 +4,12 @@
 		var GET_LIST_ALL = '/api/user/todo/list/all';
 		var POST_LIST_RENAME = '/api/user/todo/list/rename/';
 		var DELETE_LIST_RENAME = '/api/user/todo/list/delete/';
+		var POST_LIST_CREATE = '/api/user/todo/list/create';
 		
 		CommonService.getProfile();
 		
 		$scope.testAngular = "CUSTOMER's DashboardController Page loaded!";
+		var todoListRaw = [];
 			
 		$scope.securedApi = function() {
 			var url = '/api/user/ping';
@@ -107,7 +109,8 @@
 			if (response.status == 200) {
 				var data = response.data;
 				if (data.status.code == AppConstants.SUCCESS) {
-					$scope.todoListObjects = getTodoListWithExtraData(data.entity);
+					todoListRaw = data.entity;
+					$scope.todoListObjects = getTodoListWithExtraData(todoListRaw);
 					
 				} else {
 					toaster.pop('error', 'Error fetching data. Status message: ' + data.status.message);
@@ -127,7 +130,7 @@
 				for (var i = 0; i < todoListObjects.length; i++) {
 					var todoListObj = todoListObjects[i];
 					todoListObj.completed = 0;
-					todoListObj.total = todoListObj.todoItems.length;
+					todoListObj.total = (todoListObj.todoItems) ? todoListObj.todoItems.length : 0;
 					
 					for (var j = 0; j < todoListObj.total; j++) {
 						var todoItem = todoListObj.todoItems[j];
@@ -151,6 +154,48 @@
 			}, function() {
 				// do nothing
 			});
+		};
+		
+		$scope.createList = function() {
+			swal({
+				  title: "Create a new List!",
+				  text: "Give a meaningful name:",
+				  type: "input",
+				  showCancelButton: true,
+				  closeOnConfirm: false,
+				  animation: "slide-from-top",
+				  inputPlaceholder: "type here"
+			},
+			function(inputValue){
+			  if (inputValue === false) return false;
+			  
+			  if (!inputValue || inputValue.trim() == "") {
+			    swal.showInputError("You need to write something!");
+			    return false;
+			  }
+			  
+			  doCreateList({name: inputValue.trim()})
+			});
+		};
+		
+		function doCreateList(bean) {
+			httpService.post(POST_LIST_CREATE, bean, false, function(response){
+				if (response.status == 200) {
+					var data = response.data;
+					if (data.status.code == AppConstants.SUCCESS) {
+						todoListRaw.push(data.entity);
+						$scope.todoListObjects = getTodoListWithExtraData(todoListRaw);
+						swal("Nice!", "New list with name: '" + bean.name + "' is created.", "success");
+						
+					} else {
+						toaster.pop('error', 'Error creating new List. Status message: ' + data.status.message);
+					}
+				} else {
+					toaster.pop('error', 'Error creating new List. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+				}
+		    }, function(response){
+				toaster.pop('error', 'Error creating new List. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+		    });
 		};
 
 	};

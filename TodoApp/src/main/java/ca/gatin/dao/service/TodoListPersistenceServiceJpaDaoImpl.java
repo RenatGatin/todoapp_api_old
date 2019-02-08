@@ -34,12 +34,18 @@ public class TodoListPersistenceServiceJpaDaoImpl implements TodoListPersistence
 	}
 
 	@Override
-	public void save(TodoList listItem) {
-		todoListRepository.save(listItem);
+	public TodoList save(TodoList listItem) {
+		return todoListRepository.save(listItem);
 	}
 
 	@Override
 	public void delele(Long listId) {
 		todoListRepository.delete(listId);
+	}
+
+	@Override
+	public TodoList getByName(String name) {
+		TodoList list = todoListRepository.findByNameCaseInsensitive(name);
+		return list;
 	}
 }

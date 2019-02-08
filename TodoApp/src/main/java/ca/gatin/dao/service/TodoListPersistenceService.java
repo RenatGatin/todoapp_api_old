@@ -29,8 +29,16 @@ public interface TodoListPersistenceService {
 	 * @return
 	 */
 	TodoList getById(Long id);
+	
+	/**
+	 * Get one by name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	TodoList getByName(String name);
 
-	void save(TodoList listItem);
+	TodoList save(TodoList listItem);
 
 	void delele(Long listId);
 	

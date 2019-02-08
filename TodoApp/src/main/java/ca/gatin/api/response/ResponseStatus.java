@@ -31,6 +31,8 @@ public enum ResponseStatus {
 	NOT_ENOUGH_PRIVILEGIES													(1505, "Not enough privilegies for this operation"),
 	ACTION_NOT_PERMITTED													(1506, "This action not permitted"),
 	DATABASE_PERSISTANCE_ERROR												(1507, "Database persistance error"),
+	DATABASE_RECORD_DUPLICATION 											(1508, "Database record duplication"),
+
 	
 	ACCOUNT_NOT_FOUND														(2001, "Account(s) Not Found"),
 	ACCOUNT_INVALID															(2002, "Invalid Account"),
