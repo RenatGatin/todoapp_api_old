@@ -1,5 +1,6 @@
 <ng-include src="'./pages/secure/navbar/navbar-dashboard.html'"></ng-include>
-<ng-include ng-if="errorMessage" src="'../common/pages/root/error-block.html'"></ng-include>
+<ng-include ng-if="errorMessage"
+	src="'../common/pages/root/error-block.html'"></ng-include>
 
 <!-- Breadcrumbs -->
 <div class="border-bottom-navbar">
@@ -8,9 +9,9 @@
 			<div class="navbar bg-white p-0">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb m-0 bg-white font14">
-			    		<li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
-			    		<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-			  		</ol>
+						<li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+					</ol>
 				</nav>
 			</div>
 		</div>
@@ -23,8 +24,11 @@
 		<!-- header -->
 		<div class="row pt-3">
 			<div class="col-12">
-				<h1>ToDo List <i class="fas fa-clipboard-list font-2rem"></i></h1>
-				<p class="lead text-normal">Create, group and share your ToDo items within ToDo lists.</p>
+				<h1>
+					ToDo List <i class="fas fa-clipboard-list font-2rem"></i>
+				</h1>
+				<p class="lead text-normal">Create, group and share your ToDo
+					items within ToDo lists.</p>
 				<hr>
 			</div>
 		</div>
@@ -34,75 +38,94 @@
 				<div class="d-flex justify-content-start">
 					<h4>Lists</h4>
 					<button class="btn btn-circle ml-2" ng-click="createList();">
-			            <i class="fas fa-plus"></i>
-	        	    </button>
+						<i class="fas fa-plus"></i>
+					</button>
 				</div>
-				
+
 				<div class="input-group mb-2 mt-2 mt-md-0 max-width-md-15em">
 					<div class="input-group-prepend">
-						<div class="input-group-text border-left-radius-15px"><i class="fas fa-sort-amount-down font13"></i></div>
+						<div class="input-group-text border-left-radius-15px">
+							<i class="fas fa-sort-amount-down font13"></i>
+						</div>
 					</div>
-					<input type="text" class="form-control border-right-radius-15px font12" placeholder="Filter lists" required>
+					<input type="text"
+						class="form-control border-right-radius-15px font12"
+						placeholder="Filter lists" required>
 				</div>
 			</div>
 		</div>
 		<!-- empty results -->
 		<div class="row">
 			<div class="col-12 mt-2" ng-if="noFilterResults">
-				<div class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
-					<p class="m-0 p-5">No matching results</h4>
+				<div
+					class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
+					<p class="m-0 p-5">No matching results
+					</h4>
 				</div>
 			</div>
 			<div class="col-12 mt-2" ng-if="todoListObjects.length == 0">
-				<div class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
-					<p class="m-0 p-5">No created lists</h4>
+				<div
+					class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
+					<p class="m-0 p-5">No created lists
+					</h4>
 				</div>
 			</div>
 		</div>
 		<!-- list items -->
 		<div class="row pl-3" ng-if="todoListObjects.length > 0">
-			<div ng-repeat="listItem in todoListObjects" class="col-12 col-md-6 mt-3 pl-0">
+			<div ng-repeat="listItem in todoListObjects"
+				class="col-12 col-md-6 mt-3 pl-0">
 				<div class="bg-white card card-project rounded list-card-style">
 					<div class="progress">
-                        <div class="progress-bar" random-class="bg-primary,bg-success,bg-danger,bg-warning,bg-info" role="progressbar" style="width: {{listItem.completed/listItem.total*100}}%"></div>
-                    </div>
+						<div class="progress-bar"
+							random-class="bg-primary,bg-success,bg-danger,bg-warning,bg-info"
+							role="progressbar"
+							style="width: {{listItem.completed/listItem.total*100"></div>
+					</div>
 					<div class="card-body p-3">
 						<!-- title -->
 						<div class="d-flex justify-content-between">
 							<h5 class="font18 text-bold">{{listItem.name}}</h5>
 							<div class="dropdown dropleft">
-								<i class="fas fa-ellipsis-v pl-3 cursor-pointer" id="dropdownMenuButton" data-toggle="dropdown" data-offset="-10,0"></i>
+								<i class="fas fa-ellipsis-v pl-3 cursor-pointer"
+									id="dropdownMenuButton" data-toggle="dropdown"
+									data-offset="-10,0"></i>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 									<h6 class="dropdown-header">Quick actions</h6>
-							    	<a class="dropdown-item cursor-pointer" ng-click="listRename(listItem);">Rename</a>
-								    <a class="dropdown-item cursor-pointer">Edit</a>
-								    <a class="dropdown-item cursor-pointer">Share</a>
-								    <div class="dropdown-divider"></div>
-								    <a class="dropdown-item cursor-pointer" ng-click="listDelete(listItem, $index);">Delete</a>
-							  	</div>
+									<a class="dropdown-item cursor-pointer"
+										ng-click="listRename(listItem);">Rename</a> <a
+										class="dropdown-item cursor-pointer">Edit</a> <a
+										class="dropdown-item cursor-pointer">Share</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item cursor-pointer"
+										ng-click="listDelete(listItem, $index);">Delete</a>
+								</div>
 							</div>
 						</div>
 						<!-- connections -->
 						<ul class="avatars mt-2 mb-4">
-							<li><a href="#" data-toggle="tooltip" data-placement="top" title="Me"> 
-									<img alt="Me" class="avatar" src="../common/resources/images/profile-placeholder.jpg">
-								</a>
-							</li>
-							<li ng-repeat="conn in listItem.shares">
-								<a href="#" data-toggle="tooltip" data-placement="top" title="Peggy Brown({{conn.username}})">
-									<img alt="Peggy Brown({{conn.username}})" class="avatar filter-by-alt"
-									src="../common/resources/images/profile-placeholder.jpg" data-filter-by="alt">
-								</a>
-							</li>
+							<li><a href="#" data-toggle="tooltip" data-placement="top"
+								title="Me"> <img alt="Me" class="avatar"
+									src="../common/resources/images/profile-placeholder.jpg">
+							</a></li>
+							<li ng-repeat="conn in listItem.shares"><a href="#"
+								data-toggle="tooltip" data-placement="top"
+								title="Peggy Brown({{conn.username}})"> <img
+									alt="Peggy Brown({{conn.username}})"
+									class="avatar filter-by-alt"
+									src="../common/resources/images/profile-placeholder.jpg"
+									data-filter-by="alt">
+							</a></li>
 						</ul>
 						<!-- meta -->
 						<div class="card-meta d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fab fa-stack-overflow font19"></i>
-                                <span class="pl-1 font13">{{listItem.completed}}/{{listItem.total}}</span>
-                            </div>
-                            <span class="font13">Due {{listItem.total - listItem.completed}}</span>
-                        </div>
+							<div class="d-flex align-items-center">
+								<i class="fab fa-stack-overflow font19"></i> <span
+									class="pl-1 font13">{{listItem.completed}}/{{listItem.total}}</span>
+							</div>
+							<span class="font13">Due {{listItem.total -
+								listItem.completed}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -115,13 +138,22 @@
 	<div class="container">
 		<div class="row pt-3">
 			<div class="col-12">
-				<h1>Connections <i class="fas fa-share-alt-square font-2rem"></i></h1>
-				<p class="lead text-normal">Lorem ipsum lovely template products.</p>
+				<h1>
+					Connections <i class="fas fa-share-alt-square font-2rem"></i>
+				</h1>
+				<p class="lead text-normal">Lorem ipsum lovely template
+					products.</p>
 			</div>
 		</div>
-		
+
 	</div>
 </div>
 
 
 <ng-include src="'./pages/root/footer/footer-home.html'"></ng-include>
+
+<script>
+	$(document).ready(function() {
+		$("[data-toggle=tooltip]").tooltip();
+	});
+</script>
