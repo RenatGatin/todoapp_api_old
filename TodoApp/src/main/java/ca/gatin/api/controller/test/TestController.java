@@ -3,6 +3,7 @@ package ca.gatin.api.controller.test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.gatin.api.controller.BaseController;
@@ -10,6 +11,8 @@ import ca.gatin.api.response.ResponseStatus;
 import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.api.service.EmailService;
 import ca.gatin.api.service.TodoService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Testing public API Controller
@@ -26,6 +29,12 @@ public class TestController extends BaseController {
 	
 	@Autowired
 	TodoService todoService;
+
+	@RequestMapping(value = "/ping", method = RequestMethod.GET)
+	public String ping(HttpServletRequest request) {
+		String result = "HttpServletRequest.hashCode(): " + request.hashCode();
+		return result;
+	}
 	
 	@RequestMapping(value= "/simple", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ServiceResponse<?> testManual() {
