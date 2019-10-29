@@ -1,12 +1,13 @@
 (function(angular) {
 	var controller = function($scope, $rootScope, AppConstants, SharingService, httpService, $httpParamSerializer, $http, CommonService, toaster) {
+		CommonService.getProfile();
+		
 		//SharingService.set('reloadedHome', false);
 		var GET_LIST_ALL = '/api/user/todo/list/all';
 		var POST_LIST_RENAME = '/api/user/todo/list/rename/';
 		var DELETE_LIST_RENAME = '/api/user/todo/list/delete/';
 		var POST_LIST_CREATE = '/api/user/todo/list/create';
 		
-		CommonService.getProfile();
 		
 		$scope.testAngular = "CUSTOMER's DashboardController Page loaded!";
 		var todoListRaw = [];

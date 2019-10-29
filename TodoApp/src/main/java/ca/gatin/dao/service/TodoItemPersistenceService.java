@@ -14,5 +14,14 @@ public interface TodoItemPersistenceService {
 	 * @return List<TodoItem>
 	 */
 	List<TodoItem> getAll();
+
+	/**
+	 * Add new or update todoItem
+	 * 
+	 * @param todoItem
+	 * @return TodoItem
+	 */
+	TodoItem save(TodoItem todoItem);
+	
 	
 }

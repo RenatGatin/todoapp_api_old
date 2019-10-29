@@ -22,5 +22,10 @@ public class TodoItemPersistenceServiceJpaDaoImpl implements TodoItemPersistence
 		return allUsers;
 	}
 
+	@Override
+	public TodoItem save(TodoItem todoItem) {
+		return todoItemRepository.save(todoItem);
+	}
+
 	
 }

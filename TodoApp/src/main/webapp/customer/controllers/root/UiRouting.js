@@ -92,6 +92,7 @@
 			url : '/secured',
 			templateUrl : './pages/secure/secured.html',
 			controller : 'SecuredController', //will be loaded lazily from 'resolve'
+			secured: true,
 			resolve : {
 				loadMyCtrl: ['$ocLazyLoad', '$cookies', function($ocLazyLoad, $cookies) {
 					var access_token = $cookies.get('access_token');
@@ -108,12 +109,30 @@
 			url : '/dashboard',
 			templateUrl : './pages/secure/dashboard/dashboard.html',
 			controller : 'DashboardController',
+			secured: true,
 			resolve : {
 				loadMyCtrl: ['$ocLazyLoad', '$cookies', function($ocLazyLoad, $cookies) {
 					var access_token = $cookies.get('access_token');
 					if (access_token) {
 						return $ocLazyLoad.load({
 							files: ['./controllers/secure/dashboard/DashboardController.js?access_token=' + access_token]
+						});						
+					}
+				}]
+			}
+		})
+		
+		.state('list', {
+			url : '/dashboard/list/{id}',
+			templateUrl : './pages/secure/dashboard/list.html',
+			controller : 'ListController',
+			secured: true,
+			resolve : {
+				loadMyCtrl: ['$ocLazyLoad', '$cookies', function($ocLazyLoad, $cookies) {
+					var access_token = $cookies.get('access_token');
+					if (access_token) {
+						return $ocLazyLoad.load({
+							files: ['./controllers/secure/dashboard/ListController.js?access_token=' + access_token]
 						});						
 					}
 				}]

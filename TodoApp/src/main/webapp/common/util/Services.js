@@ -60,8 +60,9 @@
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						$rootScope.profile = data.entity;
-						$state.go('dashboard');
-						
+						if ($state.current && !$state.current.secured) {
+							$state.go('dashboard');							
+						}
 					} else {
 						toaster.pop('error', 'Error fetching profile data. Status message: ' + data.status.message);
 					}

@@ -85,7 +85,9 @@
 					<div class="card-body p-3">
 						<!-- title -->
 						<div class="d-flex justify-content-between">
-							<h5 class="font18 text-bold">{{listItem.name}}</h5>
+							<a ng-href="#/dashboard/list/{{listItem.id}}">
+								<h5 class="font18 text-bold">{{listItem.name}}</h5>
+							</a>
 							<div class="dropdown dropleft">
 								<i class="fas fa-ellipsis-v pl-3 cursor-pointer"
 									id="dropdownMenuButton" data-toggle="dropdown"

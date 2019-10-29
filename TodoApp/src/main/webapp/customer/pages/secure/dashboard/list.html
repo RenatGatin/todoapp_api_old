@@ -1,0 +1,216 @@
+<ng-include src="'./pages/secure/navbar/navbar-dashboard.html'"></ng-include>
+<ng-include ng-if="errorMessage"
+	src="'../common/pages/root/error-block.html'"></ng-include>
+
+<!-- Breadcrumbs -->
+<div class="border-bottom-navbar">
+	<div class="container">
+		<div class="row">
+			<div class="navbar bg-white p-0">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb m-0 bg-white font14">
+						<li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+						<li class="breadcrumb-item"><a href="#/dashboard">Dashboard</a></li>
+						<li class="breadcrumb-item active" aria-current="page">List</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-area text-normal">
+	<div class="container pb-40em">
+		<!-- header -->
+		<div class="row pt-3">
+			<div class="col-12 d-md-flex justify-content-between">
+				<div>
+					<h1 class="mb-0">
+						<i class="fas fa-list-ul font-2rem"></i> {{list.name}}
+					</h1>
+					<p class="lead text-normal font10 mb-0">
+						Created: {{list.dateCreated | date:" dd-MMM-yyyy 'at' h:mma"}} (server time)
+					</p>
+				</div>
+				<div>
+					<ul class="avatars mt-2 mb-1">
+						<li><a href="#" data-toggle="tooltip" data-placement="top"
+							title="Me"> <img alt="Me" class="avatar"
+								src="../common/resources/images/profile-placeholder.jpg">
+						</a></li>
+						<li ng-repeat="conn in list.shares"><a href="#"
+							data-toggle="tooltip" data-placement="top"
+							title="Peggy Brown({{conn.username}})"> <img
+								alt="Peggy Brown({{conn.username}})"
+								class="avatar filter-by-alt"
+								src="../common/resources/images/profile-placeholder.jpg"
+								data-filter-by="alt">
+						</a></li>
+					</ul>
+				</div>				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<hr class="mt-1">
+			</div>
+		</div>
+		<!-- add new and filter -->
+		<div class="row">
+			<div class="col-12 d-md-flex justify-content-between">
+				<div class="d-flex justify-content-start">
+					<h4>Add task</h4>
+					<button class="btn btn-circle ml-2" data-toggle="modal" data-target="#addTaskModal" ng-click="showAddNewItemModal();">
+						<i class="fas fa-plus"></i>
+					</button>
+				</div>
+				
+				<div ng-if="list">
+					<h5 class="d-inline">Hide Completed</h5>
+					<label class="switch">
+	  					<input type="checkbox" ng-model="list.hideCompleted" ng-click="changeHideCompletedFlag(list);">
+				  		<span class="slider round"></span>
+					</label>
+				</div>
+
+				<div class="input-group mb-2 mt-2 mt-md-0 max-width-md-15em">
+					<div class="input-group-prepend">
+						<div class="input-group-text border-left-radius-15px">
+							<i class="fas fa-sort-amount-down font13"></i>
+						</div>
+					</div>
+					<input type="text"
+						class="form-control border-right-radius-15px font12"
+						placeholder="Filter lists" required>
+				</div>
+			</div>
+		</div>
+		<!-- empty results -->
+		<div class="row">
+			<div class="col-12 mt-2" ng-if="noFilterResults">
+				<div
+					class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
+					<p class="m-0 p-5">No matching results
+					</h4>
+				</div>
+			</div>
+			<div class="col-12 mt-2" ng-if="list.todoItems.length == 0 || (list.hideCompleted && totalIncompleteItems == 0)">
+				<div
+					class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
+					<p class="m-0 p-5">No todo items. Add one!
+					</h4>
+				</div>
+			</div>
+		</div>
+		<!-- list items -->
+		<div class="row pl-3 mt-2" ng-if="list.todoItems.length > 0">
+			<div ng-repeat="todoItem in list.todoItems"	class="col-12 pl-0">
+				<div class="input-group mb-3" ng-hide="todoItem.completed && list.hideCompleted">
+				  <div class="input-group-prepend">
+				    <div class="input-group-text">
+				      <input type="checkbox" aria-label="Checkbox for following text input" ng-model="todoItem.completed" ng-click="checkTodoItem(todoItem);">
+				    </div>
+				  </div>
+				  <input ng-show="todoItem.clicked" 
+				  		 type="text" 
+				  		 class="form-control" 
+				  		 focus-on-condition="todoItem.clicked"
+				  		 ng-focus="todoItem.clicked"
+				  		 aria-label="Text input with checkbox" 
+				  		 ng-blur="blurTodoItem(todoItem);"
+				  		 ng-model="todoItem.title">
+				  <div ng-hide="todoItem.clicked" 
+				  	   class="form-control todo-item-not-clicked d-flex justify-content-between cursor-pointer">
+				  	   <div ng-click="clickTodoItem(todoItem);" class="w-100">
+					  	<p class="mb-0 line-height-10px">{{todoItem.title}}</p>
+					  	<p class="font10 text-italic text-black-50 mb-0 pt-1 line-height-8px">{{todoItem.notes || 'no description'}}</p>
+				  	   </div>
+				  	   <div class="pl-3 cursor-pointer btn-group dropdown">
+				  	   		<i class="fa fa-ellipsis-h" class="dropdown-toggle" data-toggle="dropdown"></i>
+				  	   		<div class="dropdown-menu dropdown-menu-right">
+						    	<button class="dropdown-item" type="button" data-toggle="modal" data-target="#modifyTaskModal" ng-click="showModifyItemModal(todoItem);">Modify</button>
+						    	<button ng-if="!todoItem.completed" class="dropdown-item" type="button" ng-click="markComplete(todoItem, true);">Mark as Complete</button>
+						    	<button ng-if="todoItem.completed" class="dropdown-item" type="button" ng-click="markComplete(todoItem, false);">Mark as Incomplete</button>
+						    	<button class="dropdown-item text-danger" type="button">Delete</button>
+						  	</div>
+				  	   </div>
+				  	</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="addNewItemForm" class="needs-validation" novalidate>
+      <div class="modal-header">
+        <h5 class="modal-title">Add new Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Title<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" ng-model="newItem.title" placeholder="type here" minlength="3" required>
+            <div class="invalid-feedback">
+		    	Please provide min 3 characters
+		    </div>	
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Description</label>
+            <textarea class="form-control" ng-model="newItem.notes" placeholder="(optional)"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" ng-click="addTodoItem($event);">Add</button>
+      </div>
+      </form>   
+    </div>
+  </div>
+</div>
+
+<!-- Modify -->
+<div class="modal fade" id="modifyTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="modifyItemForm" class="needs-validation" novalidate>
+      <div class="modal-header">
+        <h5 class="modal-title">Modify a Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Title<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" ng-model="modifyItem.title" placeholder="type here" minlength="3" required>
+            <div class="invalid-feedback">
+		    	Please provide min 3 characters
+		    </div>	
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Description</label>
+            <textarea class="form-control" ng-model="modifyItem.notes" placeholder="(optional)"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" ng-click="modifyTodoItem($event);">Save</button>
+      </div>
+      </form>   
+    </div>
+  </div>
+</div>
+
+<ng-include src="'./pages/root/footer/footer-short.html'"></ng-include>
+
+<script>
+	$(document).ready(function() {
+		$("[data-toggle=tooltip]").tooltip();
+	});
+</script>

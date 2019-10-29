@@ -90,6 +90,7 @@ CREATE TABLE `todo_list` (
   `name` varchar(200) NOT NULL,
   `date_created` datetime NOT NULL,
   `date_last_modified` datetime NULL,
+  `hide_completed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `Unique_id_creator` (`id`,`creator_id`) USING BTREE,
   KEY `FK_creator_user` (`creator_id`),

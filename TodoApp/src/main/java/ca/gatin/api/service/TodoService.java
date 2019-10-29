@@ -1,17 +1,13 @@
 package ca.gatin.api.service;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import ca.gatin.api.exception.PermissionDeniedException;
@@ -22,8 +18,8 @@ import ca.gatin.api.response.ServiceResponse;
 import ca.gatin.dao.service.TodoItemPersistenceService;
 import ca.gatin.dao.service.TodoListPersistenceService;
 import ca.gatin.dao.service.UserPersistenceService;
+import ca.gatin.model.request.CreateToDoItemBean;
 import ca.gatin.model.request.CreateToDoListBean;
-import ca.gatin.model.request.SimpleStringBean;
 import ca.gatin.model.security.User;
 import ca.gatin.model.todo.TodoItem;
 import ca.gatin.model.todo.TodoList;
@@ -84,6 +80,20 @@ public class TodoService {
 		return serviceResponse;
 	}
 	
+	public ServiceResponse<?> getTodoListById(User user, Long id) {
+		ServiceResponse<TodoList> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		TodoList todoItem = todoListPersistenceService.getById(id);
+		if (todoItem.getCreator().getId().equals(user.getId())) {
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			serviceResponse.setEntity(todoItem);
+		} else {
+			serviceResponse.setStatus(ResponseStatus.UNAUTHORIZED_TODOITEM_REQUEST);
+		}
+			
+		return serviceResponse;
+	}
+	
 	public ServiceResponse<?> renameList(User user, Long listId, String newName) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
 		ServiceResponse<List<TodoList>> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
 		
@@ -101,6 +111,28 @@ public class TodoService {
 		
 		if (listItem.getCreator().getId() == user.getId()) {
 			listItem.setName(newName);
+			listItem.setDateLastModified(new Date());
+			todoListPersistenceService.save(listItem);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+			
+		} else {
+			throw new PermissionDeniedException();
+		}
+			
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> setTodoListHideCompleted(User user, Long listId, boolean doHide) throws NoSuchMethodException, SecurityException, MethodArgumentNotValidException {
+		ServiceResponse<?> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		TodoList listItem = todoListPersistenceService.getById(listId);
+		if (listItem == null) {
+			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
+			return serviceResponse;
+		}
+		
+		if (listItem.getCreator().getId() == user.getId()) {
+			listItem.setHideCompleted(doHide);
 			listItem.setDateLastModified(new Date());
 			todoListPersistenceService.save(listItem);
 			serviceResponse.setStatus(ResponseStatus.SUCCESS);
@@ -154,5 +186,59 @@ public class TodoService {
 		}
 		return serviceResponse;
 	}
-
+	
+	public ServiceResponse<?> createTodoItem(User user, CreateToDoItemBean bean) {
+		ServiceResponse<TodoItem> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		TodoItem todoItem = new TodoItem();
+		todoItem.setTitle(bean.getTitle().trim());
+		todoItem.setNotes(bean.getNotes());
+		todoItem.setDateCreated(new Date());
+		todoItem.setListId(bean.getListId());
+		
+		TodoList listItem = todoListPersistenceService.getById(todoItem.getListId());
+		if (listItem == null) {
+			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
+			return serviceResponse;
+		}
+		this.checkListOwnership(listItem, user);
+		
+		try {
+			TodoItem createdItem = todoItemPersistenceService.save(todoItem);
+			serviceResponse.setEntity(createdItem);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			serviceResponse.setStatus(ResponseStatus.DATABASE_PERSISTANCE_ERROR);
+		}
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> updateTodoItem(User user, TodoItem todoItem) {
+		ServiceResponse<TodoItem> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		TodoList listItem = todoListPersistenceService.getById(todoItem.getListId());
+		if (listItem == null) {
+			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
+			return serviceResponse;
+		}
+		this.checkListOwnership(listItem, user);
+		
+		try {
+			todoItem.setDateLastModified(new Date());
+			TodoItem updatedItem = todoItemPersistenceService.save(todoItem);
+			serviceResponse.setEntity(updatedItem);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			serviceResponse.setStatus(ResponseStatus.DATABASE_PERSISTANCE_ERROR);
+		}
+		return serviceResponse;
+	}
+	
+	private void checkListOwnership(TodoList listItem, User user) {
+		if (listItem.getCreator().getId() != user.getId()) {
+			throw new PermissionDeniedException();
+		} 
+	}
 }

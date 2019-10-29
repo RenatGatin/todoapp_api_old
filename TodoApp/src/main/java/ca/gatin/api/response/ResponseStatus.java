@@ -66,6 +66,7 @@ public enum ResponseStatus {
 	TODOITEM_DB_UPDATION_FAILURE											(2504, "TodoItem DB updation failure"),
 	TODOITEM_NOT_PERSISTED_UPDATION_FAILURE									(2505, "Can't update TodoItem that hasn't been persisted"),
 	TODOITEM_DB_DELETION_FAILURE											(2506, "TodoItem DB deletion failure"),
+	UNAUTHORIZED_TODOITEM_REQUEST											(2507, "Unauthorized TodoItem request"),
 	
 	TODOLISTITEM_NOT_FOUND													(2601, "TodoListItem(s) Not Found");
 	

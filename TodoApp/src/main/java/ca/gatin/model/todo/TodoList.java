@@ -43,8 +43,11 @@ public class TodoList {
     
     @Column(name = "date_last_modified")
     private Date dateLastModified;
+    
+    @Column(name = "hide_completed")
+    private boolean hideCompleted;
 
-    @OneToMany(targetEntity=ca.gatin.model.todo.TodoItem.class, mappedBy="listId")
+	@OneToMany(targetEntity=ca.gatin.model.todo.TodoItem.class, mappedBy="listId")
     private Set<TodoItem> todoItems;
     
     @ManyToMany
@@ -53,6 +56,14 @@ public class TodoList {
             joinColumns = @JoinColumn(name = "list_id"),
             inverseJoinColumns = @JoinColumn(name = "share_user_id"))
     private Set<User> shares;
+    
+    public boolean isHideCompleted() {
+		return hideCompleted;
+	}
+
+	public void setHideCompleted(boolean hideCompleted) {
+		this.hideCompleted = hideCompleted;
+	}
 
 	public Set<User> getShares() {
 		return shares;

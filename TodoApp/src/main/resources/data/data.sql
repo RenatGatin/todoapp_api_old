@@ -14,9 +14,9 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (3, 1);
 INSERT INTO user_authority (user_id, authority_id) VALUES (4, 3);
 INSERT INTO user_authority (user_id, authority_id) VALUES (5, 1);
 
-INSERT INTO `todo_list` VALUES ('1', '2', 'Test list', '2018-10-17 15:58:58', null);
-INSERT INTO `todo_list` VALUES ('2', '2', 'List 2(sdfsd kjls)', '2018-10-15 16:02:05', null);
-INSERT INTO `todo_list` VALUES ('3', '2', 'Third list shared', '2018-10-15 16:25:12', null);
+INSERT INTO `todo_list` VALUES ('1', '2', 'Test list', '2018-10-17 15:58:58', null, '0');
+INSERT INTO `todo_list` VALUES ('2', '2', 'List 2(sdfsd kjls)', '2018-10-15 16:02:05', null, '1');
+INSERT INTO `todo_list` VALUES ('3', '2', 'Third list shared', '2018-10-15 16:25:12', null, '0');
 
 INSERT INTO `todo_list_share` VALUES ('2', '3');
 INSERT INTO `todo_list_share` VALUES ('3', '3');

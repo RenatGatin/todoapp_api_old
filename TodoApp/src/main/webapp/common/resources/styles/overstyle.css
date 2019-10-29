@@ -9,3 +9,12 @@
 
 
 // This idea may not work for libs downloaded from external CDN
+
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
