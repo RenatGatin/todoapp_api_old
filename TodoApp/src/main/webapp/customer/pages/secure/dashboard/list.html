@@ -76,21 +76,24 @@
 				<div class="input-group mb-2 mt-2 mt-md-0 max-width-md-15em">
 					<div class="input-group-prepend">
 						<div class="input-group-text border-left-radius-15px">
-							<i class="fas fa-sort-amount-down font13"></i>
+							<i class="fas fa-search font13"></i>
 						</div>
 					</div>
 					<input type="text"
+						ng-model="filterText"
+						ng-keyup="filterItems();"
+						ng-disabled="!list.todoItems || list.todoItems.length == 0"
 						class="form-control border-right-radius-15px font12"
-						placeholder="Filter lists" required>
+						placeholder="Filter items">
 				</div>
 			</div>
 		</div>
 		<!-- empty results -->
 		<div class="row">
-			<div class="col-12 mt-2" ng-if="noFilterResults">
+			<div class="col-12 mt-2" ng-if="noFilterResults && filterText">
 				<div
 					class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
-					<p class="m-0 p-5">No matching results
+					<p class="m-0 p-5">No matching filter <i>'{{filterText}}'</i> results
 					</h4>
 				</div>
 			</div>
@@ -104,7 +107,9 @@
 		</div>
 		<!-- list items -->
 		<div class="row pl-3 mt-2" ng-if="list.todoItems.length > 0">
-			<div ng-repeat="todoItem in list.todoItems"	class="col-12 pl-0">
+			<div ng-repeat="todoItem in list.todoItems"	
+			     ng-hide="todoItem.filteredout"
+			     class="col-12 pl-0">
 				<div class="input-group mb-3" ng-hide="todoItem.completed && list.hideCompleted">
 				  <div class="input-group-prepend">
 				    <div class="input-group-text">

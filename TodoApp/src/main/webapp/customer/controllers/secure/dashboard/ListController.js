@@ -96,6 +96,7 @@
 					if (data.status.code == AppConstants.SUCCESS) {
 						$scope.list.todoItems.unshift(data.entity);
 						swal("Nice!", "New task is added!", "success");
+						resetFilter()
 						checkIncompleteItemsAreLeft();
 
 					} else {
@@ -117,7 +118,7 @@
 					if (data.status.code == AppConstants.SUCCESS) {
 						var message = "Completed task will be " + ((list.hideCompleted) ? "hidden" : "shown");
 						toaster.pop("success", "", message);
-						
+						resetFilter()
 						/*
 						 * show empty list message if no more item to show
 						 */
@@ -169,6 +170,7 @@
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						swal("Updated!", "Changes are saved!", "success");
+						resetFilter()
 						$scope.list.todoItems.forEach(function(item) {
 							if (item.id == modifyItem.id) {
 								item.title = modifyItem.title;
@@ -220,6 +222,7 @@
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						listItem.name = newName;
+						resetFilter()
 						swal("Nice!", "List's new name is: " + newName, "success", function() {
 							location.reload();
 						});
@@ -272,6 +275,23 @@
 				})
 			});
 		};
+		
+		$scope.filterItems = function() {
+			var countVisible = 0;
+			for (var i = 0; i < $scope.list.todoItems.length; i++) {
+				var todoObj = $scope.list.todoItems[i];
+				todoObj.filteredout = !todoObj.title.includes($scope.filterText || '');
+				countVisible += (todoObj.filteredout) ? 0 : 1;
+			};
+			$scope.noFilterResults = countVisible == 0;
+		};
+		
+		function resetFilter() {
+			for (var i = 0; i < $scope.list.todoItems.length; i++) {
+				$scope.list.todoItems[i].filteredout = false;
+			};
+			$scope.filterText = null;
+		}
 
 	};
 	controller.$inject = [ '$scope', '$rootScope', 'AppConstants', 'httpService', '$stateParams', 'CommonService', 'toaster' ];
