@@ -45,12 +45,15 @@
 				<div class="input-group mb-2 mt-2 mt-md-0 max-width-md-15em">
 					<div class="input-group-prepend">
 						<div class="input-group-text border-left-radius-15px">
-							<i class="fas fa-sort-amount-down font13"></i>
+							<i class="fas fa-search font13"></i>
 						</div>
 					</div>
 					<input type="text"
+						ng-model="filterText"
+						ng-keyup="filterListItems();"
+						ng-disabled="!todoListObjects || todoListObjects.length == 0"
 						class="form-control border-right-radius-15px font12"
-						placeholder="Filter lists" required>
+						placeholder="Filter lists">
 				</div>
 			</div>
 		</div>
@@ -59,7 +62,7 @@
 			<div class="col-12 mt-2" ng-if="noFilterResults">
 				<div
 					class="d-flex justify-content-center align-items-center bg-gray-light-2 rounded">
-					<p class="m-0 p-5">No matching results
+					<p class="m-0 p-5">No matching filter <i>'{{filterText}}'</i> results
 					</h4>
 				</div>
 			</div>
@@ -74,6 +77,7 @@
 		<!-- list items -->
 		<div class="row pl-3" ng-if="todoListObjects.length > 0">
 			<div ng-repeat="listItem in todoListObjects"
+				ng-hide="listItem.filteredout"
 				class="col-12 col-md-6 mt-3 pl-0">
 				<div class="bg-white card card-project rounded list-card-style">
 					<div class="progress">

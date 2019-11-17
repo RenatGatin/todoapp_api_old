@@ -48,6 +48,7 @@
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						$scope.todoListObjects.splice(index, 1);
+						$scope.filterText = null;
 						swal("Deleted!", "Your list has been deleted.", "success");
 						
 					} else {
@@ -90,6 +91,7 @@
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
 						listItem.name = newName;
+						$scope.filterText = null;
 						swal("Nice!", "List's new name is: " + newName, "success"
 						, function() {
 							location.reload();
@@ -124,13 +126,14 @@
 	    });
 		
 		/**
-		 * adds "completed" and "total" properties to each todoList object
+		 * adds "completed", "filteredout" and "total" properties to each todoList object
 		 */
 		function getTodoListWithExtraData(todoListObjects) {
 			if (todoListObjects) {
 				for (var i = 0; i < todoListObjects.length; i++) {
 					var todoListObj = todoListObjects[i];
 					todoListObj.completed = 0;
+					todoListObj.filteredout = false;
 					todoListObj.total = (todoListObj.todoItems) ? todoListObj.todoItems.length : 0;
 					
 					for (var j = 0; j < todoListObj.total; j++) {
@@ -141,6 +144,7 @@
 					}
 				}
 			}
+			$scope.filterText = null;
 			return todoListObjects;
 		}
 		
@@ -197,6 +201,16 @@
 		    }, function(response){
 				toaster.pop('error', 'Error creating new List. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 		    });
+		};
+		
+		$scope.filterListItems = function() {
+			var countVisible = 0;
+			for (var i = 0; i < $scope.todoListObjects.length; i++) {
+				var todoListObj = $scope.todoListObjects[i];
+				todoListObj.filteredout = !todoListObj.name.includes($scope.filterText || '');
+				countVisible += (todoListObj.filteredout) ? 0 : 1;
+			};
+			$scope.noFilterResults = countVisible == 0;
 		};
 
 	};
