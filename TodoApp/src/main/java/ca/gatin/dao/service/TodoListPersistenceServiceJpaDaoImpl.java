@@ -23,7 +23,7 @@ public class TodoListPersistenceServiceJpaDaoImpl implements TodoListPersistence
 
 	@Override
 	public List<TodoList> getByCreator(User user) {
-		List<TodoList> list = todoListRepository.findByCreator(user);
+		List<TodoList> list = todoListRepository.findByCreatorOrderByDateCreatedDesc(user);
 		return list;
 	}
 

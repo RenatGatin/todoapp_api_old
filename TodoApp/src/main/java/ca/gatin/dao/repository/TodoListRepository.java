@@ -19,7 +19,7 @@ import ca.gatin.model.todo.TodoList;
 @Repository
 public interface TodoListRepository extends JpaRepository<TodoList, Long> {
 
-	List<TodoList> findByCreator(User user);
+	List<TodoList> findByCreatorOrderByDateCreatedDesc(User user);
 
 	@Query(value = "SELECT * FROM todo_list WHERE LOWER(name) = LOWER(:name) LIMIT 1", nativeQuery = true)
 	TodoList findByNameCaseInsensitive(@Param("name") String name);

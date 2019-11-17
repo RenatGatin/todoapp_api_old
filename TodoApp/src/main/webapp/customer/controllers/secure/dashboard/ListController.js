@@ -94,7 +94,7 @@
 				if (response.status == 200) {
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
-						$scope.list.todoItems.push(data.entity);
+						$scope.list.todoItems.unshift(data.entity);
 						swal("Nice!", "New task is added!", "success");
 						checkIncompleteItemsAreLeft();
 

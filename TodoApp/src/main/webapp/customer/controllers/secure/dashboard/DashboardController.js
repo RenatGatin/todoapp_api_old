@@ -184,7 +184,7 @@
 				if (response.status == 200) {
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
-						todoListRaw.push(data.entity);
+						todoListRaw.unshift(data.entity);
 						$scope.todoListObjects = getTodoListWithExtraData(todoListRaw);
 						swal("Nice!", "New list with name: '" + bean.name + "' is created.", "success");
 						

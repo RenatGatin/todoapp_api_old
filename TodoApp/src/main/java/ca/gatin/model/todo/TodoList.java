@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import ca.gatin.model.security.User;
@@ -48,6 +49,7 @@ public class TodoList {
     private boolean hideCompleted;
 
 	@OneToMany(targetEntity=ca.gatin.model.todo.TodoItem.class, mappedBy="listId")
+	@OrderBy("dateCreated DESC")
     private Set<TodoItem> todoItems;
     
     @ManyToMany
