@@ -40,6 +40,6 @@ public interface TodoListPersistenceService {
 
 	TodoList save(TodoList listItem);
 
-	void delele(Long listId);
+	void deleleListItem(Long listId);
 	
 }

@@ -97,4 +97,10 @@ public class UserController extends BaseController {
 		User user = getCurrentUser(principal);
 		return todoService.updateTodoItem(user, todoItemBean);
 	}
+	
+	@RequestMapping(value= "/todo/item/delete/{listId}/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+	public ServiceResponse<?> updateTodoItem(Principal principal, @PathVariable Long listId, @PathVariable Long id) {
+		User user = getCurrentUser(principal);
+		return todoService.deteleTodoItem(user, listId, id);
+	}
 }

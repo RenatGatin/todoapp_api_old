@@ -27,5 +27,10 @@ public class TodoItemPersistenceServiceJpaDaoImpl implements TodoItemPersistence
 		return todoItemRepository.save(todoItem);
 	}
 
+	@Override
+	public void delete(Long id) {
+		todoItemRepository.delete(id);
+	}
+
 	
 }

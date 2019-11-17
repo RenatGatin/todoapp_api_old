@@ -154,7 +154,7 @@ public class TodoService {
 		}
 		
 		if (listItem.getCreator().getId() == user.getId()) {
-			todoListPersistenceService.delele(listId);
+			todoListPersistenceService.deleleListItem(listId);
 			serviceResponse.setStatus(ResponseStatus.SUCCESS);
 			
 		} else {
@@ -228,6 +228,26 @@ public class TodoService {
 			todoItem.setDateLastModified(new Date());
 			TodoItem updatedItem = todoItemPersistenceService.save(todoItem);
 			serviceResponse.setEntity(updatedItem);
+			serviceResponse.setStatus(ResponseStatus.SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			serviceResponse.setStatus(ResponseStatus.DATABASE_PERSISTANCE_ERROR);
+		}
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<?> deteleTodoItem(User user, Long listId, Long id) {
+		ServiceResponse<TodoItem> serviceResponse = new ServiceResponse<>(ResponseStatus.SYSTEM_UNAVAILABLE);
+		
+		TodoList listItem = todoListPersistenceService.getById(listId);
+		if (listItem == null) {
+			serviceResponse.setStatus(ResponseStatus.TODOLISTITEM_NOT_FOUND);
+			return serviceResponse;
+		}
+		this.checkListOwnership(listItem, user);
+				
+		try {
+			todoItemPersistenceService.delete(id);
 			serviceResponse.setStatus(ResponseStatus.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();

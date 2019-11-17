@@ -23,5 +23,5 @@ public interface TodoItemPersistenceService {
 	 */
 	TodoItem save(TodoItem todoItem);
 	
-	
+	void delete(Long id);
 }

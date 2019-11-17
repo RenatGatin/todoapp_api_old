@@ -6,6 +6,7 @@
 		var GET_LIST_ITEM = '/api/user/todo/list/';
 		var CREATE_TODO_ITEM = '/api/user/todo/item/create';
 		var UPDATE_TODO_ITEM = '/api/user/todo/item/update';
+		var DELETE_TODO_ITEM = '/api/user/todo/item/delete/';
 		var CHANGE_HIDE_COMPLETED = '/api/user/todo/list/hide-completed/';
 		$scope.totalIncompleteItems = 0;
 		
@@ -190,91 +191,48 @@
 				toaster.pop('error', 'Error updating task. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 			});
 		}
-
-		$scope.listRename = function(listItem) {
-			swal({
-				title : "Rename List",
-				text : "Write new name:",
-				type : "input",
-				showCancelButton : true,
-				closeOnConfirm : false,
-				animation : "slide-from-top",
-				inputPlaceholder : "new list name"
-			}, function(inputValue) {
-				if (inputValue === false)
-					return false;
-
-				if (inputValue === "") {
-					swal.showInputError("You need to write something!");
-					return false
-				}
-
-				doListRename(listItem, inputValue)
-			});
+		
+		$scope.itemDelete = function(id) {
+			swal({   
+					title: "Are you sure?",   
+					text: "You will not be able to recover this task!",   
+					type: "warning",   
+					showCancelButton: true,   
+					confirmButtonColor: "#DD6B55",   
+					confirmButtonText: "Yes, delete it!",   
+					cancelButtonText: "No, cancel plx!",   
+					closeOnConfirm: false,   
+					closeOnCancel: false
+				}, function(isConfirm) {   
+					if (isConfirm) {
+						doDeleteItem(listId, id);
+					} else {     
+						swal("Cancelled", "Your task is safe :)", "info");   
+					}
+				});
 		};
-
-		function doListRename(listItem, newName) {
-			var url = POST_LIST_RENAME + listItem.id + '/';
-			httpService.post(url, {
-				stringVar : newName
-			}, false, function(response) {
+		
+		function doDeleteItem(listId, id) {
+			var url = DELETE_TODO_ITEM + listId + '/' + id;
+			httpService.del(url , null, false, function(response) {
 				if (response.status == 200) {
 					var data = response.data;
 					if (data.status.code == AppConstants.SUCCESS) {
-						listItem.name = newName;
-						resetFilter()
-						swal("Nice!", "List's new name is: " + newName, "success", function() {
-							location.reload();
-						});
-
+						swal("Deleted!", "", "success");
+						var index = $scope.list.todoItems.map(x => { 
+							return x.id;
+						}).indexOf(id);
+						$scope.list.todoItems.splice(index, 1);
 					} else {
-						toaster.pop('error', 'Error renaming list. Status message: ' + data.status.message);
+						toaster.pop('error', 'Error deleting task. Status message: ' + data.status.message);
 					}
 				} else {
-					toaster.pop('error', 'Error renaming list. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+					toaster.pop('error', 'Error deleting task. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 				}
 			}, function(response) {
-				toaster.pop('error', 'Error renaming list. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
+				toaster.pop('error', 'Error deleting task. HTTP status: ' + response.status + '. Message: ' + response.data.error_description);
 			});
 		}
-
-		$scope.showAlert = function() {
-
-			swal({
-				title : "Test header",
-				type : "success",
-				showCancelButton : true,
-				confirmButtonColor : "#8FC23F",
-				confirmButtonText : "Continue",
-				closeOnConfirm : true
-			}, function() {
-				// do nothing
-			});
-		};
-
-		$scope.createItem = function() {
-			swal({
-				title : "Create a new task!",
-				text : "Give a title:",
-				type : "input",
-				showCancelButton : true,
-				closeOnConfirm : false,
-				animation : "slide-from-top",
-				inputPlaceholder : "type here"
-			}, function(inputValue) {
-				if (inputValue === false)
-					return false;
-
-				if (!inputValue || inputValue.trim() == "") {
-					swal.showInputError("You need to write something!");
-					return false;
-				}
-
-				doCreateList({
-					name : inputValue.trim()
-				})
-			});
-		};
 		
 		$scope.filterItems = function() {
 			var countVisible = 0;

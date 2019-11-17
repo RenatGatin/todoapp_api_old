@@ -136,7 +136,7 @@
 						    	<button class="dropdown-item" type="button" data-toggle="modal" data-target="#modifyTaskModal" ng-click="showModifyItemModal(todoItem);">Modify</button>
 						    	<button ng-if="!todoItem.completed" class="dropdown-item" type="button" ng-click="markComplete(todoItem, true);">Mark as Complete</button>
 						    	<button ng-if="todoItem.completed" class="dropdown-item" type="button" ng-click="markComplete(todoItem, false);">Mark as Incomplete</button>
-						    	<button class="dropdown-item text-danger" type="button">Delete</button>
+						    	<button class="dropdown-item text-danger" ng-click="itemDelete(todoItem.id);" type="button">Delete</button>
 						  	</div>
 				  	   </div>
 				  	</div>
@@ -160,7 +160,7 @@
       <div class="modal-body">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Title<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" ng-model="newItem.title" placeholder="type here" minlength="3" required>
+            <input type="text" class="form-control" ng-model="newItem.title" placeholder="type here" minlength="3" autofocus required>
             <div class="invalid-feedback">
 		    	Please provide min 3 characters
 		    </div>	

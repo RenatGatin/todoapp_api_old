@@ -39,7 +39,7 @@ public class TodoListPersistenceServiceJpaDaoImpl implements TodoListPersistence
 	}
 
 	@Override
-	public void delele(Long listId) {
+	public void deleleListItem(Long listId) {
 		todoListRepository.delete(listId);
 	}
 
