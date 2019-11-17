@@ -99,8 +99,9 @@
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 									<h6 class="dropdown-header">Quick actions</h6>
 									<a class="dropdown-item cursor-pointer"
-										ng-click="listRename(listItem);">Rename</a> <a
-										class="dropdown-item cursor-pointer">Edit</a> <a
+										ng-click="listRename(listItem);">Rename</a> 
+										<a ng-href="#/dashboard/list/{{listItem.id}}"
+										class="dropdown-item cursor-pointer">Edit tasks</a> <a
 										class="dropdown-item cursor-pointer">Share</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item cursor-pointer"
