@@ -1,0 +1,22 @@
+/target/
+/.settings/
+/.classpath
+/.project
+
+# IDEs and editors
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+# System Files
+.DS_Store
+Thumbs.db
